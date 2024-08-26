@@ -12,7 +12,9 @@ use App\Http\Controllers\PromoTweet;
 use Illuminate\Support\Facades\Route;
 
 
-
+Route::get('test',function(){
+    return 'hello ';
+});
 
 Route::get('auth', [AuthController::class, 'redirectToAuth']);
 Route::get('auth/callback', [AuthController::class, 'handleAuthCallback']);
