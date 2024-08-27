@@ -18,7 +18,10 @@ class PromoTweet extends JsonResource
         return [
             'id'=>$this->id,
             'user_id'=>$this->user_id ,
+            'user_image'=>$this->user_image,
             'user_name'=>$this->user_name,
+
+            'categories'=>$this->categories,
             'description'=>$this->description,
             'titleImageurl'=>$this->titleImageurl,
             'title'=>$this->title,

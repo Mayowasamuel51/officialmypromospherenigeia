@@ -27,9 +27,9 @@ class ItemsAdsController extends Controller
             'headlines' => 'required',
             'titleImageurl' => 'required'
         ]);
-      
+
         if (auth('sanctum')->check()) {
-            $check_current_plan =  User::where('current_plan',   auth()->user()->current_plan )->get();
+            $check_current_plan =  User::where('current_plan',   auth()->user()->current_plan)->get();
             // return response()->json([
             //     'status' => 201,
             //     'message' => $check_current_plan
@@ -58,10 +58,10 @@ class ItemsAdsController extends Controller
                     'message' => 'something happend while trying to create a ad  '
                 ]);
             }
-             return response()->json([
-                    'status' => 500,
-                    'message' => 'Sorry you dont have a plan   '
-                ]);
+            return response()->json([
+                'status' => 500,
+                'message' => 'Sorry you dont have a plan   '
+            ]);
         }
     }
 }

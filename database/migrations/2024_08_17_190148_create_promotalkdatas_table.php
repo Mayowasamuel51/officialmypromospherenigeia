@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string("description")->nullable();
             $table->string("title")->nullable();
             $table->string('talkid')->nullable();
+            $table->string('categories')->nullable();
             $table->string('user_name')->nullable();
             $table->string('titleImageurl')->nullable();
             $table->timestamps();

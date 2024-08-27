@@ -20,6 +20,9 @@ Route::get('auth', [AuthController::class, 'redirectToAuth']);
 Route::get('auth/callback', [AuthController::class, 'handleAuthCallback']);
 // -------- PROMOTALK ---------------------------
 
+/// select talk
+Route::get('/selecttalk/{categories}', [PromoTalk::class, 'selectingTalk']);
+
 // post for my promotalk
 Route::post('/promotalks', [PromoTalk::class, 'makepost']);
 Route::post('/promotalks/{id}', [PromoTalk::class, 'imagestalk']);
@@ -39,9 +42,16 @@ Route::get('/promotalkfeedback/{itemid}', [PromoTalk::class, 'getfeedback']);
 
 // -------- PROMOTWEET  ---------------------------
 
-Route::post('/promotweet', [PromoTweet::class, 'makepost']);
-Route::post('/promotweet/{id}', [PromoTweet::class, 'imagestweet']);
+//lastest tweeet 
+Route::get('/latesttweet', [PromoTweet::class, 'lastestTweet']);
+Route::get('/latesttweet/{id}', [PromoTweet::class, 'lastestTweetsingle']);
 
+/// select tweet 
+Route::get('/selecttweet/{categories}', [PromoTweet::class, 'selectingTweet']);
+// Route::get('/selecttweet/{id}', [PromoTweet::class, 'lastestTweetsingle']);
+
+Route::post('/promotweet', [PromoTweet::class, 'makepost']);     //Done
+Route::post('/promotweet/{id}', [PromoTweet::class, 'imagestweet']);
 
 // view public promotalk
 Route::get('/promotweet', [PromoTweet::class, 'promotweet']);
@@ -50,6 +60,9 @@ Route::get('/promotweet/{id}', [PromoTweet::class, 'promotweetsingle']);
 // //feedback api  for promotalk dd
 Route::post('/promotweetfeadback/{itemid}', [PromoTweet::class, 'feedback']);
 Route::get('/promotweetfeadback/{itemid}', [PromoTweet::class, 'getfeedback']);
+
+
+
 
 
 // -------- PROMOTWEET ---------------------------

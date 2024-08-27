@@ -11,6 +11,53 @@ use Illuminate\Support\Facades\Storage;
 
 class PromoTalk extends Controller
 {
+
+    public function selectingTalk ($categories)
+    {
+        /// this will be a select box to switch in between tweets 
+        $categories = [
+            'sex',
+            'products',
+            'online market place',
+            "politics",
+            "economy",
+            "entertainment",
+            "education",
+            "sports",
+            "health",
+            "religion",
+            "technology",
+            "culture",
+            "relationships",
+            "career",
+            "fashion",
+            "business",
+            "social media",
+            "music",
+            "movies",
+            "food",
+            "travel",
+            "real estate",
+            "entrepreneurship"
+        ];
+        $promotalk =  ResourcesPromoTalk::collection(
+            DB::table('promo_tweets')
+                ->where('categories', $categories)
+                ->get()
+        );
+
+        if ($promotalk) {
+            return response()->json([
+                'status' => 200,
+                'data'  =>  $promotalk
+            ]);
+        }
+        return response()->json([
+            'status' => 404,
+            'message' => 'No orders found matching the query.'
+        ], 404);
+    }
+
     public function  promotalksidebar()
     {
         $promotalk = ResourcesPromoTalk::collection(
@@ -94,7 +141,8 @@ class PromoTalk extends Controller
 
     }
 
-    public function promotalksidebarsingle($id){
+    public function promotalksidebarsingle($id)
+    {
         $fetch_details  = Promotalkdata::find($id);
         // / $fetch_details->talkimages->where('promotalkdata_id', $id)->get();
         $fetch_comment = Promotalkdata::find($id)->comment()->where('promotalkdata_id', $id)->inRandomOrder()->get();;
@@ -147,10 +195,10 @@ class PromoTalk extends Controller
         $items  = new  Promotalkdata;
         $items->user_id = 6;
         // auth()->user()->id;;
-
         $items->description = $request->description;
         $items->talkid =  rand(1222, 45543);
         $items->user_name = $request->user_name;
+        $items->categories = $request->categories;
 
         $filetitleimage = $request->file('titleImageurl');
         $folderPath = "public/";
