@@ -25,7 +25,8 @@ return [
 
     // 'allowed_origins' => ['https://mypromospherefrontend.vercel.app'],
 
-    'allowed_origins' => ['https://www.mypromosphere.com','http://localhost:3000', 'https://mypromospherefrontend.vercel.app', 'https://mypromopshere-nigeria.vercel.app'],
+    'allowed_origins' => ['https://www.mypromosphere.com','http://localhost:3000', 
+    'https://mypromospherefrontend.vercel.app', 'https://mypromopshere-nigeria.vercel.app'],
    
 
     'allowed_origins_patterns' => [],
