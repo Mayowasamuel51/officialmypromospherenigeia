@@ -200,12 +200,12 @@ class PromoTalk extends Controller
         $items->user_name = $request->user_name;
         $items->categories = $request->categories;
 
-        // $filetitleimage = $request->file('titleImageurl');
-        // $folderPath = "public/";
-        // $fileName =  uniqid() . '.png';
-        // $file = $folderPath;
-        // $mainfile =    Storage::put($file, $filetitleimage);
-        // $items->titleImageurl = $mainfile;
+        $filetitleimage = $request->file('titleImageurl');
+        $folderPath = "public/";
+        $fileName =  uniqid() . '.png';
+        $file = $folderPath;
+        $mainfile =    Storage::put($file, $filetitleimage);
+        $items->titleImageurl = $mainfile;
 
         $items->save();
 
