@@ -15,47 +15,49 @@ class PromoTalk extends Controller
     public function selectingTalk($categories)
     {
         /// this will be a select box to switch in between tweets 
-        $categories = [
-            'sex',
-            'products',
-            'online market place',
-            "politics",
-            "economy",
-            "entertainment",
-            "education",
-            "sports",
-            "health",
-            "religion",
-            "technology",
-            "culture",
-            "relationships",
-            "career",
-            "fashion",
-            "business",
-            "social media",
-            "music",
-            "movies",
-            "food",
-            "travel",
-            "real estate",
-            "entrepreneurship"
-        ];
+        // $categories = [
+        //     'sex',
+        //     'products',
+        //     'online market place',
+        //     "politics",
+        //     "economy",
+        //     "entertainment",
+        //     "education",
+        //     "sports",
+        //     "love",
+        //     "health",
+        //     "religion",
+        //     "technology",
+        //     "culture",
+        //     "relationships",
+        //     "career",
+        //     "fashion",
+        //     "business",
+        //     "social media",
+        //     "music",
+        //     "movies",
+        //     "food",
+        //     "travel",
+        //     "real estate",
+        //     "entrepreneurship"
+        // ];
         $promotalk =  ResourcesPromoTalk::collection(
-            DB::table('promo_tweets')
+            DB::table('promotalkdatas')
                 ->where('categories', $categories)
                 ->get()
         );
 
-        if ($promotalk) {
+        if ($promotalk->isEmpty()) {
             return response()->json([
-                'status' => 200,
-                'data'  =>  $promotalk
-            ]);
+                'status' => 404,
+                'message' => 'No orders found matching the query.'
+            ], 404);
         }
         return response()->json([
-            'status' => 404,
-            'message' => 'No orders found matching the query.'
-        ], 404);
+            'status' => 200,
+            'data'  =>  $promotalk
+        ]);
+        
     }
 
     public function  promotalksidebar()

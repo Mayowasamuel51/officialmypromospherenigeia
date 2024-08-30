@@ -158,16 +158,17 @@ class PromoTweet extends Controller
                 ->get()
         );
         // $total_comment = 
-        if ($promotweet) {
+        if ($promotweet->isEmpty()) {
             return response()->json([
-                'status' => 200,
-                'data'  =>  $promotweet
-            ]);
+                'status' => 404,
+                'message' => 'No orders found matching the query.'
+            ], 404);
         }
         return response()->json([
-            'status' => 404,
-            'message' => 'No orders found matching the query.'
-        ], 404);
+            'status' => 200,
+            'data'  =>  $promotweet
+        ]);
+       
     }
 
     public function promotweetsingle($id)
@@ -220,7 +221,7 @@ class PromoTweet extends Controller
         // this , you can add images to this post as a users 
         $request->validate([
             'description' => 'required',
-            'title' => 'required'
+            // 'title' => 'required'
         ]);
         // if (auth('sanctum')->check()) {
         $items  = new  ModelsPromoTweet;
