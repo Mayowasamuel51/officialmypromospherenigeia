@@ -68,7 +68,7 @@ Route::get('/promotweetfeadback/{itemid}', [PromoTweet::class, 'getfeedback']);
 // -------- PROMOTWEET ---------------------------
 // Public Api for login and Sighup 
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/register', [AuthController::class, 'sighup']);
+Route::post('/sighup', [AuthController::class, 'sighup']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
 
