@@ -193,7 +193,7 @@ class PromoTweet extends Controller{
     public function imagestweet(Request $request, $id)
     {
         $request->validate([
-            'titleImageurl' => 'required'
+            'itemadsimagesurls' => 'required'
         ]);
         // if (auth('sanctum')->check()) {
             $item =   ModelsPromoTweet::find($id);
