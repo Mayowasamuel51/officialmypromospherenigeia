@@ -9,9 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
-class PromoTweet extends Controller
-{
-
+class PromoTweet extends Controller{
     public function searchTweet($tweet){
         /// will be searching for tweet , we can take from that categoris 
     }
@@ -82,7 +80,6 @@ class PromoTweet extends Controller
                 ->where('categories', $categories)
                 ->get()
         );
-
         if ($promotalk) {
             return response()->json([
                 'status' => 200,
@@ -202,7 +199,7 @@ class PromoTweet extends Controller
             $item =   ModelsPromoTweet::find($id);
             $filetitleimage = $request->talkimagesurls;
             $loaditem = $item->talkimages()->create([
-                'titleImageurl' =>   $filetitleimage
+                'itemadsimagesurls' =>   $filetitleimage
             ]);
             if ($loaditem) { // checking network is okay............................
                 return response()->json([
