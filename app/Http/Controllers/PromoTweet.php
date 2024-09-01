@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\PromoTweet as ResourcesPromoTweet;
 use App\Models\PromoTweet as ModelsPromoTweet;
 use App\Models\PromoTweetcomment;
+use App\Models\PromoTweetimages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -156,6 +157,8 @@ class PromoTweet extends Controller
                 ->inRandomOrder()
                 ->get()
         );
+        $adimages_data = PromoTweetimages::all();
+
         // $total_comment = 
         if ($promotweet->isEmpty()) {
             return response()->json([
@@ -165,6 +168,7 @@ class PromoTweet extends Controller
         }
         return response()->json([
             'status' => 200,
+            'other_images'=>$adimages_data ,
             'data'  =>  $promotweet
         ]);
     }

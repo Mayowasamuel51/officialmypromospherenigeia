@@ -26,10 +26,11 @@ class HomePageController extends Controller
     }
 
 
-    public function searchapi($query) {
-        $orders = HomePageControllerResource::collection( ItemfreeAds::with('user')
-        ->where('categories', 'LIKE', '%' . $query . '%')
-        ->orWhere('productName', 'LIKE', '%' . $query . '%')
+    public function searchapi($query)
+    {
+        $orders = HomePageControllerResource::collection(ItemfreeAds::with('user')
+            ->where('categories', 'LIKE', '%' . $query . '%')
+            ->orWhere('productName', 'LIKE', '%' . $query . '%')
             ->get());
         if ($orders->isEmpty()) {
             return response()->json([
@@ -206,7 +207,7 @@ class HomePageController extends Controller
 
         $categories = [
             "shortlet",
-            
+
             "Laptops",
 
             "Property",
@@ -305,7 +306,7 @@ class HomePageController extends Controller
         $fetch_details  = ItemfreeAds::find($id);
         $fetch_details->adsimages()->where('itemfree_ads_id', $id)->get();
         $fetch_details_others  =  ItemfreeAds::find($id)->adsimages()->where('itemfree_ads_id', $id)->inRandomOrder()->get();
-        if($fetch_details) {
+        if ($fetch_details) {
             return response()->json([
                 'status' => 200,
                 'data' => $fetch_details,
@@ -313,12 +314,12 @@ class HomePageController extends Controller
             ]);
         }
         // if ($fetch_details->isEmpty()   || $fetch_details_others->isEmpty()  ) {
-            return response()->json([
-                'status' => 404,
-                'message' => 'No orders found matching the query.'
-            ], 404);
+        return response()->json([
+            'status' => 404,
+            'message' => 'No orders found matching the query.'
+        ], 404);
         // }
-     
+
     }
 
     public function generalTopVideos()
@@ -376,7 +377,7 @@ class HomePageController extends Controller
 
             "Sport Dresses",
 
-            
+
             "Luxury-apartment"
         ];
         $fetch_top_videos = HomeVideoResource::collection(
@@ -390,12 +391,11 @@ class HomePageController extends Controller
                 'status' => 200,
                 'videos'  =>  $fetch_top_videos
             ]);
-          
         }
-          return response()->json([
-                'status' => 404,
-                'message' => 'No orders found matching the query.'
-            ], 404);
+        return response()->json([
+            'status' => 404,
+            'message' => 'No orders found matching the query.'
+        ], 404);
         // return response()->json([
         //     'status' => 200,
         //     'videos'  =>  $fetch_top_videos
@@ -524,7 +524,7 @@ class HomePageController extends Controller
 
             "Sport Dresses",
 
-            
+
             "Luxury-apartment"
         ];
         $discount_options = DB::table('itemfree_ads')
@@ -544,7 +544,7 @@ class HomePageController extends Controller
         return response()->json([
             'status' => 200,
             'discount' => $discount_options,
-            'other_image'=>$adimages_data
+            'other_image' => $adimages_data
         ]);
     }
 
@@ -667,9 +667,7 @@ class HomePageController extends Controller
         ]);
     }
 
-    public function trendingads()
-    {
-    }
+    public function trendingads() {}
 }
 
 
