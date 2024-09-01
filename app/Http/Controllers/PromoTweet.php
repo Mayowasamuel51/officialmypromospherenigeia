@@ -198,7 +198,7 @@ class PromoTweet extends Controller{
         if (auth('sanctum')->check()) {
             $item =   ModelsPromoTweet::find($id);
             $filetitleimage = $request->talkimagesurls;
-            $loaditem = $item->talkimages()->create([
+            $loaditem = $item->tweetimages()->create([
                 'itemadsimagesurls' =>   $filetitleimage
             ]);
             if ($loaditem) { // checking network is okay............................
