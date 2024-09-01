@@ -9,8 +9,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
-class PromoTweet extends Controller{
-    public function searchTweet($tweet){
+class PromoTweet extends Controller
+{
+    public function searchTweet($tweet)
+    {
         /// will be searching for tweet , we can take from that categoris 
     }
 
@@ -80,17 +82,17 @@ class PromoTweet extends Controller{
                 ->where('categories', $categories)
                 ->get()
         );
-        if ($promotalk) {
-            return response()->json([
-                'status' => 200,
-                'data'  =>  $promotalk
-            ]);
-        }
-        return response()->json([
+        if ($promotalk->isEmpty()) {
+              return response()->json([
             'status' => 404,
             'message' => 'No orders found matching the query.'
-        ], 404);
-
+        ], 404);      
+        }
+      
+        return response()->json([
+            'status' => 200,
+            'data'  =>  $promotalk
+        ]);
     }
 
     public function lastestTweet()
@@ -165,12 +167,13 @@ class PromoTweet extends Controller{
             'status' => 200,
             'data'  =>  $promotweet
         ]);
-       
     }
 
     public function promotweetsingle($id)
     {
         $fetch_details  = ModelsPromoTweet::find($id);
+        // $fetch_details_others  =  ItemfreeAds::find($id)->adsimages()->where('itemfree_ads_id', $id)->inRandomOrder()->get();
+        $fetch_detailsimages   =  ModelsPromoTweet::find($id)->tweetimages()->where('promo_tweet_id', $id)->inRandomOrder()->get();
         // just to add other images to it . that's all 
         // $fetch_details->talkimages->where('promotalkdata_id', $id)->get();
         $fetch_comment  =  ModelsPromoTweet::find($id)->tweetcomment()->where('promo_tweet_id', $id)->inRandomOrder()->get();;
@@ -178,6 +181,7 @@ class PromoTweet extends Controller{
             return response()->json([
                 'status' => 200,
                 'data' => $fetch_details,
+                'other_images'=> $fetch_detailsimages ,
                 'comments' => $fetch_comment
             ]);
         }
@@ -196,16 +200,16 @@ class PromoTweet extends Controller{
             'itemadsimagesurls' => 'required'
         ]);
         // if (auth('sanctum')->check()) {
-            $item =   ModelsPromoTweet::find($id);
-            $filetitleimage = $request->itemadsimagesurls;
-            $loaditem = $item->tweetimages()->create([
-                'itemadsimagesurls' =>   $filetitleimage
+        $item =   ModelsPromoTweet::find($id);
+        $filetitleimage = $request->itemadsimagesurls;
+        $loaditem = $item->tweetimages()->create([
+            'itemadsimagesurls' =>   $filetitleimage
+        ]);
+        if ($loaditem) { // checking network is okay............................
+            return response()->json([
+                'message' => $loaditem
             ]);
-            if ($loaditem) { // checking network is okay............................
-                return response()->json([
-                    'message' => $loaditem
-                ]);
-            }
+        }
         // }
         // return response()->json([
         //     'status' => 401,
