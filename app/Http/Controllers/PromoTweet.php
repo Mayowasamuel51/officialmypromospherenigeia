@@ -193,9 +193,9 @@ class PromoTweet extends Controller{
     public function imagestweet(Request $request, $id)
     {
         $request->validate([
-            'titleImageurl' => 'required'
+            // 'titleImageurl' => 'required'
         ]);
-        if (auth('sanctum')->check()) {
+        // if (auth('sanctum')->check()) {
             $item =   ModelsPromoTweet::find($id);
             $filetitleimage = $request->talkimagesurls;
             $loaditem = $item->tweetimages()->create([
@@ -206,11 +206,11 @@ class PromoTweet extends Controller{
                     'message' => $loaditem
                 ]);
             }
-        }
-        return response()->json([
-            'status' => 401,
-            'message' => 'You are not unauthenticated Procced to login or register '
-        ]);
+        // }
+        // return response()->json([
+        //     'status' => 401,
+        //     'message' => 'You are not unauthenticated Procced to login or register '
+        // ]);
     }
 
     public function makepost(Request $request)
