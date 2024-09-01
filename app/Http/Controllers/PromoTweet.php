@@ -197,7 +197,7 @@ class PromoTweet extends Controller{
         ]);
         // if (auth('sanctum')->check()) {
             $item =   ModelsPromoTweet::find($id);
-            $filetitleimage = $request->talkimagesurls;
+            $filetitleimage = $request->itemadsimagesurls;
             $loaditem = $item->tweetimages()->create([
                 'itemadsimagesurls' =>   $filetitleimage
             ]);
