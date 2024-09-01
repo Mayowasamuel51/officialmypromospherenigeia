@@ -15,7 +15,8 @@ return new class extends Migration
         Schema::create('promo_tweetimages', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(PromoTweet::class)->nullable();
-            $table->string('titleImageurl');
+            $table->string('titleImageurl')->nullable();
+            $table->string('itemadsimagesurls')->nullable();
             $table->timestamps();
         });
     }
