@@ -84,12 +84,12 @@ class PromoTweet extends Controller
                 ->get()
         );
         if ($promotalk->isEmpty()) {
-              return response()->json([
-            'status' => 404,
-            'message' => 'No orders found matching the query.'
-        ], 404);      
+            return response()->json([
+                'status' => 404,
+                'message' => 'No orders found matching the query.'
+            ], 404);
         }
-      
+
         return response()->json([
             'status' => 200,
             'data'  =>  $promotalk
@@ -168,7 +168,7 @@ class PromoTweet extends Controller
         }
         return response()->json([
             'status' => 200,
-            'other_images'=>$adimages_data ,
+            'other_images' => $adimages_data,
             'data'  =>  $promotweet
         ]);
     }
@@ -185,7 +185,7 @@ class PromoTweet extends Controller
             return response()->json([
                 'status' => 200,
                 'data' => $fetch_details,
-                'other_images'=> $fetch_detailsimages ,
+                'other_images' => $fetch_detailsimages,
                 'comments' => $fetch_comment
             ]);
         }

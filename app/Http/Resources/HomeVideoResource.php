@@ -25,7 +25,7 @@ class HomeVideoResource extends JsonResource
             'categories'=>$this->categories,
             'user_phone'=>$this->user_phone,
             'user_website'=>$this->user_website,
-            'price_range'=>$this->price_range,
+            'price'=>$this->price_range,
             'description'=>$this->description,
             'whatapp'=>$this->whatapp,
             

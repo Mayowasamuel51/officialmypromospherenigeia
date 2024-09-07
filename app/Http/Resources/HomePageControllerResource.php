@@ -21,7 +21,7 @@ class HomePageControllerResource extends JsonResource
             'user_name'=>$this->user_name,
             'titleImageurl'=>$this->titleImageurl,
             'user_image'=>$this->user_image,
-        'price_range'=>$this->price_range,
+        'price'=>$this->price_range,
             'description'=>$this->description,
             'whatapp'=>$this->whatapp,
             'productName'=>$this->productName,
