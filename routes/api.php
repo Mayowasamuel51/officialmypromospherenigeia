@@ -111,7 +111,6 @@ Route::get('/trendingads', [HomePageController::class, 'generalTrending']);
 Route::get('/trendingads/{id}', [HomePageController::class, 'generalTrendingPage']);
 
 
-
 // Top level 
 Route::get('/toplevel', [HomePageController::class, 'toplevelads']);
 // Route::get('/toplevel/{id}', [HomePageController::class, 'toplevelads']);

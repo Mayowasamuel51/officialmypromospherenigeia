@@ -20,6 +20,7 @@ class PromoTalk extends JsonResource
             'user_id'=>$this->user_id ,
             'user_name'=>$this->user_name,
             'description'=>$this->description,
+            'categories'=>$this->categories,
             'titleImageurl'=>$this->titleImageurl,
             'created_at'=>$this->created_at
         ];
