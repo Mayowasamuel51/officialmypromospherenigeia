@@ -29,9 +29,10 @@ Route::post('/promotalks/{id}', [PromoTalk::class, 'imagestalk']);
 
 // view public promotalk
 Route::get('/promotalks', [PromoTalk::class, 'promotalk']);
+Route::get('/promotalks/{id}', [PromoTalk::class, 'promotalksingle']);
 Route::get('/promotalksside', [PromoTalk::class, 'promotalksidebar']);
 Route::get('/promotalksside/{id}', [PromoTalk::class, 'promotalksidebarsingle']);
-Route::get('/promotalks/{id}', [PromoTalk::class, 'promotalksingle']);
+
 
 //feedback api  for promotalk
 Route::post('/promotalkfeedback/{itemid}', [PromoTalk::class, 'feedback']);
