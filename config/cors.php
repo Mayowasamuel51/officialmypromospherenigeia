@@ -31,7 +31,7 @@ return [
 
     'allowed_origins_patterns' => [],
 
-    'allowed_headers' => ['*'],
+    'allowed_headers' => ['POST', 'GET', 'DELETE', 'PUT', '*'],
 
     'exposed_headers' => [],
 
