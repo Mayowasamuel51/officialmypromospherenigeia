@@ -204,6 +204,7 @@ class PromoTalk extends Controller
         $items->categories = $request->categories;
 
         $filetitleimage = $request->file('titleImageurl');
+        // if($filetitleimage)
         $folderPath = "public/";
         $fileName =  uniqid() . '.png';
         $file = $folderPath;

@@ -10,6 +10,7 @@ use App\Models\CarSales;
 use App\Models\ItemfreeAds;
 use App\Models\ItemsAds;
 use App\Models\ShortLet;
+use App\Models\Others;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -109,6 +110,22 @@ class ItemfreeAdsController extends Controller
             }
         }
         if ($type === 'other') {
+            if (auth('sanctum')->check()) {
+                $item =    ItemfreeAds::find($id);
+                $filetitleimage = $request->itemadsimagesurls;
+                $loaditem = $item->adsimages()->create([
+                    'itemadsimagesurls' =>   $filetitleimage
+                ]);
+                if ($loaditem) { // checking network is okay............................
+                    return response()->json([
+                        'message' => $loaditem
+                    ]);
+                }
+                return response()->json([
+                    'status' => 401,
+                    'message' => 'You are not unauthenticated Procced to login or register '
+                ]);
+            }
         }
     }
     // public function  addimages(Request $request, $id)
@@ -361,6 +378,7 @@ class ItemfreeAdsController extends Controller
                 return response()->json([
                     'status' => 200,
                     'item' => $items->id,
+                    'anything' => 'anything',
                     'type' => 'other',
                     'data' => 'items ads created for other type'
                 ]);
@@ -372,9 +390,7 @@ class ItemfreeAdsController extends Controller
         ]);
     }
 
-    public function limited(Request $request, $categoies)
-    {
-    }
+    public function limited(Request $request, $categoies) {}
 
 
 

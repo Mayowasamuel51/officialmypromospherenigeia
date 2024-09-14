@@ -7,7 +7,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Models\ItemfreeAds;
 use App\Models\ShortLet;
-
+use App\Models\Others;
 return new class extends Migration
 {
     /**
@@ -17,6 +17,7 @@ return new class extends Migration
     {
         Schema::create('ads_images', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(Others::class)->nullable(); 
             $table->foreignIdFor(ItemsAds::class)->nullable();
             $table->foreignIdFor(ItemfreeAds::class)->nullable();
             
