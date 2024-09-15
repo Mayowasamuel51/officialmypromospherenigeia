@@ -264,7 +264,7 @@ class PromoTweet extends Controller
     public function feedback(Request $request, $itemid)
     {
         $request->validate([
-            'name' => 'required',
+            // 'name' => 'required',
             'message' => 'required'
         ]);
         $item = ModelsPromoTweet::find($itemid);

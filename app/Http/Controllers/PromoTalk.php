@@ -228,7 +228,7 @@ class PromoTalk extends Controller
     public function feedback(Request $request, $itemid)
     {
         $request->validate([
-            'name' => 'required',
+            // 'name' => 'required',
             'message' => 'required'
         ]);
         $item = Promotalkdata::find($itemid);
@@ -243,7 +243,6 @@ class PromoTalk extends Controller
             return response()->json([
                 'status' => 200,
                 'data' => $userfeedback
-
             ]);
         }
         return response()->json([

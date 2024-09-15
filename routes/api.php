@@ -59,8 +59,8 @@ Route::get('/promotweet', [PromoTweet::class, 'promotweet']);
 Route::get('/promotweet/{id}', [PromoTweet::class, 'promotweetsingle']);
 
 // //feedback api  for promotalk dd
-Route::post('/promotweetfeadback/{itemid}', [PromoTweet::class, 'feedback']);
-Route::get('/promotweetfeadback/{itemid}', [PromoTweet::class, 'getfeedback']);
+Route::post('/promotweetfeedback/{itemid}', [PromoTweet::class, 'feedback']);
+Route::get('/promotweetfeedback/{itemid}', [PromoTweet::class, 'getfeedback']);
 
 
 
