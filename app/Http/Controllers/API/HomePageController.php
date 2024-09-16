@@ -420,10 +420,20 @@ class HomePageController extends Controller
         //  This top level function will be for showing different categories that hasnt showing in the trending part 
         //  Also we be changing to video part some times 
         //  Also this will be showing dicount price 
+        $fetch_images=HomePageControllerResource::collection(
+            DB::table('itemfree_ads')
+                ->whereIn('itemfree_ads.categories', $categories)
+                ->inRandomOrder()
+                // ->paginate(8)
+                ->limit(1000)
+                ->get()
+        );
+
         $fetch_images = HomePageControllerResource::collection(
             DB::table('itemfree_ads')
                 ->whereIn('itemfree_ads.categories', $categories)
                 ->inRandomOrder()
+                ->limit(1000)
                 ->get());
         if ($fetch_images) {
             return response()->json([
