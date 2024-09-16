@@ -12,7 +12,7 @@ use App\Http\Controllers\PromoTweet;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('test',function(){
+Route::get('test', function () {
     return 'hello ';
 });
 
@@ -22,10 +22,6 @@ Route::get('auth/callback', [AuthController::class, 'handleAuthCallback']);
 
 /// select talk
 Route::get('/selecttalk/{categories}', [PromoTalk::class, 'selectingTalk']);
-
-// post for my promotalk
-Route::post('/promotalks', [PromoTalk::class, 'makepost']);
-Route::post('/promotalks/{id}', [PromoTalk::class, 'imagestalk']);
 
 // view public promotalk
 Route::get('/promotalks', [PromoTalk::class, 'promotalk']);
@@ -51,8 +47,6 @@ Route::get('/latesttweet/{id}', [PromoTweet::class, 'lastestTweetsingle']);
 Route::get('/selecttweet/{categories}', [PromoTweet::class, 'selectingTweet']);
 // Route::get('/selecttweet/{id}', [PromoTweet::class, 'lastestTweetsingle']);
 
-Route::post('/promotweet', [PromoTweet::class, 'makepost']);     //Done
-Route::post('/promotweet/{id}', [PromoTweet::class, 'imagestweet']);
 
 // view public promotalk
 Route::get('/promotweet', [PromoTweet::class, 'promotweet']);
@@ -76,6 +70,16 @@ Route::post('/freeads', [ItemfreeAdsController::class, 'freeLimitedAds']);
 Route::post('/freeads/{id}/{type}', [ItemfreeAdsController::class, 'addimages']);
 
 Route::middleware('auth:sanctum')->group(function () {
+    // post for mypromotweet 
+    Route::post('/promotweet', [PromoTweet::class, 'makepost']);     //Done
+    Route::post('/promotweet/{id}', [PromoTweet::class, 'imagestweet']);
+
+    // post for my promotalk
+    Route::post('/promotalks', [PromoTalk::class, 'makepost']);
+    Route::post('/promotalks/{id}', [PromoTalk::class, 'imagestalk']);
+
+
+
     // get User info route 
     Route::get('/getuser', [AuthController::class, 'getInfo']);
     //get user profile details 
@@ -112,8 +116,9 @@ Route::get('/trendingads', [HomePageController::class, 'generalTrending']);
 Route::get('/trendingads/{id}', [HomePageController::class, 'generalTrendingPage']);
 
 
-// Top level 
-Route::get('/toplevel', [HomePageController::class, 'toplevelads']);
+// Top level  Product and Service MVP ...............................
+
+Route::get('/toplevel/{categories}', [HomePageController::class, 'toplevelads']);
 // Route::get('/toplevel/{id}', [HomePageController::class, 'toplevelads']);
 
 //Discount Link 

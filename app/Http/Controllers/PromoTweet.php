@@ -228,10 +228,9 @@ class PromoTweet extends Controller
             'description' => 'required',
             // 'title' => 'required'
         ]);
-        // if (auth('sanctum')->check()) {
+        if (auth('sanctum')->check()) {
         $items  = new  ModelsPromoTweet;
-        $items->user_id = 6;
-        // auth()->user()->id;;
+        $items->user_id =  auth()->user()->id;;
 
         $items->description = $request->description;
         $items->talkid =  rand(1222, 45543);
@@ -254,11 +253,11 @@ class PromoTweet extends Controller
             'item' => $items->id,
             'data' => 'tweet created',
         ]);
-        // }
-        // return response()->json([
-        //     'status' => 500,
-        //     'data' => 'User not login '
-        // ]);
+        }
+        return response()->json([
+            'status' => 500,
+            'data' => 'User not login '
+        ]);
     }
 
     public function feedback(Request $request, $itemid)

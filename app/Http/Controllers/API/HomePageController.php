@@ -417,39 +417,10 @@ class HomePageController extends Controller
         ]);
     }
 
-    public function toplevelads()
-    {
+    public function toplevelads($categories){
         // this top level function will be for showing different categories that hasnt showing in the trending part 
         /// also we be changing to video part some times 
         // also this will be showing dicount price 
-        $categories = [
-            "Laptops",
-            "Property",
-            "Phones, Tablets",
-            "Fragrances",
-            "Skincare",
-            "Groceries",
-            "home-decoration",
-            "Furniture ,Home ",
-            "Womens bikins",
-            "Kids , Baby dresses",
-            "Womens under waress",
-            "womens-dresses",
-            "womens-shoes",
-            "Pets",
-            "Mens-shirts",
-            "Mens-shoes",
-            "Mens-watches",
-            "Womens-watches",
-            "Womens-bags",
-            "Womens-jewellery",
-            "Automotive , Vehicles",
-            "Motorcycle",
-            "Apartment",
-            "Fashion",  /// on we put Fashion
-            "Sport Dresses"
-        ];
-
         $fetch_images = HomePageControllerResource::collection(
             DB::table('itemfree_ads')
                 ->whereIn('itemfree_ads.categories', $categories)
@@ -697,3 +668,48 @@ class HomePageController extends Controller
         // ->join('orders', 'users.id', '=', 'orders.user_id')
         // ->select('users.*', 'contacts.phone', 'orders.price')
         // ->get();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // $categories = [
+        //     "Laptops",
+        //     "Property",
+        //     "Phones, Tablets",
+        //     "Fragrances",
+        //     "Skincare",
+        //     "Groceries",
+        //     "home-decoration",
+        //     "Furniture ,Home ",
+        //     "Womens bikins",
+        //     "Kids , Baby dresses",
+        //     "Womens under waress",
+        //     "womens-dresses",
+        //     "womens-shoes",
+        //     "Pets",
+        //     "Mens-shirts",
+        //     "Mens-shoes",
+        //     "Mens-watches",
+        //     "Womens-watches",
+        //     "Womens-bags",
+        //     "Womens-jewellery",
+        //     "Automotive , Vehicles",
+        //     "Motorcycle",
+        //     "Apartment",
+        //     "Fashion",  /// on we put Fashion
+        //     "Sport Dresses"
+        // ];
