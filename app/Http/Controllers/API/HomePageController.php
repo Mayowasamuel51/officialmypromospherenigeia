@@ -420,10 +420,10 @@ class HomePageController extends Controller
         //  Also this will be showing dicount price ....................
         $fetch_images=HomePageControllerResource::collection(
             DB::table('itemfree_ads')
-                ->whereIn('itemfree_ads.categories', $categories)
-                // ->inRandomOrder()
+                ->where('itemfree_ads.categories', $categories)
+                ->inRandomOrder()
                 // ->paginate(8)
-                // ->limit(1000)
+                ->limit(1000)
                 ->get()
         );
         if ($fetch_images) {
