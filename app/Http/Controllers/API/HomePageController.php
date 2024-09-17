@@ -426,10 +426,13 @@ class HomePageController extends Controller
                 ->limit(1000)
                 ->get()
         );
+        $adimages_data = AdsImagesResource::collection(AdsImages::all());
         if ($fetch_images) {
             return response()->json([
                 'status' => 200,
                 'normalads'  =>  $fetch_images,
+                'other_images'=> $adimages_data
+            
             ]);
         }
         return response()->json([
