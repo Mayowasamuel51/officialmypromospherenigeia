@@ -18,12 +18,12 @@ use App\Models\ItemfreeVideosAds;
 class HomePageController extends Controller
 {
 
-    public  function __construct()
-    {
-        $this->middleware('throttle:120,1')->only([
-            'generalTrending'
-        ]);
-    }
+    // public  function __construct()
+    // {
+    //     $this->middleware('throttle:120,1')->only([
+    //         'generalTrending'
+    //     ]);
+    // }
 
 
     public function searchapi($query)
