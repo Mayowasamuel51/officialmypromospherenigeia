@@ -199,11 +199,9 @@ class HomePageController extends Controller
 
 
 
-    public function generalTrending()
-    {
+    public function generalTrending(){
         // this function will produce all ads base on location of the user or other wise , which will just be videos alone 
         /// note will be changing it to images sometimes 
-
 
         $categories = [
             "shortlet",
@@ -417,9 +415,9 @@ class HomePageController extends Controller
     }
 
     public function toplevelads($categories){ 
-        //  This top level function will be for showing different categories that hasnt showing in the trending part 
-        //  Also we be changing to video part some times 
-        //  Also this will be showing dicount price 
+        //  This top level function will be for showing different categories that hasnt showing in the trending part ............
+        //  Also we be changing to video part some times  ...........................
+        //  Also this will be showing dicount price ....................
         $fetch_images=HomePageControllerResource::collection(
             DB::table('itemfree_ads')
                 ->whereIn('itemfree_ads.categories', $categories)
@@ -428,13 +426,6 @@ class HomePageController extends Controller
                 ->limit(1000)
                 ->get()
         );
-
-        $fetch_images = HomePageControllerResource::collection(
-            DB::table('itemfree_ads')
-                ->whereIn('itemfree_ads.categories', $categories)
-                ->inRandomOrder()
-                ->limit(1000)
-                ->get());
         if ($fetch_images) {
             return response()->json([
                 'status' => 200,

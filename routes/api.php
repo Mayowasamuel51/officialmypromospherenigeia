@@ -117,9 +117,9 @@ Route::get('/trendingads/{id}', [HomePageController::class, 'generalTrendingPage
 
 
 // Top level  Product and Service MVP ...............................
-
 Route::get('/toplevel/{categories}', [HomePageController::class, 'toplevelads']);
 // Route::get('/toplevel/{id}', [HomePageController::class, 'toplevelads']);
+
 
 //Discount Link 
 Route::get('/discount', [HomePageController::class, 'Discount']);
