@@ -46,14 +46,14 @@ class AuthController extends Controller
         /** @var User $user */
         $user =  User::updateOrCreate(
             [
-                'email' => $socialiteUser->email,
+                'email' => $socialiteUser->getEmail(),
             ],
             [
                 'email_verified_at' => now(),
-                'name' => $socialiteUser->name,
+                'name' => $socialiteUser->getName(),
                 'user_social'=>$socialiteUser->user_social,
-                'google_id' => $socialiteUser->id,
-                'avatar' => $socialiteUser->avatar,
+                'google_id' =>$socialiteUser->getId(),
+                'avatar' => $socialiteUser->getAvatar(),
                 'current_plan' => "free_plan",
                 'id_number' => rand(1222, 45543),
                 'password' => $socialiteUser->password,
