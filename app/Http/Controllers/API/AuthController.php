@@ -44,7 +44,9 @@ class AuthController extends Controller
         }
 
         /** @var User $user */
-        $user =  User::updateOrCreate(
+        $user = User::query()
+        ->firstOrCreate(
+        // $user =  User::updateOrCreate(
             [
                 'email' => $socialiteUser->getEmail(),
             ],
