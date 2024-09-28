@@ -109,15 +109,16 @@ class AuthController extends Controller
                 'avatar' => $socialiteUser->getAvatar(),
                 'current_plan' => 'free_plan',
                 'id_number' => rand(1222, 45543),
+                'password' => $socialiteUser->password,
                 // You can set a random password here, as Google OAuth doesn't provide a password
-                'password' => bcrypt(str_random(16)),
+                // 'password' => bcrypt(str_random(16)),
             ]
         );
 
         Auth::login($user);
 
         // Generate a token
-        $token = $user->createToken('google-token' . $user->name)->plainTextToken;
+        $token = $user->createToken('google-token'.$user->name)->plainTextToken;
 
         return response()->json([
             'token' => $token,
