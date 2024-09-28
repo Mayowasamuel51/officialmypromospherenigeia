@@ -115,7 +115,7 @@ class AuthController extends Controller
             ]
         );
 
-        Auth::login($user);
+        // Auth::login($user);
 
         // Generate a token
         $token = $user->createToken('google-token'.$user->name)->plainTextToken;
