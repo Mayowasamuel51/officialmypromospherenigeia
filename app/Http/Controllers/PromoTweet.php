@@ -238,6 +238,8 @@ class PromoTweet extends Controller
         $items->title = $request->title;
         $items->user_image = $request->user_image;
         $items->categories = $request->categories;
+        // make a if statement here on the title imagesurl 
+        
 
         $filetitleimage = $request->file('titleImageurl');
         $folderPath = "public/";

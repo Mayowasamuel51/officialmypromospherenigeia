@@ -349,8 +349,7 @@ class ItemfreeAdsController extends Controller
             } else {
                 // the validation for the other input wil  be manange be frontend in reactjs 
                 $items  = new  ItemfreeAds;
-                $items->user_id = 6;
-                //  auth()->user()->id;
+                $items->user_id =auth()->user()->id;
                 $items->categories = $request->categories;
                 $items->productName = $request->productName;
                 $items->description = $request->description;

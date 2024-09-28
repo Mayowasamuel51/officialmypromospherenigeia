@@ -45,27 +45,28 @@ class AuthController extends Controller
 
         /** @var User $user */
         $user = User::query()
-        ->firstOrCreate(
-        // $user =  User::updateOrCreate(
-            [
-                'email' => $socialiteUser->getEmail(),
-            ],
-            [
-                'email_verified_at' => now(),
-                'name' => $socialiteUser->getName(),
-                'user_social'=>$socialiteUser->user_social,
-                'google_id' =>$socialiteUser->getId(),
-                'avatar' => $socialiteUser->getAvatar(),
-                'current_plan' => "free_plan",
-                'id_number' => rand(1222, 45543),
-                'password' => $socialiteUser->password,
-            ]
-        );
-        // Auth::login($user);
-        $token = $user->createToken('google-token' . $user->name)->plainTextToken;
+        ->updateOrCreate(
+            // ->firstOrCreate(
+                // $user =  User::updateOrCreate(
+                [
+                    'email' => $socialiteUser->getEmail(),
+                ],
+                [
+                    'email_verified_at' => now(),
+                    'name' => $socialiteUser->getName(),
+                    'user_social' => $socialiteUser->user_social,
+                    'google_id' => $socialiteUser->getId(),
+                    'avatar' => $socialiteUser->getAvatar(),
+                    'current_plan' => "free_plan",
+                    'id_number' => rand(1222, 45543),
+                    'password' => $socialiteUser->password,
+                ]
+            );
+        Auth::login($user);
+        $token = $user->createToken('google-token' . $user->email)->plainTextToken;
         return response()->json([
             'token' => $token,
-            'user_social'=>$user->user_social,
+            'user_social' => $user->user_social,
             'profileImage' => $user->profileImage,
             'user' => $user->email,
             'user_name' => $user->name,
@@ -163,10 +164,10 @@ class AuthController extends Controller
             $token =  $user->createToken("API-TOKEN" . $user->email)->plainTextToken;
             return response()->json([
                 'status' => 200,
-                'user_social'=>$user->user_social,
+                'user_social' => $user->user_social,
                 'token' => $token,
-                'aboutMe'=>$user->aboutMe,
-                'whatapp'=>$user->whatapp,
+                'aboutMe' => $user->aboutMe,
+                'whatapp' => $user->whatapp,
                 'profileImage' => $user->profileImage,
                 'backgroundimage' => $user->backgroundimage,
                 'user' => $user->email,
