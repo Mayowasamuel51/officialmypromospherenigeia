@@ -87,7 +87,7 @@ class AuthController extends Controller
                 ->getTargetUrl(),
         ]);
     }
-    
+
     public function handleAuthCallback(): JsonResponse
     {
         try {
@@ -96,7 +96,7 @@ class AuthController extends Controller
         } catch (ClientException $e) {
             return response()->json(['error' => 'Invalid credentials provided.'], 422);
         }
-    
+
         /** @var User $user */
         $user = User::updateOrCreate(
             [
@@ -113,21 +113,22 @@ class AuthController extends Controller
                 'password' => bcrypt(str_random(16)),
             ]
         );
-    
+
         Auth::login($user);
-    
+
         // Generate a token
         $token = $user->createToken('google-token' . $user->name)->plainTextToken;
-    
+
         return response()->json([
             'token' => $token,
+            'user_social' => $user->user_social,
+            'profileImage' => $user->profileImage,
+            'user' => $user->email,
+            'user_name' => $user->name,
+            'id' => $user->id,
+            'users' => $user,
+            // 'token' => $user->createToken('google-token'.$user->name)->plainTextToken,
             'token_type' => 'Bearer',
-            'user' => [
-                'email' => $user->email,
-                'name' => $user->name,
-                'avatar' => $user->avatar,
-                'id' => $user->id,
-            ],
         ]);
     }
 
