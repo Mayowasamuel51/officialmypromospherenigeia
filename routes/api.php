@@ -65,9 +65,9 @@ Route::post('/sighup', [AuthController::class, 'sighup']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
 
-/// tesinng the uploading part 
-Route::post('/freeads', [ItemfreeAdsController::class, 'freeLimitedAds']);
-Route::post('/freeads/{id}/{type}', [ItemfreeAdsController::class, 'addimages']);
+// /// tesinng the uploading part 
+// Route::post('/freeads', [ItemfreeAdsController::class, 'freeLimitedAds']);
+// Route::post('/freeads/{id}/{type}', [ItemfreeAdsController::class, 'addimages']);
 
 Route::middleware('auth:sanctum')->group(function () {
     // post for mypromotweet 
@@ -105,6 +105,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Paid Ads 
     Route::post('/normalads', [ItemsAdsController::class, 'ItemsAdsStore']);
+
+
+    /// tesinng the uploading part 
+    Route::post('/freeads', [ItemfreeAdsController::class, 'freeLimitedAds']);
+    Route::post('/freeads/{id}/{type}', [ItemfreeAdsController::class, 'addimages']);
 });
 
 
