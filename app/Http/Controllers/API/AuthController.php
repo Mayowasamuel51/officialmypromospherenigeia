@@ -94,7 +94,7 @@ class AuthController extends Controller
             /** @var \Laravel\Socialite\Contracts\User $socialiteUser */
             $socialiteUser = Socialite::driver('google')->user();
         } catch (ClientException $e) {
-            return response()->json(['error' => 'Invalid credentials provided.'], 422);
+            return response()->json(['error' => 'Invalid credentials provided.', 'message' => $e->getMessage()], 422);
         }
 
         /** @var User $user */
