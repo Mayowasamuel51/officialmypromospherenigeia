@@ -167,221 +167,223 @@ class ItemfreeAdsController extends Controller
         ]);
         /// picking the categoires one by one 
         if (auth('sanctum')->check()) {
-            if ($request->categories === 'Apartment') {
-                $request->validate([
-                    // 'market_status' => 'required',
-                    // 'guide' => 'required'
-                ]);
-                $items  = new  Apartment;
-                $items->user_id = 6;
-                // auth()->user()->id;
-                $items->itemadsid = rand(999297, 45543);
-                $items->whatapp = $request->whatapp;
-                $items->aboutMe = $request->aboutMe;
-                $items->user_phone = $request->user_phone;
-                $items->user_social = $request->user_social;
-                $items->user_name = $request->user_name;
+            // if ($request->categories === 'Apartment') {
+            //     $request->validate([
+            //         // 'market_status' => 'required',
+            //         // 'guide' => 'required'
+            //     ]);
+            //     $items  = new  Apartment;
+            //     $items->user_id = 6;
+            //     // auth()->user()->id;
+            //     $items->itemadsid = rand(999297, 45543);
+            //     $items->whatapp = $request->whatapp;
+            //     $items->aboutMe = $request->aboutMe;
+            //     $items->user_phone = $request->user_phone;
+            //     $items->user_social = $request->user_social;
+            //     $items->user_name = $request->user_name;
 
-                $filetitleimage = $request->file('titleImageurl');
-                $folderPath = "public/";
-                $fileName =  uniqid() . '.png';
-                $file = $folderPath;
-                $mainfile =    Storage::put($file, $filetitleimage);
-                $items->titleImageurl = $mainfile;
+            //     $filetitleimage = $request->file('titleImageurl');
+            //     $folderPath = "public/";
+            //     $fileName =  uniqid() . '.png';
+            //     $file = $folderPath;
+            //     $mainfile =    Storage::put($file, $filetitleimage);
+            //     $items->titleImageurl = $mainfile;
 
-                $items->description = $request->description;
-                $items->price = $request->price;
-                $items->state = $request->state;
-                $items->local_gov = $request->local_gov;
-                $items->discount = $request->discount;
-
-
-                $items->type = $request->type;
-                $items->market_status = $request->market_status;
-                $items->address = $request->address;
-                $items->sale_rent = $request->sale_rent;
-                $items->guide = $request->guide;
-                $items->lastupdated = $request->lastupdated;
-                $items->bedroom = $request->bedroom;
-
-                $items->save();
-
-                return response()->json([
-                    'status' => 200,
-                    'item' => $items->id,
-                    'data' => 'items ads created',
-                    'type' => 'apartment'
-                ]);
-            }
-            if ($request->categories === 'Shortlet') {
-                $request->validate([
-                    // 'type' => 'required',
-                    // 'max_guest' => 'required',
-                    // 'house_rules' => 'required',
-                ]);
-                $items  = new  ShortLet;
-                $items->user_id = 6;
-                $items->itemadsid = rand(999297, 45543);
-                $items->whatapp = $request->whatapp;
-                $items->aboutMe = $request->aboutMe;
-                $items->user_phone = $request->user_phone;
-                $items->user_social = $request->user_social;
-                $items->user_name = $request->user_name;
-
-                $filetitleimage = $request->file('titleImageurl');
-                $folderPath = "public/";
-                $fileName =  uniqid() . '.png';
-                $file = $folderPath;
-                $mainfile =    Storage::put($file, $filetitleimage);
-                $items->titleImageurl = $mainfile;
-
-                $items->description = $request->description;
-                $items->price = $request->price;
-                $items->state = $request->state;
-                $items->local_gov = $request->local_gov;
-                $items->discount = $request->discount;
-
-                $items->type = $request->type;
-                $items->parking_space = $request->parking_space;
-                $items->address = $request->address;
-                $items->house_rules = $request->house_rules;
-                $items->rooms = $request->rooms;
-                $items->max_guest = $request->max_guest;
-                $items->policy = $request->policy;
-                $items->self_check_in = $request->self_check_in;
-                $items->facilities = $request->facilities;
+            //     $items->description = $request->description;
+            //     $items->price = $request->price;
+            //     $items->state = $request->state;
+            //     $items->local_gov = $request->local_gov;
+            //     $items->discount = $request->discount;
 
 
-                $items->save();
+            //     $items->type = $request->type;
+            //     $items->market_status = $request->market_status;
+            //     $items->address = $request->address;
+            //     $items->sale_rent = $request->sale_rent;
+            //     $items->guide = $request->guide;
+            //     $items->lastupdated = $request->lastupdated;
+            //     $items->bedroom = $request->bedroom;
 
-                return response()->json([
-                    'status' => 200,
-                    'item' => $items->id,
-                    'type' => 'shortlet',
-                    'data' => 'items ads created for shortLet'
-                ]);
-            }
-            if ($request->categories === 'Carloan') {
-                $request->validate([
-                    // 'type' => 'required',
-                    // 'brand' => 'required',
-                    // 'policy' => 'required',
-                ]);
-                $items  = new  CarLoan;
-                $items->user_id = 6;
-                $items->itemadsid = rand(999297, 45543);
-                $items->whatapp = $request->whatapp;
-                $items->aboutMe = $request->aboutMe;
-                $items->user_phone = $request->user_phone;
-                $items->user_social = $request->user_social;
-                $items->user_name = $request->user_name;
+            //     $items->save();
 
-                $filetitleimage = $request->file('titleImageurl');
-                $folderPath = "public/";
-                $fileName =  uniqid() . '.png';
-                $file = $folderPath;
-                $mainfile =    Storage::put($file, $filetitleimage);
-                $items->titleImageurl = $mainfile;
+            //     return response()->json([
+            //         'status' => 200,
+            //         'item' => $items->id,
+            //         'data' => 'items ads created',
+            //         'type' => 'apartment'
+            //     ]);
+            // }
+            // if ($request->categories === 'Shortlet') {
+            //     $request->validate([
+            //         // 'type' => 'required',
+            //         // 'max_guest' => 'required',
+            //         // 'house_rules' => 'required',
+            //     ]);
+            //     $items  = new  ShortLet;
+            //     $items->user_id = 6;
+            //     $items->itemadsid = rand(999297, 45543);
+            //     $items->whatapp = $request->whatapp;
+            //     $items->aboutMe = $request->aboutMe;
+            //     $items->user_phone = $request->user_phone;
+            //     $items->user_social = $request->user_social;
+            //     $items->user_name = $request->user_name;
 
-                $items->description = $request->description;
-                $items->price = $request->price;
-                $items->state = $request->state;
-                $items->local_gov = $request->local_gov;
-                $items->discount = $request->discount;
+            //     $filetitleimage = $request->file('titleImageurl');
+            //     $folderPath = "public/";
+            //     $fileName =  uniqid() . '.png';
+            //     $file = $folderPath;
+            //     $mainfile =    Storage::put($file, $filetitleimage);
+            //     $items->titleImageurl = $mainfile;
 
-                $items->type = $request->type;
-                $items->brand = $request->brand;
-                $items->auto_manuel = $request->auto_manuel;
-                $items->price_per_day = $request->price_per_day;
-                $items->policy = $request->policy;
+            //     $items->description = $request->description;
+            //     $items->price = $request->price;
+            //     $items->state = $request->state;
+            //     $items->local_gov = $request->local_gov;
+            //     $items->discount = $request->discount;
 
-                $items->save();
+            //     $items->type = $request->type;
+            //     $items->parking_space = $request->parking_space;
+            //     $items->address = $request->address;
+            //     $items->house_rules = $request->house_rules;
+            //     $items->rooms = $request->rooms;
+            //     $items->max_guest = $request->max_guest;
+            //     $items->policy = $request->policy;
+            //     $items->self_check_in = $request->self_check_in;
+            //     $items->facilities = $request->facilities;
 
-                return response()->json([
-                    'status' => 200,
-                    'item' => $items->id,
-                    'type' => 'carloan',
-                    'data' => 'items ads created for carloan'
-                ]);
-            }
-            if ($request->categories === 'CarSales') {
-                $request->validate([
-                    // 'type' => 'required',
-                    // 'brand' => 'required',
-                    // 'policy' => 'required',
-                ]);
-                $items  = new  CarSales;
-                $items->user_id = 6;
-                $items->itemadsid = rand(999297, 45543);
-                $items->whatapp = $request->whatapp;
-                $items->aboutMe = $request->aboutMe;
-                $items->user_phone = $request->user_phone;
-                $items->user_social = $request->user_social;
-                $items->user_name = $request->user_name;
 
-                $filetitleimage = $request->file('titleImageurl');
-                $folderPath = "public/";
-                $fileName =  uniqid() . '.png';
-                $file = $folderPath;
-                $mainfile =    Storage::put($file, $filetitleimage);
-                $items->titleImageurl = $mainfile;
+            //     $items->save();
 
-                $items->description = $request->description;
-                $items->price = $request->price;
-                $items->state = $request->state;
-                $items->local_gov = $request->local_gov;
-                $items->discount = $request->discount;
+            //     return response()->json([
+            //         'status' => 200,
+            //         'item' => $items->id,
+            //         'type' => 'shortlet',
+            //         'data' => 'items ads created for shortLet'
+            //     ]);
+            // }
+            // if ($request->categories === 'Carloan') {
+            //     $request->validate([
+            //         // 'type' => 'required',
+            //         // 'brand' => 'required',
+            //         // 'policy' => 'required',
+            //     ]);
+            //     $items  = new  CarLoan;
+            //     $items->user_id = 6;
+            //     $items->itemadsid = rand(999297, 45543);
+            //     $items->whatapp = $request->whatapp;
+            //     $items->aboutMe = $request->aboutMe;
+            //     $items->user_phone = $request->user_phone;
+            //     $items->user_social = $request->user_social;
+            //     $items->user_name = $request->user_name;
 
-                $items->type = $request->type;
-                $items->brand = $request->brand;
-                $items->auto_manuel = $request->auto_manuel;
-                $items->engine_condition = $request->engine_condition;
-                $items->condition_assessment = $request->condition_assessment;
+            //     $filetitleimage = $request->file('titleImageurl');
+            //     $folderPath = "public/";
+            //     $fileName =  uniqid() . '.png';
+            //     $file = $folderPath;
+            //     $mainfile =    Storage::put($file, $filetitleimage);
+            //     $items->titleImageurl = $mainfile;
 
-                $items->save();
+            //     $items->description = $request->description;
+            //     $items->price = $request->price;
+            //     $items->state = $request->state;
+            //     $items->local_gov = $request->local_gov;
+            //     $items->discount = $request->discount;
 
-                return response()->json([
-                    'status' => 200,
-                    'item' => $items->id,
-                    'type' => 'carsales',
-                    'data' => 'items ads created for carloan'
-                ]);
-            } else {
-                // the validation for the other input wil  be manange be frontend in reactjs 
-                $items  = new  ItemfreeAds;
-                $items->user_id =  auth()->user()->id;
-                $items->categories = $request->categories;
-                $items->productName = $request->productName;
-                $items->description = $request->description;
-                $items->price = $request->price;
-                $items->state = $request->state;
-                $items->local_gov = $request->local_gov;
-                $items->headlines = $request->headlines;
-                $items->itemadsid = rand(999297, 45543);
-                $items->usedOrnew = $request->usedOrnew;
-                $items->user_image = $request->user_image;
-                $items->discount = $request->discount;
-                $items->whatapp = $request->whatapp;
-                $items->aboutMe = $request->aboutMe;
-                $items->user_phone = $request->user_phone;
-                $items->user_name = $request->user_name;
-                // add the user website name later 
-                $filetitleimage = $request->file('titleImageurl');
-                $folderPath = "public/";
-                $fileName =  uniqid() . '.png';
-                $file = $folderPath;
-                $mainfile =    Storage::put($file, $filetitleimage);
-                $items->titleImageurl = $mainfile;
-                $items->save();
+            //     $items->type = $request->type;
+            //     $items->brand = $request->brand;
+            //     $items->auto_manuel = $request->auto_manuel;
+            //     $items->price_per_day = $request->price_per_day;
+            //     $items->policy = $request->policy;
 
-                return response()->json([
-                    'status' => 200,
-                    'item' => $items->id,
-                    'anything' => 'anything',
-                    'type' => 'other',
-                    'data' => 'items ads created for other type'
-                ]);
-            }
+            //     $items->save();
+
+            //     return response()->json([
+            //         'status' => 200,
+            //         'item' => $items->id,
+            //         'type' => 'carloan',
+            //         'data' => 'items ads created for carloan'
+            //     ]);
+            // }
+            // if ($request->categories === 'CarSales') {
+            //     $request->validate([
+            //         // 'type' => 'required',
+            //         // 'brand' => 'required',
+            //         // 'policy' => 'required',
+            //     ]);
+            //     $items  = new  CarSales;
+            //     $items->user_id = 6;
+            //     $items->itemadsid = rand(999297, 45543);
+            //     $items->whatapp = $request->whatapp;
+            //     $items->aboutMe = $request->aboutMe;
+            //     $items->user_phone = $request->user_phone;
+            //     $items->user_social = $request->user_social;
+            //     $items->user_name = $request->user_name;
+
+            //     $filetitleimage = $request->file('titleImageurl');
+            //     $folderPath = "public/";
+            //     $fileName =  uniqid() . '.png';
+            //     $file = $folderPath;
+            //     $mainfile =    Storage::put($file, $filetitleimage);
+            //     $items->titleImageurl = $mainfile;
+
+            //     $items->description = $request->description;
+            //     $items->price = $request->price;
+            //     $items->state = $request->state;
+            //     $items->local_gov = $request->local_gov;
+            //     $items->discount = $request->discount;
+
+            //     $items->type = $request->type;
+            //     $items->brand = $request->brand;
+            //     $items->auto_manuel = $request->auto_manuel;
+            //     $items->engine_condition = $request->engine_condition;
+            //     $items->condition_assessment = $request->condition_assessment;
+
+            //     $items->save();
+
+            //     return response()->json([
+            //         'status' => 200,
+            //         'item' => $items->id,
+            //         'type' => 'carsales',
+            //         'data' => 'items ads created for carloan'
+            //     ]);
+            // } else {
+
+
+            // the validation for the other input wil  be manange be frontend in reactjs 
+            $items  = new  ItemfreeAds;
+            $items->user_id =  auth()->user()->id;
+            $items->categories = $request->categories;
+            $items->productName = $request->productName;
+            $items->description = $request->description;
+            $items->price = $request->price;
+            $items->state = $request->state;
+            $items->local_gov = $request->local_gov;
+            $items->headlines = $request->headlines;
+            $items->itemadsid = rand(999297, 45543);
+            $items->usedOrnew = $request->usedOrnew;
+            $items->user_image = $request->user_image;
+            $items->discount = $request->discount;
+            $items->whatapp = $request->whatapp;
+            $items->aboutMe = $request->aboutMe;
+            $items->user_phone = $request->user_phone;
+            $items->user_name = $request->user_name;
+            // add the user website name later 
+            $filetitleimage = $request->file('titleImageurl');
+            $folderPath = "public/";
+            $fileName =  uniqid() . '.png';
+            $file = $folderPath;
+            $mainfile =    Storage::put($file, $filetitleimage);
+            $items->titleImageurl = $mainfile;
+            $items->save();
+
+            return response()->json([
+                'status' => 200,
+                'item' => $items->id,
+                'anything' => 'anything',
+                'type' => 'other',
+                'data' => 'items ads created for other type'
+            ]);
+            // }
         }
         return response()->json([
             'status' => 500,
