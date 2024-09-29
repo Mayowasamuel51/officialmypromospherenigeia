@@ -140,7 +140,7 @@ class AuthController extends Controller
                 'backgroundimage' => $user->backgroundimage,
                 'user_social' => $user->user_social,  // Assuming this is a relation
                 'profileImage' => $user->profileImage, // Assuming this is a relation or attribute
-                'email' => $user->email,
+                'user' => $user->email,
                 'name' => $user->name,
                 'id' => $user->id,
                 'user_phone' => $user->user_phone,
