@@ -410,7 +410,7 @@ class ItemfreeAdsController extends Controller
                 $items->aboutMe = $request->aboutMe;
                 $items->user_phone = $request->user_phone;
                 $items->user_name = $request->user_name;
-        
+
                 // Handle file upload
                 if ($request->hasFile('titleImageurl')) {
                     $filetitleimage = $request->file('titleImageurl');
@@ -419,9 +419,9 @@ class ItemfreeAdsController extends Controller
                     $mainfile = Storage::put($folderPath . $fileName, file_get_contents($filetitleimage));
                     $items->titleImageurl = $mainfile;
                 }
-        
+
                 $items->save();
-        
+
                 return response()->json([
                     'status' => 200,
                     'item' => $items->id,
@@ -440,7 +440,6 @@ class ItemfreeAdsController extends Controller
                 'message' => 'User not authenticated'
             ]);
         }
-        
     }
 
     public function limited(Request $request, $categoies) {}

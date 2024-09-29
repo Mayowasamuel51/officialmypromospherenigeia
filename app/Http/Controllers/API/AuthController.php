@@ -77,7 +77,6 @@ class AuthController extends Controller
     //     ]);
     // }
 
-
     public function redirectToAuth(): JsonResponse
     {
         return response()->json([
@@ -87,16 +86,27 @@ class AuthController extends Controller
                 ->getTargetUrl(),
         ]);
     }
-
     public function handleAuthCallback(): JsonResponse
     {
         try {
+            // Retrieve the Google OAuth user using Laravel Socialite
             /** @var \Laravel\Socialite\Contracts\User $socialiteUser */
             $socialiteUser = Socialite::driver('google')->stateless()->user();
-        } catch (ClientException $e) {
-            return response()->json(['error' => 'Invalid credentials provided.', 'message' => $e->getMessage()], 422);
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            // Handle Google OAuth errors
+            return response()->json([
+                'error' => 'Invalid credentials provided.',
+                'message' => $e->getResponse()->getBody()->getContents() // Get full error message
+            ], 422);
+        } catch (\Exception $e) {
+            // Handle any other exceptions
+            return response()->json([
+                'error' => 'An error occurred during authentication.',
+                'message' => $e->getMessage()
+            ], 500);
         }
-
+    
+        // Update or create the user in your database
         /** @var User $user */
         $user = User::updateOrCreate(
             [
@@ -108,30 +118,75 @@ class AuthController extends Controller
                 'google_id' => $socialiteUser->getId(),
                 'avatar' => $socialiteUser->getAvatar(),
                 'current_plan' => 'free_plan',
-                'id_number' => rand(1222, 45543),
+                'id_number' => rand(1222, 45543), // Optionally adjust this logic
+                // Generate a random password since Google OAuth doesn't return one
                 'password' => $socialiteUser->password,
-                // You can set a random password here, as Google OAuth doesn't provide a password
-                // 'password' => bcrypt(str_random(16)),
             ]
         );
-
+    
+        // Optionally log the user in
         // Auth::login($user);
-
-        // Generate a token
-        $token = $user->createToken('google-token'.$user->name)->plainTextToken;
-
+    
+        // Generate a personal access token for the user
+        $token = $user->createToken('google-token' . $user->email)->plainTextToken;
+    
+        // Return the token and user details in JSON response
         return response()->json([
             'token' => $token,
-            'user_social' => $user->user_social,
-            'profileImage' => $user->profileImage,
-            'user' => $user->email,
-            'user_name' => $user->name,
-            'id' => $user->id,
-            'users' => $user,
-            // 'token' => $user->createToken('google-token'.$user->name)->plainTextToken,
             'token_type' => 'Bearer',
+            'user_social' => $user->user_social,  // Assuming this is a relation
+            'profileImage' => $user->profileImage, // Assuming this is a relation or attribute
+            'email' => $user->email,
+            'name' => $user->name,
+            'id' => $user->id,
+            'users' => $user, // If you want to return full user details
         ]);
     }
+    
+    // public function handleAuthCallback(): JsonResponse
+    // {
+    //     try {
+    //         /** @var \Laravel\Socialite\Contracts\User $socialiteUser */
+    //         $socialiteUser = Socialite::driver('google')->stateless()->user();
+    //     } catch (ClientException $e) {
+    //         return response()->json(['error' => 'Invalid credentials provided.', 'message' => $e->getMessage()], 422);
+    //     }
+
+    //     /** @var User $user */
+    //     $user = User::updateOrCreate(
+    //         [
+    //             'email' => $socialiteUser->getEmail(),
+    //         ],
+    //         [
+    //             'email_verified_at' => now(),
+    //             'name' => $socialiteUser->getName(),
+    //             'google_id' => $socialiteUser->getId(),
+    //             'avatar' => $socialiteUser->getAvatar(),
+    //             'current_plan' => 'free_plan',
+    //             'id_number' => rand(1222, 45543),
+    //             'password' => $socialiteUser->password,
+    //             // You can set a random password here, as Google OAuth doesn't provide a password
+    //             // 'password' => bcrypt(str_random(16)),
+    //         ]
+    //     );
+
+    //     // Auth::login($user);
+
+    //     // Generate a token
+    //     $token = $user->createToken('google-token'.$user->name)->plainTextToken;
+
+    //     return response()->json([
+    //         'token' => $token,
+    //         'user_social' => $user->user_social,
+    //         'profileImage' => $user->profileImage,
+    //         'user' => $user->email,
+    //         'user_name' => $user->name,
+    //         'id' => $user->id,
+    //         'users' => $user,
+    //         // 'token' => $user->createToken('google-token'.$user->name)->plainTextToken,
+    //         'token_type' => 'Bearer',
+    //     ]);
+    // }
 
 
     public function  getInfo()
