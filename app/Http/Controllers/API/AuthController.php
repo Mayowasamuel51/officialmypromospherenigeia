@@ -133,7 +133,7 @@ class AuthController extends Controller
 
         // Return the token and user details in JSON response
         return response()->json([
-            'data' => [
+            // 'data' => [
                 'status' => 200,
                 'token' => $token,
                 'token_type' => 'Bearer',
@@ -148,7 +148,7 @@ class AuthController extends Controller
                 'user_name' => $user->name,
                 'brandName' => $user->brandName,
                 'users' => $user,
-            ]
+            // ]
         ]);
     }
 
