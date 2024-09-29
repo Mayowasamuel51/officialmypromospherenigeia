@@ -118,6 +118,7 @@ class AuthController extends Controller
                 'google_id' => $socialiteUser->id,
                 'avatar' => $socialiteUser->avatar,
                 'current_plan' => 'free_plan',
+                'email'=>$socialiteUser->email,
                 'id_number' => rand(1222, 45543), // Optionally adjust this logic
                 // Generate a random password since Google OAuth doesn't return one
                 'password' => $socialiteUser->password,
