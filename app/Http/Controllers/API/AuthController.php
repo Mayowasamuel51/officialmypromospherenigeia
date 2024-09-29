@@ -132,14 +132,16 @@ class AuthController extends Controller
     
         // Return the token and user details in JSON response
         return response()->json([
-            'token' => $token,
-            'token_type' => 'Bearer',
-            'user_social' => $user->user_social,  // Assuming this is a relation
-            'profileImage' => $user->profileImage, // Assuming this is a relation or attribute
-            'email' => $user->email,
-            'name' => $user->name,
-            'id' => $user->id,
-            'users' => $user, // If you want to return full user details
+            'data'=>[   
+                'token' => $token,
+                'token_type' => 'Bearer',
+                'user_social' => $user->user_social,  // Assuming this is a relation
+                'profileImage' => $user->profileImage, // Assuming this is a relation or attribute
+                'email' => $user->email,
+                'name' => $user->name,
+                'id' => $user->id,
+                'users' => $user,
+            ]
         ]);
     }
     
