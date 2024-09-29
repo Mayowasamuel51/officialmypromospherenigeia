@@ -105,7 +105,7 @@ class AuthController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
-    
+
         // Update or create the user in your database
         /** @var User $user */
         $user = User::updateOrCreate(
@@ -123,28 +123,34 @@ class AuthController extends Controller
                 'password' => $socialiteUser->password,
             ]
         );
-    
+
         // Optionally log the user in
-        // Auth::login($user);
-    
+        Auth::login($user);
+
         // Generate a personal access token for the user
         $token = $user->createToken('google-token' . $user->email)->plainTextToken;
-    
+
         // Return the token and user details in JSON response
         return response()->json([
-            'data'=>[   
+            'data' => [
+                'status' => 200,
                 'token' => $token,
                 'token_type' => 'Bearer',
+                'backgroundimage' => $user->backgroundimage,
                 'user_social' => $user->user_social,  // Assuming this is a relation
                 'profileImage' => $user->profileImage, // Assuming this is a relation or attribute
                 'email' => $user->email,
                 'name' => $user->name,
                 'id' => $user->id,
+                'user_phone' => $user->user_phone,
+                'websiteName' => $user->websiteName,
+                'user_name' => $user->name,
+                'brandName' => $user->brandName,
                 'users' => $user,
             ]
         ]);
     }
-    
+
     // public function handleAuthCallback(): JsonResponse
     // {
     //     try {
