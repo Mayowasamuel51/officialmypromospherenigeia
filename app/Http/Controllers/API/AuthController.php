@@ -110,13 +110,13 @@ class AuthController extends Controller
         /** @var User $user */
         $user = User::updateOrCreate(
             [
-                'email' => $socialiteUser->getEmail(),
+                'email' => $socialiteUser->email,
             ],
             [
                 'email_verified_at' => now(),
-                'name' => $socialiteUser->getName(),
-                'google_id' => $socialiteUser->getId(),
-                'avatar' => $socialiteUser->getAvatar(),
+                'name' => $socialiteUser->name,
+                'google_id' => $socialiteUser->id,
+                'avatar' => $socialiteUser->avatar,
                 'current_plan' => 'free_plan',
                 'id_number' => rand(1222, 45543), // Optionally adjust this logic
                 // Generate a random password since Google OAuth doesn't return one
