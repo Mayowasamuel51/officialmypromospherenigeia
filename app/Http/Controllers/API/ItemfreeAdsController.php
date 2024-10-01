@@ -411,8 +411,8 @@ class ItemfreeAdsController extends Controller
                 $items->user_phone = $request->user_phone;
                 $items->user_name = $request->user_name;
 
-                // Handle file upload
-                if ($request->hasFile('titleImageurl')) {
+                // // Handle file upload
+                // if ($request->hasFile('titleImageurl')) {
                     $filetitleimage = $request->file('titleImageurl');
                     $folderPath = "public/";
                     $fileName = uniqid() . '.png';
@@ -426,7 +426,7 @@ class ItemfreeAdsController extends Controller
                     // $file = $folderPath;
                     // $mainfile =    Storage::put($file, $filetitleimage);
                     // $items->titleImageurl = $mainfile;
-                }
+                // }
 
                 $items->save();
 
