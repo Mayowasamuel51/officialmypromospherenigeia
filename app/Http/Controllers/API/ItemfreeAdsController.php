@@ -394,7 +394,7 @@ class ItemfreeAdsController extends Controller
             $user = auth()->user();
             if ($user) {
                 $items = new ItemfreeAds;
-                $items->user_id = $user->id;
+                $items->user_id = auth()->user()->id;
                 $items->categories = $request->categories;
                 $items->productName = $request->productName;
                 $items->description = $request->description;
@@ -413,19 +413,19 @@ class ItemfreeAdsController extends Controller
 
                 // // Handle file upload
                 // if ($request->hasFile('titleImageurl')) {
-                    $filetitleimage = $request->file('titleImageurl');
-                    $folderPath = "public/";
-                    $fileName = uniqid() . '.png';
-                    $file = $folderPath;
-                    $mainfile =   Storage::put($file, $filetitleimage);
-                    $items->titleImageurl = $mainfile;
+                $filetitleimage = $request->file('titleImageurl');
+                $folderPath = "public/";
+                $fileName = uniqid() . '.png';
+                $file = $folderPath;
+                $mainfile =   Storage::put($file, $filetitleimage);
+                $items->titleImageurl = $mainfile;
 
-                    // $filetitleimage = $request->file('titleImageurl');
-                    // $folderPath = "public/";
-                    // $fileName =  uniqid() . '.png';
-                    // $file = $folderPath;
-                    // $mainfile =    Storage::put($file, $filetitleimage);
-                    // $items->titleImageurl = $mainfile;
+                // $filetitleimage = $request->file('titleImageurl');
+                // $folderPath = "public/";
+                // $fileName =  uniqid() . '.png';
+                // $file = $folderPath;
+                // $mainfile =    Storage::put($file, $filetitleimage);
+                // $items->titleImageurl = $mainfile;
                 // }
 
                 $items->save();
