@@ -269,7 +269,7 @@ class HomePageController extends Controller
                     ->whereIn('itemfree_ads.categories', $categories)
                     ->inRandomOrder()
                     // ->paginate(8)
-                    ->limit(1000)
+                    ->limit(4000)
                     ->get()
             );
 
