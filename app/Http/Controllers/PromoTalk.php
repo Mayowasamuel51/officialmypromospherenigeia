@@ -194,6 +194,7 @@ class PromoTalk extends Controller
         $request->validate([
             'description' => 'required',
         ]);
+        $nince =1;
         if (auth('sanctum')->check()) {
         $items  = new  Promotalkdata;
         $items->user_id = auth()->user()->id;;
