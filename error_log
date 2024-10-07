@@ -1,0 +1,5 @@
+[26-Aug-2024 06:30:21 UTC] PHP Warning:  require(/home2/apimypr1/public_html/vendor/autoload.php): Failed to open stream: No such file or directory in /home2/apimypr1/public_html/artisan on line 18
+[26-Aug-2024 06:30:21 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home2/apimypr1/public_html/vendor/autoload.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home2/apimypr1/public_html/artisan:18
+Stack trace:
+#0 {main}
+  thrown in /home2/apimypr1/public_html/artisan on line 18
