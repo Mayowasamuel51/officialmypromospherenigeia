@@ -148,7 +148,9 @@ class PromoTalk extends Controller
     {
         $fetch_details  = Promotalkdata::find($id);
         // / $fetch_details->talkimages->where('promotalkdata_id', $id)->get();
-        $fetch_comment = Promotalkdata::find($id)->comment()->where('promotalkdata_id', $id)->inRandomOrder()->get();;
+        $fetch_comment = Promotalkdata::find($id)->comment()->where('promotalkdata_id', $id)
+        // ->inRandomOrder()
+        ->get();;
         // just to add other images to it . that's all 
 
         if ($fetch_details) {
