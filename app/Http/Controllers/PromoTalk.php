@@ -104,7 +104,8 @@ class PromoTalk extends Controller
                 // ->orWhere('description', 'like', '%lady%')
                 // ->orWhere('description', 'like', '%fuck%')
                 // ->inRandomOrder()d   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
-                ->get()
+                // ->get()
+                ->limit(22)->get()
         );
         if ($promotalk) {
             return response()->json([
