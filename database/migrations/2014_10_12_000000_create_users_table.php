@@ -33,7 +33,7 @@ return new class extends Migration
             $table->string('messageCompany')->nullable();
             $table->string('aboutMe')->nullable();
             $table->string('profileImage')->nullable();
-            $table->string('verified')->nullable();
+            $table->boolean('verified')->nullable()->default(false);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->rememberToken();
