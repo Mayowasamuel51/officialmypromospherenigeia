@@ -9,12 +9,16 @@ use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\FeedBackController;
 use App\Http\Controllers\PromoTalk;
 use App\Http\Controllers\PromoTweet;
+use App\Http\Controllers\VerfieldController;
 use Illuminate\Support\Facades\Route;
 
 
 Route::get('test', function () {
     return 'hello ';
 });
+// verfieid 
+Route::get('/verfieid',[VerfieldController::class ,'mainPeople']);
+
 
 Route::get('auth', [AuthController::class, 'redirectToAuth']);
 Route::get('auth/callback', [AuthController::class, 'handleAuthCallback']);
@@ -148,7 +152,7 @@ Route::get('/laptops', [HomePageController::class, 'Laptops']);
 
 //Cars data api 
 Route::get('/cars', [HomePageController::class, 'Cars']);
-
+   
 // Top videoes Ads 
 Route::get('/trendingadsvideos', [HomePageController::class, 'generalTopVideos']);
 Route::get('/trendingadsvideos/{id}', [HomePageController::class, 'generalTopVideosPage']);
