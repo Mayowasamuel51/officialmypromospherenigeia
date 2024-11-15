@@ -18,7 +18,7 @@ class HomePageControllerResource extends JsonResource
         return [
             'id'=>$this->id,
             'user_id'=>$this->user_id ,
-            'verified' =>$this->verified,
+            // 'verified' =>$this->verified,
             'user_name'=>$this->user_name,
             'titleImageurl'=>$this->titleImageurl,
             'user_image'=>$this->user_image,
