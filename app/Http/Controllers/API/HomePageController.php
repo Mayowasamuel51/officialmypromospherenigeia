@@ -267,7 +267,8 @@ class HomePageController extends Controller
         $fetch_images=HomePageControllerResource::collection(
                 DB::table('itemfree_ads')
                     ->whereIn('itemfree_ads.categories', $categories)
-                    ->inRandomOrder()
+                    ->latest()
+                    // ->inRandomOrder()
                     // ->paginate(8)
                     ->limit(4000)
                     ->get()
