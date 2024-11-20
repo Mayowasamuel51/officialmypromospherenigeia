@@ -141,6 +141,7 @@ class AuthController extends Controller
                 'user_social' => $user->user_social,  // Assuming this is a relation
                 'profileImage' => $user->profileImage, // Assuming this is a relation or attribute
                 'user' => $user->email,
+                'b_name'=>$user->b_name,
                 'name' => $user->name,
                 'id' => $user->id,
                 'user_phone' => $user->user_phone,
@@ -236,6 +237,7 @@ class AuthController extends Controller
         } else {
             $createuser  =  User::create([
                 'name' => $request->name,
+                'b_name'=>$request->b_name,
                 'email' => $request->email,
                 'current_plan' => "free_plan",
                 'id_number' => rand(1222, 45543),
@@ -284,6 +286,7 @@ class AuthController extends Controller
                 'user_social' => $user->user_social,
                 'token' => $token,
                 'aboutMe' => $user->aboutMe,
+                'b_name'=>$user->b_name,
                 'whatapp' => $user->whatapp,
                 'profileImage' => $user->profileImage,
                 'backgroundimage' => $user->backgroundimage,
