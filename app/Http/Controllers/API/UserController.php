@@ -73,6 +73,7 @@ class UserController extends Controller{
                     $user_infomation->profileImage =   $request->profileImage;    
 
                     $user_infomation->websiteName = $request->websiteName;
+                    
                     $user_infomation->messageCompany = $request->messageCompany;
 
                     $user_infomation->aboutMe = $request->aboutMe;
