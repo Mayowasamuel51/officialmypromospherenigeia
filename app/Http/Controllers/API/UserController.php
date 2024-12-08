@@ -144,7 +144,7 @@ class UserController extends Controller{
 
     public function profileUserPost($id){
         // $user = User::where('id',$id)->get();  .i chnage the user_id to user_name 
-        $user_infomation = HomePageControllerResource::collection(ItemfreeAds::where('name',$id)->get());
+        $user_infomation = HomePageControllerResource::collection(ItemfreeAds::where('user_name',$id)->get());
         if( $user_infomation ->isEmpty()  ){
             return response()->json([
                 'status' => 404,
