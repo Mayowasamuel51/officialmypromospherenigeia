@@ -16,18 +16,18 @@ class HomePageControllerResource extends JsonResource
     {
         // return parent::toArray($request);
         return [
-            'id'=>$this->id,
-            'user_id'=>$this->user_id ,
+            'id' => $this->id,
+            'user_id' => $this->user_id,
             // 'verified' =>$this->verified,
-            'user_name'=>$this->user_name,
-            'titleImageurl'=>$this->titleImageurl,
-            'user_image'=>$this->user_image,
-        'price'=>$this->price,
-            'description'=>$this->description,
-            'whatapp'=>$this->whatapp,
-            'productName'=>$this->productName,
-            'user_phone'=>$this->user_phone,
-            'categories'=>$this->categories
+            'user_name' => $this->user_name,
+            'titleImageurl' => $this->titleImageurl,
+            'user_image' => $this->user_image,
+            'price' => $this->price,
+            'description' => $this->description,
+            'whatapp' => $this->whatapp,
+            'productName' => $this->productName,
+            'user_phone' => $this->user_phone,
+            'categories' => $this->categories
             // 'titlevideourl'=>$this->titlevideourl
         ];
     }

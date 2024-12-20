@@ -199,7 +199,8 @@ class HomePageController extends Controller
 
 
 
-    public function generalTrending(){
+    public function generalTrending()
+    {
         // this function will produce all ads base on location of the user or other wise , which will just be videos alone 
         /// note will be changing it to images sometimes 
 
@@ -264,15 +265,15 @@ class HomePageController extends Controller
 
         // $state = ['Lagos']
         // will be changing the table manuelly for now , and include the paid user table to it soon 
-        $fetch_images=HomePageControllerResource::collection(
-                DB::table('itemfree_ads')
-                    ->whereIn('itemfree_ads.categories', $categories)
-                    ->latest()
-                    // ->inRandomOrder()
-                    // ->paginate(8)
-                    ->limit(4000)
-                    ->get()
-            );
+        $fetch_images = HomePageControllerResource::collection(
+            DB::table('itemfree_ads')
+                ->whereIn('itemfree_ads.categories', $categories)
+                ->latest()
+                ->inRandomOrder()
+                // ->paginate(8)
+                ->limit(4000)
+                ->get()
+        );
 
         $fetch_details  =  DB::table('ads_images')->join('itemfree_ads', function (JoinClause $join) {
             $join->on('ads_images.itemfree_ads_id', '=', 'itemfree_ads.id');
@@ -415,11 +416,12 @@ class HomePageController extends Controller
         ]);
     }
 
-    public function toplevelads($categories){ 
+    public function toplevelads($categories)
+    {
         //  This top level function will be for showing different categories that hasnt showing in the trending part ............
         //  Also we be changing to video part some times  ...........................
         //  Also this will be showing dicount price ....................
-        $fetch_images=HomePageControllerResource::collection(
+        $fetch_images = HomePageControllerResource::collection(
             DB::table('itemfree_ads')
                 ->where('itemfree_ads.categories', $categories)
                 ->inRandomOrder()
@@ -432,15 +434,14 @@ class HomePageController extends Controller
             return response()->json([
                 'status' => 200,
                 'normalads'  =>  $fetch_images,
-                'other_images'=> $adimages_data
-            
+                'other_images' => $adimages_data
+
             ]);
         }
         return response()->json([
             'status' => 404,
             'message' => 'No orders found matching the query.'
         ], 404);
-    
     }
 
     public function  Discount()
