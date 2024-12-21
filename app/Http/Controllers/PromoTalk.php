@@ -104,7 +104,7 @@ class PromoTalk extends Controller
                 // ->orWhere('description', 'like', '%lady%')
                 // ->orWhere('description', 'like', '%fuck%')
                 // ->inRandomOrder()d   
-                // ->get()
+                // ->get()woeogit 
                 ->latest()->get()
         );
         if ($promotalk) {
