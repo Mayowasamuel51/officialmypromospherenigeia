@@ -268,4 +268,8 @@ class PromoTalk extends Controller
             'data' => $getfeed
         ]);
     }
+
+    public function  makeee(){
+        
+    }
 }
