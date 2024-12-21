@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Http\Resources\PromoTalk as ResourcesPromoTalk;
@@ -104,7 +103,7 @@ class PromoTalk extends Controller
                 // ->orWhere('description', 'like', '%lady%')
                 // ->orWhere('description', 'like', '%fuck%')
                 // ->inRandomOrder()d   
-                // ->get()woeogit 
+                // ->get()
                 ->latest()->get()
         );
         if ($promotalk) {
