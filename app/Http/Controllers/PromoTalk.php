@@ -102,9 +102,10 @@ class PromoTalk extends Controller
                 // ->orWhere('description', 'like', '%lover%')
                 // ->orWhere('description', 'like', '%lady%')
                 // ->orWhere('description', 'like', '%fuck%')
-                // ->inRandomOrder()d   
+                ->inRandomOrder()
                 // ->get()
-                ->latest()->get()
+                // ->latest()
+                ->get()
         );
         if ($promotalk) {
             return response()->json([
@@ -270,6 +271,6 @@ class PromoTalk extends Controller
     }
 
     public function  makeee(){
-        
+
     }
 }
