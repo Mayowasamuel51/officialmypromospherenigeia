@@ -204,64 +204,95 @@ class HomePageController extends Controller
         // this function will produce all ads base on location of the user or other wise , which will just be videos alone 
         /// note will be changing it to images sometimes 
 
+        // $categories = [
+        //     "shortlet",
+
+        //     "Laptops",
+
+        //     "Property",
+
+        //     "Phones, Tablets",
+
+        //     "Fragrances",
+
+        //     "Skincare",
+
+        //     "Groceries",
+
+        //     "home-decoration",
+
+        //     "Furniture ,Home ",
+
+        //     "Womens bikins",
+
+        //     "Kids , Baby dresses",
+
+        //     "Womens under waress",
+
+        //     "womens-dresses",
+
+        //     "womens-shoes",
+
+        //     "Pets",
+
+        //     "Mens-shirts",
+
+        //     "Mens-shoes",
+
+        //     "Mens-watches",
+
+        //     "Womens-watches",
+
+        //     "Womens-bags",
+
+        //     "Womens-jewellery",
+
+        //     "Vehicles Upgrade",
+
+        //     "Automotive , Vehicles",
+
+        //     "Motorcycle",
+
+        //     "Apartment",
+
+        //     "Fashion",  /// on we put Fashion
+
+        //     "Sport Dresses",
+
+
+        //     "Luxury-apartment"
+        // ];
         $categories = [
-            "shortlet",
-
-            "Laptops",
-
-            "Property",
-
-            "Phones, Tablets",
-
-            "Fragrances",
-
-            "Skincare",
-
-            "Groceries",
-
-            "home-decoration",
-
-            "Furniture ,Home ",
-
-            "Womens bikins",
-
-            "Kids , Baby dresses",
-
-            "Womens under waress",
-
-            "womens-dresses",
-
-            "womens-shoes",
-
-            "Pets",
-
-            "Mens-shirts",
-
-            "Mens-shoes",
-
-            "Mens-watches",
-
-            "Womens-watches",
-
-            "Womens-bags",
-
-            "Womens-jewellery",
-
-            "Vehicles Upgrade",
-
-            "Automotive , Vehicles",
-
-            "Motorcycle",
-
-            "Apartment",
-
-            "Fashion",  /// on we put Fashion
-
-            "Sport Dresses",
-
-
-            "Luxury-apartment"
+            "Shortlets & Rentals", // updated for clarity
+            "Laptops & Accessories",
+            "Real Estate",
+            "Phones & Tablets",
+            "Fragrances & Perfumes",
+            "Skincare & Beauty",
+            "Groceries & Essentials",
+            "Home Décor",
+            "Furniture & Home Items",
+            "Women's Swimwear",
+            "Kids & Baby Clothing",
+            "Women's Lingerie",
+            "Women's Dresses",
+            "Women's Shoes",
+            "Pet Supplies",
+            "Men's Shirts",
+            "Men's Shoes",
+            "Men's Watches",
+            "Women's Watches",
+            "Women's Bags",
+            "Jewelry & Accessories",
+            "Vehicle Upgrades",
+            "Automotive & Vehicles",
+            "Motorcycles",
+            "Apartments for Rent",
+            "Fashion & Apparel",
+            "Sportswear",
+            "Luxury Apartments"
         ];
+        
 
         // $state = ['Lagos']
         // will be changing the table manuelly for now , and include the paid user table to it soon 
