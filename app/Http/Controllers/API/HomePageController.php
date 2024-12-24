@@ -26,8 +26,7 @@ class HomePageController extends Controller
     // }
 
 
-    public function searchapi($query)
-    {
+    public function searchapi($query) {
         $orders = HomePageControllerResource::collection(ItemfreeAds::with('user')
             ->where('categories', 'LIKE', '%' . $query . '%')
             ->orWhere('productName', 'LIKE', '%' . $query . '%')
@@ -302,7 +301,7 @@ class HomePageController extends Controller
                 ->latest()
                 // ->inRandomOrder()
                 // ->paginate(8)
-                ->limit(5000)
+                ->limit(50)
                 ->get()
         );
 
