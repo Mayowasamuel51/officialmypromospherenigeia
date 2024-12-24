@@ -301,7 +301,7 @@ class HomePageController extends Controller
                 ->latest()
                 // ->inRandomOrder()
                 // ->paginate(8)
-                ->limit(50)
+                // ->limit(5000)
                 ->get()
         );
 
