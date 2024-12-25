@@ -298,11 +298,13 @@ class HomePageController extends Controller
         $fetch_images = HomePageControllerResource::collection(
             DB::table('itemfree_ads')
                 ->whereIn('itemfree_ads.categories', $categories)
-                ->latest()
+                // ->latest()
+                ->paginate(20)
+                
                 // ->inRandomOrder()
                 // ->paginate(8)
                 // ->limit(5000)
-                ->get()
+                // ->get()
         );
 
         $fetch_details  =  DB::table('ads_images')->join('itemfree_ads', function (JoinClause $join) {

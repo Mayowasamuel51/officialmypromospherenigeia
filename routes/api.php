@@ -5,6 +5,7 @@ use App\Http\Controllers\API\HomePageController;
 use App\Http\Controllers\API\ItemfreeAdsController;
 use App\Http\Controllers\API\ItemfreeVideosAdsController;
 use App\Http\Controllers\API\ItemsAdsController;
+use App\Http\Controllers\API\PromoTalkLikeController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\FeedBackController;
 use App\Http\Controllers\PromoTalk;
@@ -16,8 +17,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('test', function () {
     return 'hello ';
 });
+
+
+
+
+// Route::post('/dislike', [PromoTalkLikeController::class, 'dislike']);
+
 // verfieid 
-Route::get('/verfieid',[VerfieldController::class ,'mainPeople']);
+Route::get('/verfieid', [VerfieldController::class, 'mainPeople']);
 
 
 Route::get('auth', [AuthController::class, 'redirectToAuth']);
@@ -38,6 +45,12 @@ Route::get('/promotalksside/{id}', [PromoTalk::class, 'promotalksidebarsingle'])
 Route::post('/promotalkfeedback/{itemid}', [PromoTalk::class, 'feedback']);
 Route::get('/promotalkfeedback/{itemid}', [PromoTalk::class, 'getfeedback']);
 
+
+// total talks
+Route::get('/totaltalkscomment/{itemid}', [PromoTalk::class, 'totalcomment']);
+
+// totals likes 
+Route::get('/totaltalkslikes/{itemid}', [PromoTalkLikeController::class, 'totallikes']);
 // -------- PROMOTALK ---------------------------
 
 
@@ -74,6 +87,11 @@ Route::post('/logout', [AuthController::class, 'logout']);
 // Route::post('/freeads/{id}/{type}', [ItemfreeAdsController::class, 'addimages']);
 
 Route::middleware('auth:sanctum')->group(function () {
+    // like talks 
+    Route::post('/like/{itemid}', [PromoTalkLikeController::class, 'like']);
+    Route::delete('/dislike/{itemid}', [PromoTalkLikeController::class, 'dislike']);
+
+
     // post for mypromotweet 
     Route::post('/promotweet', [PromoTweet::class, 'makepost']);     //Done
     Route::post('/promotweet/{id}', [PromoTweet::class, 'imagestweet']);
@@ -152,7 +170,7 @@ Route::get('/laptops', [HomePageController::class, 'Laptops']);
 
 //Cars data api 
 Route::get('/cars', [HomePageController::class, 'Cars']);
-   
+
 // Top videoes Ads 
 Route::get('/trendingadsvideos', [HomePageController::class, 'generalTopVideos']);
 Route::get('/trendingadsvideos/{id}', [HomePageController::class, 'generalTopVideosPage']);

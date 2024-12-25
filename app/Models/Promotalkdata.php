@@ -23,4 +23,8 @@ class Promotalkdata extends Model
     public function comment(){
         return $this->hasMany(Promotalkcomment::class);
     }
+
+    public function likestalks(){
+        return $this->hasMany(Like::class);
+    }
 }
