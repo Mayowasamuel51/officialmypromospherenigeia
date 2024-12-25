@@ -94,15 +94,17 @@ class PromoTalk extends Controller
         $promotalk = ResourcesPromoTalk::collection(
 
             DB::table('promotalkdatas')
-                ->orWhere('description', 'like', '%product%')
-                ->orWhere('description', 'like', '%land%')->orWhere('description', 'like', '%youtude%')->orWhere('description', 'like', '%developer%')->orWhere('description', 'like', '%knack%')->orWhere('description', 'like', '%knacking%')
-                ->orWhere('description', 'like', '%facebook%')
-                ->orWhere('description', 'like', '%lover%')
-                ->where('description', 'like', '%sex%')
-                ->orWhere('description', 'like', '%help%')
-                ->orWhere('description', 'like', '%lover%')
-                ->orWhere('description', 'like', '%lady%')
-                ->orWhere('description', 'like', '%fuck%')
+                // ->orWhere('description', 'like', '%product%')
+                
+                // ->orWhere('description', 'like', '%land%')->orWhere('description', 'like', '%youtude%')->orWhere('description', 'like', '%developer%')->orWhere('description', 'like', '%knack%')->orWhere('description', 'like', '%knacking%')
+                // ->orWhere('description', 'like', '%facebook%')
+                // ->orWhere('description', 'like', '%lover%')
+                // ->where('description', 'like', '%sex%')
+                // ->orWhere('description', 'like', '%help%')
+                // ->orWhere('description', 'like', '%lover%')
+                // ->orWhere('description', 'like', '%lady%')
+                // ->orWhere('description', 'like', '%fuck%')
+                // ->orWhere('description', 'like', '%football%')
                 // ->inRandomOrder()chrome
                 // ->get()
                 // ->latest()
