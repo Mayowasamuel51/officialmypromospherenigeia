@@ -45,7 +45,7 @@ class PromoTalkLikeController extends Controller
 
         //send user the nofication 
         // Send notification to the item owner
-        $this->sendNotification(auth()->user()->name, 'liked your item.');
+        // $this->sendNotification(auth()->user()->name, 'liked your item.');
         return response()->json(['message' => 'Liked successfully.'], 200);
     }
 
@@ -83,13 +83,13 @@ class PromoTalkLikeController extends Controller
 
         return response()->json(['message' => 'Disliked successfully.'], 200);
     }
-    private function sendNotification($userId, $message)
-    {
-        $user = User::find($userId);
+    // private function sendNotification($userId, $message)
+    // {
+    //     $user = User::find($userId);
 
-        // Push notification logic
-        // Example: FCM, Pusher, or Laravel Notifications
-        $user->notify(new \App\Notifications\ItemLikedNotification($message));
-    }
+    //     // Push notification logic
+    //     // Example: FCM, Pusher, or Laravel Notifications
+    //     $user->notify(new \App\Notifications\ItemLikedNotification($message));
+    // }
 }
 

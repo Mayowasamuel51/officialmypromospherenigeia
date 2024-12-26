@@ -12,7 +12,8 @@
         "laravel/sanctum": "^3.2",
         "laravel/scout": "^10.9",
         "laravel/socialite": "^5.16",
-        "laravel/tinker": "^2.8"
+        "laravel/tinker": "^2.8",
+        "pusher/pusher-push-notifications": "^2.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",
