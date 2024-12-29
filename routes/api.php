@@ -20,7 +20,7 @@ Route::get('test', function () {
 
 
 // testing fcm token 
-Route::post('/store-token', [PromoTalkLikeController::class , 'storeToken']);
+Route::post('/store-token', [PromoTalkLikeController::class, 'storeToken']);
 
 
 // Route::post('/dislike', [PromoTalkLikeController::class, 'dislike']);
@@ -90,8 +90,9 @@ Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::middleware('auth:sanctum')->group(function () {
     // like talks 
-    Route::post('/like/{itemid}', [PromoTalkLikeController::class, 'like']);
     Route::delete('/dislike/{itemid}', [PromoTalkLikeController::class, 'dislike']);
+    Route::post('/like/{itemid}', [PromoTalkLikeController::class, 'like']);
+   
 
 
     // post for mypromotweet 

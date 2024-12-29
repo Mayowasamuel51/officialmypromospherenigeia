@@ -87,7 +87,8 @@ class PromoTalkLikeController extends Controller
             // return response()->json(['message' => 'Already liked.'], 400);
             // delete it 
             Like::where('user_id', auth()->user()->id)
-                ->where('item_id', 1)
+                // ->where('item_id', 1)
+                // ->where('item_id', $itemid)
                 ->delete();
 
             return response()->json(['message' => 'Disliked successfully.'], 200);
