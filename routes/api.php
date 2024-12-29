@@ -19,6 +19,8 @@ Route::get('test', function () {
 });
 
 
+// testing fcm token 
+Route::post('/store-token', [PromoTalkLikeController::class , 'storeToken']);
 
 
 // Route::post('/dislike', [PromoTalkLikeController::class, 'dislike']);

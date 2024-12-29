@@ -60,6 +60,10 @@ class User extends Authenticatable
     public function shortlet(){
         return $this->hasMany(ShortLet::class);
     }
+
+    public function nofications(){
+        return $this->hasMany(Nofications::class);
+    }
     
 
 
