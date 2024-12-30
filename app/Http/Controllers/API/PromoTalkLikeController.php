@@ -15,10 +15,10 @@ class PromoTalkLikeController extends Controller
 {
     public function storeToken(Request $request)
     {
-        $request->validate([
-            'fcm_token' => 'required|string',
-            'user_id' => 'required|exists:users,id',  // Ensure the user exists
-        ]);
+        // $request->validate([
+        //     'fcm_token' => 'required|string',
+        //     'user_id' => 'required|exists:users,id',  // Ensure the user exists
+        // ]);
 
         $send_nofication = new    Nofications;
         $send_nofication->user_id = 4;
@@ -29,6 +29,123 @@ class PromoTalkLikeController extends Controller
 
         return response()->json(['message' => 'FCM Token saved successfully']);
     }
+
+
+    public function sendNotification(Request $request,$user_id)
+    {
+        // Get the FCM token from the request (You should already have the token stored in your DB)
+        // $fcmToken = $request->input('fcm_token'); // Or fetch it from the database
+
+        $userId = $request->input($user_id);
+
+        // Fetch the FCM token from the database
+        $fcmToken = Nofications::where('user_id', $userId)->value('fcm_token');
+
+        $title = "Test Notification";
+        $body = "This is a test notification from your backend!";
+
+        // Prepare the notification data
+        $data = [
+            'to' => $fcmToken,
+            'notification' => [
+                'title' => $title,
+                'body' => $body,
+                'icon' => 'https://example.com/your-icon.png', // Optional
+            ],
+        ];
+
+        // FCM Server Key (Get this from your Firebase Console)
+        $serverKey = "BDtAKIAnq742og964l2dF4uBcKxJ8MlK9uXfjqKgD5bfdlKtVC6NB4ny341RQ6HUTJjIXoQj_Ini9m4D-K4THi8"; // Replace with your actual server key
+
+        try {
+            $client = new Client();
+            $response = $client->post('https://fcm.googleapis.com/fcm/send', [
+                'headers' => [
+                    'Authorization' => 'key=' . $serverKey,
+                    'Content-Type' => 'application/json',
+                ],
+                'json' => $data,
+            ]);
+
+            // Get the response body for more details
+            $responseBody = json_decode($response->getBody()->getContents(), true);
+
+            // Check if the notification was successfully sent
+            if (isset($responseBody['success']) && $responseBody['success'] > 0) {
+                return response()->json(['message' => 'Notification sent successfully!'], 200);
+            } else {
+                return response()->json([
+                    'message' => 'Failed to send notification',
+                    'details' => $responseBody
+                ], 500);
+            }
+        } catch (\Exception $e) {
+            // Log error for troubleshooting
+            \Log::error('Error sending notification: ' . $e->getMessage());
+            return response()->json(['error' => 'Error sending notification'], 500);
+        }
+    }
+
+
+
+    public function sendNot(Request $request,$user_id)
+    {
+        // Get the FCM token from the request (You should already have the token stored in your DB)
+        // $fcmToken = $request->input('fcm_token'); // Or fetch it from the database
+
+        $userId = $request->input($user_id);
+
+        // Fetch the FCM token from the database
+        $fcmToken = Nofications::where('user_id', $userId)->value('fcm_token');
+
+        $title = "Test Notification";
+        $body = "This is a test notification from your backend!";
+
+        // Prepare the notification data
+        $data = [
+            'to' => $fcmToken,
+            'notification' => [
+                'title' => $title,
+                'body' => $body,
+                'icon' => 'https://example.com/your-icon.png', // Optional
+            ],
+        ];
+
+        // FCM Server Key (Get this from your Firebase Console)
+        $serverKey = "BDtAKIAnq742og964l2dF4uBcKxJ8MlK9uXfjqKgD5bfdlKtVC6NB4ny341RQ6HUTJjIXoQj_Ini9m4D-K4THi8"; // Replace with your actual server key
+
+        try {
+            $client = new Client();
+            $response = $client->post('https://fcm.googleapis.com/fcm/send', [
+                'headers' => [
+                    'Authorization' => 'key=' . $serverKey,
+                    'Content-Type' => 'application/json',
+                ],
+                'json' => $data,
+            ]);
+
+            // Get the response body for more details
+            $responseBody = json_decode($response->getBody()->getContents(), true);
+
+            // Check if the notification was successfully sent
+            if (isset($responseBody['success']) && $responseBody['success'] > 0) {
+                return response()->json(['message' => 'Notification sent successfully!'], 200);
+            } else {
+                return response()->json([
+                    'message' => 'Failed to send notification',
+                    'details' => $responseBody
+                ], 500);
+            }
+        } catch (\Exception $e) {
+            // Log error for troubleshooting
+            \Log::error('Error sending notification: ' . $e->getMessage());
+            return response()->json(['error' => 'Error sending notification'], 500);
+        }
+    }
+
+
+
+
     public function totallikes($itemid)
     {
         $total = Promotalkdata::find($itemid);
@@ -39,6 +156,8 @@ class PromoTalkLikeController extends Controller
             'data' => $userfeedback
         ]);
     }
+
+
     public function like(Request $request, $itemid)
     {
         // auth()->user()->id ;
@@ -103,34 +222,35 @@ class PromoTalkLikeController extends Controller
         // return response()->json(['message' => 'Disliked successfully.'], 200);
     }
 
-    public function sendNotificationToMultiple($deviceTokens, $title, $body)
-    {
-        $client = new Client();
 
-        $serverKey = 'BDtAKIAnq742og964l2dF4uBcKxJ8MlK9uXfjqKgD5bfdlKtVC6NB4ny341RQ6HUTJjIXoQj_Ini9m4D-K4THi8';  // Replace with your actual server key
-        $url = 'https://fcm.googleapis.com/fcm/send';
 
-        // Payload for multiple tokens
-        $payload = [
-            'notification' => [
-                'title' => $title,
-                'body' => $body,
-            ],
-            'registration_ids' => $deviceTokens,  // Multiple device tokens
-        ];
 
-        // Send the POST request to Firebase
-        $response = $client->post($url, [
-            'headers' => [
-                'Authorization' => 'key=' . $serverKey,
-                'Content-Type' => 'application/json',
-            ],
-            'json' => $payload,
-        ]);
 
-        // Check the status of the response
-        return $response->getStatusCode();  // 200 means success
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // private function sendNotification($userId, $message)
     // {

@@ -21,7 +21,7 @@ Route::get('test', function () {
 
 // testing fcm token 
 Route::post('/store-token', [PromoTalkLikeController::class, 'storeToken']);
-
+// Route::post('/send-notification/{user_id}',[PromoTalkLikeController::class,'sendNotification']);
 
 // Route::post('/dislike', [PromoTalkLikeController::class, 'dislike']);
 
@@ -89,6 +89,9 @@ Route::post('/logout', [AuthController::class, 'logout']);
 // Route::post('/freeads/{id}/{type}', [ItemfreeAdsController::class, 'addimages']);
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/send-notification/{user_id}',[PromoTalkLikeController::class,'sendNotification']);
+    Route::post('/send-notification',[PromoTalkLikeController::class,'sendNot']);    
+
     // like talks 
     Route::delete('/dislike/{itemid}', [PromoTalkLikeController::class, 'dislike']);
     Route::post('/like/{itemid}', [PromoTalkLikeController::class, 'like']);
