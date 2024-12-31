@@ -107,10 +107,10 @@ class PromoTalk extends Controller
                 // ->orWhere('description', 'like', '%football%')
                 // ->inRandomOrder()chrome
                 // ->get()
-                // ->latest()
-                // ->get()
-                ->inRandomOrder()
-                ->paginate(30)
+                ->latest()
+                ->get()
+                // ->inRandomOrder()
+                // ->paginate(30)
         );
         if ($promotalk) {
             return response()->json([
