@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Http\Resources\PromoTalk as ResourcesPromoTalk;
@@ -57,7 +58,6 @@ class PromoTalk extends Controller
             'status' => 200,
             'data'  =>  $promotalk
         ]);
-        
     }
 
     public function  promotalksidebar()
@@ -70,11 +70,11 @@ class PromoTalk extends Controller
                 ->orWhere('description', 'like', '%facebook%')
                 ->orWhere('description', 'like', '%lover%')
                 ->where('description', 'like', '%sex%')
-                ->orWhere('description', 'like', '%help%')  ->orWhere('description', 'like', '%Pussy%')
+                ->orWhere('description', 'like', '%help%')->orWhere('description', 'like', '%Pussy%')
                 ->orWhere('description', 'like', '%pussy%')
-                ->orWhere('description', 'like', '%lover%')  ->orWhere('description', 'like', '%Ladies%')
-                ->orWhere('description', 'like', '%lady%')  ->orWhere('description', 'like', '%Lady%')
-                ->orWhere('description', 'like', '%fuck%')  ->orWhere('description', 'like', '%Sex%')
+                ->orWhere('description', 'like', '%lover%')->orWhere('description', 'like', '%Ladies%')
+                ->orWhere('description', 'like', '%lady%')->orWhere('description', 'like', '%Lady%')
+                ->orWhere('description', 'like', '%fuck%')->orWhere('description', 'like', '%Sex%')
                 ->inRandomOrder()
                 ->get()
         );
@@ -95,7 +95,7 @@ class PromoTalk extends Controller
 
             DB::table('promotalkdatas')
                 // ->orWhere('description', 'like', '%product%')
-                
+
                 // ->orWhere('description', 'like', '%land%')->orWhere('description', 'like', '%youtude%')->orWhere('description', 'like', '%developer%')->orWhere('description', 'like', '%knack%')->orWhere('description', 'like', '%knacking%')
                 // ->orWhere('description', 'like', '%facebook%')
                 // ->orWhere('description', 'like', '%lover%')
@@ -109,8 +109,8 @@ class PromoTalk extends Controller
                 // ->get()
                 ->latest()
                 ->get()
-                // ->inRandomOrder()
-                // ->paginate(30)
+            // ->inRandomOrder()
+            // ->paginate(30)
         );
         if ($promotalk) {
             return response()->json([
@@ -155,8 +155,8 @@ class PromoTalk extends Controller
         $fetch_details  = Promotalkdata::find($id);
         // / $fetch_details->talkimages->where('promotalkdata_id', $id)->get();
         $fetch_comment = Promotalkdata::find($id)->comment()->where('promotalkdata_id', $id)
-        // ->inRandomOrder()
-        ->get();;
+            // ->inRandomOrder()
+            ->get();;
         // just to add other images to it . that's all 
 
         if ($fetch_details) {
@@ -202,30 +202,30 @@ class PromoTalk extends Controller
         $request->validate([
             'description' => 'required',
         ]);
-        $nince =1;
+        $nince = 1;
         if (auth('sanctum')->check()) {
-        $items  = new  Promotalkdata;
-        $items->user_id = auth()->user()->id;;
-        $items->description = $request->description;
-        $items->talkid =  rand(1222, 45543);
-        $items->user_name = $request->user_name;
-        $items->categories = $request->categories;
+            $items  = new  Promotalkdata;
+            $items->user_id = auth()->user()->id;;
+            $items->description = $request->description;
+            $items->talkid =  rand(1222, 45543);
+            $items->user_name = $request->user_name;
+            $items->categories = $request->categories;
 
-        $filetitleimage = $request->file('titleImageurl');
-        // if($filetitleimage)
-        $folderPath = "public/";
-        $fileName =  uniqid() . '.png';
-        $file = $folderPath;
-        $mainfile =    Storage::put($file, $filetitleimage);
-        $items->titleImageurl = $mainfile;
+            $filetitleimage = $request->file('titleImageurl');
+            // if($filetitleimage)
+            $folderPath = "public/";
+            $fileName =  uniqid() . '.png';
+            $file = $folderPath;
+            $mainfile =    Storage::put($file, $filetitleimage);
+            $items->titleImageurl = $mainfile;
 
-        $items->save();
+            $items->save();
 
-        return response()->json([
-            'status' => 200,
-            'item' => $items->id,
-            'data' => 'talk created',
-        ]);
+            return response()->json([
+                'status' => 200,
+                'item' => $items->id,
+                'data' => 'talk created',
+            ]);
         }
         return response()->json([
             'status' => 500,
@@ -247,11 +247,11 @@ class PromoTalk extends Controller
 
         $userfeedback = $item->comment()->create([
             'comment' =>   $message,
-            'active'=>1,
+            'active' => 1,
             'name' => $name
             // $request->itemadsimagesurls
         ]);
-          
+
         if ($userfeedback) { // checking network is okay............................
             return response()->json([
                 'status' => 200,
@@ -281,17 +281,18 @@ class PromoTalk extends Controller
     }
 
 
-    public function totalcomment ($itemid){{
-        /// Making total comment for talk 
-        $total = Promotalkdata::find($itemid);
-        $userfeedback = $total->comment()->where('active', 1)->count();
+    public function totalcomment($itemid)
+    { {
+            /// Making total comment for talk 
+            $total = Promotalkdata::find($itemid);
+            $userfeedback = $total->comment()->where('active', 1)->count();
 
-        return response()->json([
-            'status'=>200,
-            'data'=>$userfeedback
-        ]);
-
-    }}
+            return response()->json([
+                'status' => 200,
+                'data' => $userfeedback
+            ]);
+        }
+    }
 
     public function like(Request $request, $itemid)
     {
@@ -308,9 +309,9 @@ class PromoTalk extends Controller
         // $userId = auth()->user()->id;
 
         // // Check if the user already liked this item
-        if ($itemPromotalkdata->likestalks()->where('user_id', auth()->user()->id)->exists() ) {
+        if ($itemPromotalkdata->likestalks()->where('user_id', auth()->user()->id)->exists()) {
             return response()->json(['message' => 'Already liked.'], 400);
-        } 
+        }
         $uselikes = $itemPromotalkdata->likestalks()->create([
             'item_id' => 1,
             'user_id' => auth()->user()->id
@@ -338,7 +339,7 @@ class PromoTalk extends Controller
         // $userId = auth()->user()->id;
 
         // // making the user dislike the talk 
-        if ($itemPromotalkdata->likestalks()->where('user_id', auth()->user()->id)->exists() ) {
+        if ($itemPromotalkdata->likestalks()->where('user_id', auth()->user()->id)->exists()) {
             // return response()->json(['message' => 'Already liked.'], 400);
             // delete it 
             Like::where('user_id', auth()->user()->id)
@@ -346,8 +347,7 @@ class PromoTalk extends Controller
                 ->delete();
 
             return response()->json(['message' => 'Disliked successfully.'], 200);
-
-        } 
+        }
         // $like = Like::where('user_id', $validated['user_id'])
         //     ->where('item_id', $validated['item_id'])
         //     ->delete();
@@ -359,12 +359,13 @@ class PromoTalk extends Controller
     }
 
 
-    public function totallikes($itemid){
+    public function totallikes($itemid)
+    {
         $total = Promotalkdata::find($itemid);
         $userfeedback = $total->likestalks()->where('active', 1)->count();
         return response()->json([
-            'status'=>200,
-            'data'=>$userfeedback
+            'status' => 200,
+            'data' => $userfeedback
         ]);
     }
 }
