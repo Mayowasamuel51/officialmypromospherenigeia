@@ -107,6 +107,7 @@ class PromoTalk extends Controller
                 // ->orWhere('description', 'like', '%football%')
                 // ->inRandomOrder()chrome
                 // ->get()
+                
                 ->latest()
                 ->get()
             // ->inRandomOrder()

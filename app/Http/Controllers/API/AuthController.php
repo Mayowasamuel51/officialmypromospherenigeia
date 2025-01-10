@@ -283,6 +283,7 @@ class AuthController extends Controller
             $token =  $user->createToken("API-TOKEN" . $user->email)->plainTextToken;
             return response()->json([
                 'status' => 200,
+                'user_promo'=>$user->user_promo,
                 'user_social' => $user->user_social,
                 'token' => $token,
                 'aboutMe' => $user->aboutMe,

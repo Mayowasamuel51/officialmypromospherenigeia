@@ -154,7 +154,8 @@ class PromoTweet extends Controller
         $promotweet = ResourcesPromoTweet::collection(
             DB::table('promo_tweets')
                 // ->where('cat') add the categoies to this for filter the tweet pages
-                ->inRandomOrder()
+                // ->inRandomOrder()
+                ->latest()
                 ->get()
         );
         $adimages_data = PromoTweetimages::all();

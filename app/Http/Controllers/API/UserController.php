@@ -69,7 +69,7 @@ class UserController extends Controller{
             if (auth('sanctum')->check()) {
                 $user_infomation = User::findOrFail($iduser);
                 if ($user_infomation) {
-             
+                    $user_infomation->UserName = $request->UserName;
                     $user_infomation->profileImage =   $request->profileImage;    
 
                     $user_infomation->websiteName = $request->websiteName;
