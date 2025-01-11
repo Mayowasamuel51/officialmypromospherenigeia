@@ -267,7 +267,7 @@ class PromoTalk extends Controller
     public function getfeedback($itemid)
     {
         /// get feedback of a post people made to!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        $getfeed = Promotalkcomment::where('promotalkdata_id', $itemid)->get();
+        $getfeed = Promotalkcomment::where('promotalkdata_id', $itemid)->latest()   ->get();
 
         if ($getfeed->isEmpty()) {
             return response()->json([
