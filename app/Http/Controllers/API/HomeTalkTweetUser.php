@@ -31,7 +31,7 @@ class HomeTalkTweetUser extends Controller
     {
         //show the name first 
         // then display all or some product 
-        $personal_top_seller = ItemfreeAds::where('user_name', $seller_name)->limit(8)->get();
+        $personal_top_seller = ItemfreeAds::where('user_name', $seller_name)->latest()->limit(4)->get();
         return response()->json([
             'status' => 200,
             'normalads' => $personal_top_seller
