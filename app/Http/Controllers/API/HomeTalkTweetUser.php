@@ -34,7 +34,7 @@ class HomeTalkTweetUser extends Controller
         $personal_top_seller = ItemfreeAds::where('user_name', $seller_name)->limit(8)->get();
         return response()->json([
             'status' => 200,
-            'data' => $personal_top_seller
+            'normalads' => $personal_top_seller
         ]);
     }
 }
