@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\HomePageController;
+use App\Http\Controllers\API\HomeTalkTweetUser;
 use App\Http\Controllers\API\ItemfreeAdsController;
 use App\Http\Controllers\API\ItemfreeVideosAdsController;
 use App\Http\Controllers\API\ItemsAdsController;
@@ -24,6 +25,12 @@ Route::post('/store-token', [PromoTalkLikeController::class, 'storeToken']);
 // Route::post('/send-notification/{user_id}',[PromoTalkLikeController::class,'sendNotification']);
 
 // Route::post('/dislike', [PromoTalkLikeController::class, 'dislike']);
+
+// ...........................    showing top sellers on the home page      NEW  ADS AND TALK ADS       ....................................
+Route::get('/top-sellers',[HomeTalkTweetUser::class , 'topseller']);
+Route::get('/top/{seller_name}',[HomeTalkTweetUser::class , 'personalSeller']);
+
+
 
 // verfieid 
 Route::get('/verfieid', [VerfieldController::class, 'mainPeople']);
