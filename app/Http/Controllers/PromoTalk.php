@@ -10,9 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class PromoTalk extends Controller
-{
-
+class PromoTalk extends Controller{
     public function selectingTalk($categories)
     {
         /// this will be a select box to switch in between tweets 

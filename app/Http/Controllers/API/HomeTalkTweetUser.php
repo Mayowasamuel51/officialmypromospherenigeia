@@ -37,4 +37,12 @@ class HomeTalkTweetUser extends Controller
             'normalads' => $personal_top_seller
         ]);
     }
+
+    public function laptopseller($seller_name){
+        $personal_top_seller = ItemfreeAds::where('user_name', $seller_name)->inRandomOrder()->limit(4)->get();
+        return response()->json([
+            'status' => 200,
+            'normalads' => $personal_top_seller
+        ]);
+    }
 }
