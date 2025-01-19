@@ -39,7 +39,7 @@ class HomeTalkTweetUser extends Controller
     }
 
     public function showcaselaptop (){
-        $laptops = ItemfreeAds::where('categories', 'Laptops & Accessories')->where('categories','Phones & Tablets')
+        $laptops = ItemfreeAds::where('categories', 'Laptops & Accessories')->orWhere('categories','Phones & Tablets')
         ->inRandomOrder()->limit(4)->get();
         return response()->json([
             'status' => 200,
