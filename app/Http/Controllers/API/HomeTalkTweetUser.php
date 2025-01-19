@@ -38,6 +38,14 @@ class HomeTalkTweetUser extends Controller
         ]);
     }
 
+    public function showcaselaptop (){
+        $laptops = ItemfreeAds::where('categories', 'Laptops & Accessories')->inRandomOrder()->limit(4)->get();
+        return response()->json([
+            'status' => 200,
+            'normalads' => $laptops
+        ]);
+    }
+
     public function laptopseller($seller_name){
         $personal_top_seller = ItemfreeAds::where('user_name', $seller_name)->inRandomOrder()->limit(4)->get();
         return response()->json([

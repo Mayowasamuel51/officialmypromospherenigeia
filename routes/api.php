@@ -29,7 +29,7 @@ Route::post('/store-token', [PromoTalkLikeController::class, 'storeToken']);
 // ...........................    showing top sellers on the home page      NEW  ADS AND TALK ADS       ....................................
 Route::get('/top-sellers',[HomeTalkTweetUser::class , 'topseller']);
 Route::get('/top/{seller_name}',[HomeTalkTweetUser::class , 'personalSeller']);
-
+Route::get('/laptops',[HomeTalkTweetUser::class , 'showcaselaptop']);
 
 
 // verfieid 
@@ -179,7 +179,7 @@ Route::get('/luxuryapartment', [HomePageController::class, 'Luxury_apartment']);
 Route::get('/Vehicles_Upgrade', [HomePageController::class, 'Vehicles_Upgrade']);
 
 //Laptops data api 
-Route::get('/laptops', [HomePageController::class, 'Laptops']);
+// Route::get('/laptops', [HomePageController::class, 'Laptops']);
 
 //Cars data api 
 Route::get('/cars', [HomePageController::class, 'Cars']);
