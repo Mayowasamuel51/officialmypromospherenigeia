@@ -31,7 +31,7 @@ class SellerVideoController extends Controller
     {
         // Shortlets & Rentals
         $sellers = SellerVideos::where('categories', 'Shortlets & Rentals')
-        // ->Where("Laptops & Accessories")
+          ->orWhere('categories', 'Apartments for Rent')
         // ->Where("Skincare & Beauty")
         ->limit(5)
         ->latest()->get();
