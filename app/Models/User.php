@@ -64,9 +64,9 @@ class User extends Authenticatable
     public function nofications(){
         return $this->hasMany(Nofications::class);
     }
-    
-
-
+    public function sellervideos (){
+        return $this->hasMany(SellerVideos::class);
+    }
 
 
 

@@ -11,6 +11,7 @@ use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\FeedBackController;
 use App\Http\Controllers\PromoTalk;
 use App\Http\Controllers\PromoTweet;
+use App\Http\Controllers\SellerVideoController;
 use App\Http\Controllers\VerfieldController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,9 @@ Route::get('test', function () {
     return 'hello ';
 });
 
+/// seller stories 
+Route::get('/sellerstories', [ SellerVideoController::class, 'sellerstories']);
+Route::get('/sellerstories/{id}', [ SellerVideoController::class, 'sellerstoriessingle']);
 
 // testing fcm token 
 Route::post('/store-token', [PromoTalkLikeController::class, 'storeToken']);
@@ -96,6 +100,9 @@ Route::post('/logout', [AuthController::class, 'logout']);
 // Route::post('/freeads/{id}/{type}', [ItemfreeAdsController::class, 'addimages']);
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/videotest', [SellerVideoController::class, 'videoupload']);
+
+
     Route::post('/send-notification/{user_id}',[PromoTalkLikeController::class,'sendNotification']);
     Route::post('/send-notification',[PromoTalkLikeController::class,'sendNot']);    
 
