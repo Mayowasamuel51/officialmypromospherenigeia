@@ -12,7 +12,8 @@ class SellerVideoController extends Controller
 {
     //
     public function  sellerstoriessingle($id){
-        $sellers = SellerVideos::where('id', $id)->get();
+        $sellers = SellerVideos::where('id', $id)
+        ->get();
         if ($sellers->isEmpty()) {
             return response()->json([
                 'status' => 500,
@@ -29,7 +30,11 @@ class SellerVideoController extends Controller
     public function sellerstories()
     {
         // Shortlets & Rentals
-        $sellers = SellerVideos::where('categories', 'Shortlets & Rentals')->latest()->get();
+        $sellers = SellerVideos::where('categories', 'Shortlets & Rentals')
+        // ->Where("Laptops & Accessories")
+        // ->Where("Skincare & Beauty")
+        ->limit(5)
+        ->latest()->get();
         if ($sellers->isEmpty()) {
             return response()->json([
                 'status' => 500,
