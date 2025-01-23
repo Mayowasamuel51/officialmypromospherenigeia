@@ -33,7 +33,8 @@ class SellerVideoController extends Controller
         $sellers = SellerVideos::where('categories', 'Shortlets & Rentals')
           ->orWhere('categories', 'Apartments for Rent')
         // ->Where("Skincare & Beauty")
-        ->limit(9)
+        // ->limit(9)
+        ->inRandomOrder()
         ->latest()->get();
         if ($sellers->isEmpty()) {
             return response()->json([
