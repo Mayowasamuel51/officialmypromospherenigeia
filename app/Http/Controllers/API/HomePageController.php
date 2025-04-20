@@ -300,7 +300,7 @@ class HomePageController extends Controller
                 ->whereIn('itemfree_ads.categories', $categories)
                 ->latest()
                 // ->inRandomOrder()
-                // ->paginate(20)
+                ->paginate(20)
                 
                 ->inRandomOrder()
                 // ->paginate(8)
