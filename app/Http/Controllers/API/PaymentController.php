@@ -9,6 +9,9 @@ class PaymentController extends Controller{
     // this is the payment controller ... for personalziled ads , permuim page( normal ads, videos ads );;;;
 
     // premium controller payment 
+public function neww(){
+
+}
     public function Premium(){
 
     }
