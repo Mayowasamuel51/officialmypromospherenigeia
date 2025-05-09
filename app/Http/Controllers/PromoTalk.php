@@ -12,8 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class PromoTalk extends Controller
-{
+class PromoTalk extends Controller{
     public function selectingTalk($categories)
     {
         /// this will be a select box to switch in between tweets 
@@ -108,7 +107,7 @@ class PromoTalk extends Controller
                 // ->orWhere('description', 'like', '%football%')
                 // ->inRandomOrder()chrome
                 // ->get()
-
+                
                 ->latest()
                 ->get()
             // ->inRandomOrder()
@@ -214,48 +213,20 @@ class PromoTalk extends Controller
             $items->user_name = $request->user_name;
             $items->categories = $request->categories;
 
-            // $image_one = $request->titleImageurl;
-            // if($image_one) {
-            //     $manager = new ImageManager(new Driver());
-            //     $image_one_name = hexdec(uniqid()) . '.' . strtolower($image_one->getClientOriginalExtension());
-            //     $image = $manager->read($image_one);
-            //     // $image->resize(150, 150);
-            //     // $image->
-            //     $image->text('The quick brown fox', 120, 100);
-            //     $final_image = 'promotalkimages/images/'.$image_one_name;
-            //     $image->save($final_image);
-            //     $photoSave1 = $final_image;
-            //     $rro = 1;
-            // }
-
-
-
-            $image_one = $request->file('titleImageurl');
-
-            if ($image_one) {
+            $image_one = $request->titleImageurl;
+            if($image_one) {
                 $manager = new ImageManager(new Driver());
-
                 $image_one_name = hexdec(uniqid()) . '.' . strtolower($image_one->getClientOriginalExtension());
-            
-                // ✅ Read the image using the file's path
-                $image = $manager->read($image_one->getRealPath());
-            
-                // Read watermark (adjust path if needed)
-                $watermark = $manager->read(public_path('watermark.png'));
-                $watermark = $watermark->scaleDown(150);
-            
-                $image->place($watermark, 'bottom-right', 10, 10);
-            
-                $final_image_path = 'mypromosphereMainimages/images/' . $image_one_name;
-                $image->save(public_path($final_image_path));
-            
-                $photoSave1 = $final_image_path;
+                $image = $manager->read($image_one);
+                // $image->resize(150, 150);
+                // $image->
+                
+                $final_image = 'promotalkimages/images/'.$image_one_name;
+                $image->save($final_image);
+                $photoSave1 = $final_image;
                 $rro = 1;
             }
-
-            $items->titleImageurl = $photoSave1;
-
-
+            $items->titleImageurl =  $photoSave1;
             $items->save();
 
             return response()->json([
@@ -303,7 +274,7 @@ class PromoTalk extends Controller
     public function getfeedback($itemid)
     {
         /// get feedback of a post people made to!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        $getfeed = Promotalkcomment::where('promotalkdata_id', $itemid)->latest()->get();
+        $getfeed = Promotalkcomment::where('promotalkdata_id', $itemid)->latest()   ->get();
 
         if ($getfeed->isEmpty()) {
             return response()->json([
