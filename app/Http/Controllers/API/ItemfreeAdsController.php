@@ -422,9 +422,6 @@ class ItemfreeAdsController extends Controller
                     $manager = new ImageManager(new Driver());
                     $image_one_name = hexdec(uniqid()) . '.' . strtolower($image_one->getClientOriginalExtension());
                     $image = $manager->read($image_one);
-
-                 
-
                     $final_image = 'mypromosphereMainimages/images/' . $image_one_name;
                     $image->save($final_image);
                     $photoSave1 = $final_image;

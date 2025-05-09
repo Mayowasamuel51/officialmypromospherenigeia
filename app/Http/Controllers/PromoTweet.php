@@ -6,6 +6,9 @@ use App\Http\Resources\PromoTweet as ResourcesPromoTweet;
 use App\Models\PromoTweet as ModelsPromoTweet;
 use App\Models\PromoTweetcomment;
 use App\Models\PromoTweetimages;
+
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -242,12 +245,18 @@ class PromoTweet extends Controller
         // make a if statement here on the title imagesurl 
         
 
-        $filetitleimage = $request->file('titleImageurl');
-        $folderPath = "public/";
-        $fileName =  uniqid() . '.png';
-        $file = $folderPath;
-        $mainfile =    Storage::put($file, $filetitleimage);
-        $items->titleImageurl = $mainfile;
+       
+        $image_one = $request->titleImageurl;
+        if ($image_one) {
+            $manager = new ImageManager(new Driver());
+            $image_one_name = hexdec(uniqid()) . '.' . strtolower($image_one->getClientOriginalExtension());
+            $image = $manager->read($image_one);
+            $final_image = 'promotweet/images/' . $image_one_name;
+            $image->save($final_image);
+            $photoSave1 = $final_image;
+            $rro = 1;
+        }
+        $items->titleImageurl =  $photoSave1;
 
         $items->save();
 
