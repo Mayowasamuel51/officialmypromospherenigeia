@@ -230,28 +230,26 @@ class PromoTalk extends Controller
 
 
 
-            $image_one = $request->titleImageurl;
+            $image_one = $request->file('titleImageurl');
 
             if ($image_one) {
                 $manager = new ImageManager(new Driver());
 
                 $image_one_name = hexdec(uniqid()) . '.' . strtolower($image_one->getClientOriginalExtension());
-                $image = $manager->read($image_one);
-
-                // Load watermark image (make sure it's a PNG with transparency)
-                $watermark = $manager->read(public_path(auth()->user()->name));
-
-                // Resize watermark (optional)
-                $watermark = $watermark->scaleDown(150); // adjust size if needed
-
-                // Add watermark at bottom-right corner with 10px margin
+            
+                // ✅ Read the image using the file's path
+                $image = $manager->read($image_one->getRealPath());
+            
+                // Read watermark (adjust path if needed)
+                $watermark = $manager->read(public_path('watermark.png'));
+                $watermark = $watermark->scaleDown(150);
+            
                 $image->place($watermark, 'bottom-right', 10, 10);
-
-                // Save final image
-                $final_image = 'promotalkimages/images/' . $image_one_name;
-                $image->save(public_path($final_image));
-
-                $photoSave1 = $final_image;
+            
+                $final_image_path = 'mypromosphereMainimages/images/' . $image_one_name;
+                $image->save(public_path($final_image_path));
+            
+                $photoSave1 = $final_image_path;
                 $rro = 1;
             }
 
