@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 use App\Http\Resources\PromoTalk as ResourcesPromoTalk;
 use App\Models\Like;
 use App\Models\Promotalkcomment;
@@ -205,19 +207,25 @@ class PromoTalk extends Controller{
         if (auth('sanctum')->check()) {
             $items  = new  Promotalkdata;
             $items->user_id = auth()->user()->id;;
+
             $items->description = $request->description;
             $items->talkid =  rand(1222, 45543);
             $items->user_name = $request->user_name;
             $items->categories = $request->categories;
 
-            $filetitleimage = $request->file('titleImageurl');
-            // if($filetitleimage)
-            $folderPath = "public/";
-            $fileName =  uniqid() . '.png';
-            $file = $folderPath;
-            $mainfile =    Storage::put($file, $filetitleimage);
-            $items->titleImageurl = $mainfile;
-
+            $image_one = $request->titleImageurl;
+            if($image_one) {
+                $manager = new ImageManager(new Driver());
+                $image_one_name = hexdec(uniqid()) . '.' . strtolower($image_one->getClientOriginalExtension());
+                $image = $manager->read($image_one);
+                // $image->resize(150, 150);
+                // $image->
+                $final_image = 'promotalkimages/images/'.$image_one_name;
+                $image->save($final_image);
+                $photoSave1 = $final_image;
+                $rro = 1;
+            }
+            $items->titleImageurl =  $photoSave1;
             $items->save();
 
             return response()->json([

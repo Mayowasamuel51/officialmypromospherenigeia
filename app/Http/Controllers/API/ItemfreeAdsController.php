@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\API;
 
+
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 use App\Http\Controllers\Controller;
 use App\Models\AdsImages;
 use App\Models\Apartment;
@@ -412,13 +415,22 @@ class ItemfreeAdsController extends Controller
                 $items->user_name = $request->user_name;
 
                 // // Handle file upload
-                // if ($request->hasFile('titleImageurl')) {
-                $filetitleimage = $request->file('titleImageurl');
-                $folderPath = "public/";
-                $fileName = uniqid() . '.png';
-                $file = $folderPath;
-                $mainfile =   Storage::put($file, $filetitleimage);
-                $items->titleImageurl = $mainfile;
+             
+
+                $image_one = $request->titleImageurl;
+                if ($image_one) {
+                    $manager = new ImageManager(new Driver());
+                    $image_one_name = hexdec(uniqid()) . '.' . strtolower($image_one->getClientOriginalExtension());
+                    $image = $manager->read($image_one);
+                    $image->place( auth()->user()->name);
+                    // $image->resize(150, 150).
+                    // $image->
+                    $final_image = 'mypromosphereMainimages/images/' . $image_one_name;
+                    $image->save($final_image);
+                    $photoSave1 = $final_image;
+                    $rro = 1;
+                }
+                $items->titleImageurl =  $photoSave1;
 
                 // $filetitleimage = $request->file('titleImageurl');
                 // $folderPath = "public/";
