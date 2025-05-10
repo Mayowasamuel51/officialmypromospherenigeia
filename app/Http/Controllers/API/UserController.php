@@ -89,17 +89,19 @@ class UserController extends Controller
 
                     $user_infomation->user_social = $request->user_social;
                     $image_one = $request->profileImage;
-                    // if ($image_one) {
-                    $manager = new ImageManager(new Driver());
-                    $image_one_name = hexdec(uniqid()) . '.' . strtolower($image_one->getClientOriginalExtension());
-                    $image = $manager->read($image_one);
-                    $final_image = 'profile/images/' . $image_one_name;
-                    $image->save($final_image);
-                    $photoSave1 = $final_image;
-                    $rro = 1;
-                    // }
-                    $user_infomation->profileImage =  $photoSave1;
+                    if ($image_one) {
+                        $manager = new ImageManager(new Driver());
+                        $image_one_name = hexdec(uniqid()) . '.' . strtolower($image_one->getClientOriginalExtension());
+                        $image = $manager->read($image_one);
+                        $final_image = 'profile/images/' . $image_one_name;
+                        $image->save($final_image);
+                        $photoSave1 = $final_image;
+                        $rro = 1;
+                        $user_infomation->profileImage =  $photoSave1;
+                     
+                    }
                     $user_infomation->save();
+                  
 
                     // return response()->json([
                     //     'status'=>200,
