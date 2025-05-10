@@ -73,7 +73,7 @@ class UserController extends Controller
                 $user_infomation = User::findOrFail($iduser);
                 if ($user_infomation) {
 
-                    $user_infomation->UserName = $request->UserName;
+                    $user_infomation->name = $request->UserName;
 
 
 
