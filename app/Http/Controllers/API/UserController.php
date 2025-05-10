@@ -98,7 +98,7 @@ class UserController extends Controller
                         $photoSave1 = $final_image;
                         $rro = 1;
                     }
-                    $user_infomation->titleImageurl =  $photoSave1;
+                    $user_infomation->profileImage =  $photoSave1;
                     $user_infomation->save();
 
                     // return response()->json([

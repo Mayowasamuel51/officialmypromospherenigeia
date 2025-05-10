@@ -214,13 +214,13 @@ class PromoTalk extends Controller{
             $items->categories = $request->categories;
 
             $image_one = $request->titleImageurl;
+            
             if($image_one) {
                 $manager = new ImageManager(new Driver());
                 $image_one_name = hexdec(uniqid()) . '.' . strtolower($image_one->getClientOriginalExtension());
                 $image = $manager->read($image_one);
                 // $image->resize(150, 150);
                 // $image->
-                
                 $final_image = 'promotalkimages/images/'.$image_one_name;
                 $image->save($final_image);
                 $photoSave1 = $final_image;
