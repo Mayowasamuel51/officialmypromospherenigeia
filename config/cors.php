@@ -26,7 +26,7 @@ return [
     // 'allowed_origins' => ['https://mypromospherefrontend.vercel.app'],
 
     // 'allowed_origins' => ['*'],
-    'allowed_origins' => ['https://www.mypromosphere.com'],
+    'allowed_origins' => ['http://localhost:3000','https://www.mypromosphere.com', 'https://mypromopshere-nigeria.vercel.app'],
    
     // 'allowed_headers' => [':authority:', ':method:', ':path:', ':scheme:'],
 
