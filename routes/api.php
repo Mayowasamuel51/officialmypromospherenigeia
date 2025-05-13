@@ -42,8 +42,10 @@ Route::get('/verfieid', [VerfieldController::class, 'mainPeople']);
 
 Route::get('auth', [AuthController::class, 'redirectToAuth']);
 Route::get('auth/callback', [AuthController::class, 'handleAuthCallback']);
-// -------- PROMOTALK ---------------------------
 
+
+
+// -------- PROMOTALK ---------------------------
 /// select talk
 Route::get('/selecttalk/{categories}', [PromoTalk::class, 'selectingTalk']);
 
@@ -215,7 +217,7 @@ Route::get('/feedback/{itemid}', [FeedBackController::class, 'getfeedback']);
 
 
 //   Home-page Public  api and other  public   apis for other pages 
-// 1)  Seaarch engine powerfull api ( auto generated word )
+// 1)  Seaarch engine powerfull api ( auto generatpenved word )
 
 // 2) Categiories Api  
 Route::get('/categoriesapi', [HomePageController::class, 'categoriesapi']);
