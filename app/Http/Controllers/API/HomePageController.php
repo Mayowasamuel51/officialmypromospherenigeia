@@ -459,7 +459,7 @@ class HomePageController extends Controller
                 ->where('itemfree_ads.categories', $categories)
                 ->inRandomOrder()
                 // ->paginate(8)
-                ->limit(1000)
+                ->limit(40)
                 ->get()
         );
         $adimages_data = AdsImagesResource::collection(AdsImages::all());
