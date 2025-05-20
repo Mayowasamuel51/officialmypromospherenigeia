@@ -12,7 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class PromoTalk extends Controller{
+class PromoTalk extends Controller
+{
     public function selectingTalk($categories)
     {
         /// this will be a select box to switch in between tweets 
@@ -107,7 +108,7 @@ class PromoTalk extends Controller{
                 // ->orWhere('description', 'like', '%football%')
                 // ->inRandomOrder()chrome
                 // ->get()
-                
+
                 ->latest()
                 ->get()
             // ->inRandomOrder()
@@ -124,9 +125,10 @@ class PromoTalk extends Controller{
             'message' => 'No orders found matching the query.'
         ], 404);
     }
-    public function promotalksingle($id,$topic ) {
+    public function promotalksingle($id, $topic)
+    {
         // display the commnet made one this post 
-        $fetch_details  = Promotalkdata::where('id',$id)->where('description', $topic)->get();
+        $fetch_details  = Promotalkdata::where('id', $id)->where('description', $topic)->first();
         // Promotalkdata::find($id);
         // / $fetch_details->talkimages->where('promotalkdata_id', $id)->get();
         $fetch_comment = Promotalkdata::find($id)->comment()->where('promotalkdata_id', $id)->inRandomOrder()->get();;
@@ -136,6 +138,7 @@ class PromoTalk extends Controller{
             return response()->json([
                 'status' => 200,
                 'data' => $fetch_details,
+                "show message" => "working here",
                 'commnet' => $fetch_comment
                 // 'other_data' => $fetch_details_others
             ]);
@@ -212,14 +215,14 @@ class PromoTalk extends Controller{
             $items->categories = $request->categories;
 
             $image_one = $request->titleImageurl;
-            
-            if($image_one) {
+
+            if ($image_one) {
                 $manager = new ImageManager(new Driver());
                 $image_one_name = hexdec(uniqid()) . '.' . strtolower($image_one->getClientOriginalExtension());
                 $image = $manager->read($image_one);
                 // $image->resize(150, 150);
                 // $image->
-                $final_image = 'promotalkimages/images/'.$image_one_name;
+                $final_image = 'promotalkimages/images/' . $image_one_name;
                 $image->save($final_image);
                 $photoSave1 = $final_image;
                 $rro = 1;
@@ -272,7 +275,7 @@ class PromoTalk extends Controller{
     public function getfeedback($itemid)
     {
         /// get feedback of a post people made to!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        $getfeed = Promotalkcomment::where('promotalkdata_id', $itemid)->latest()   ->get();
+        $getfeed = Promotalkcomment::where('promotalkdata_id', $itemid)->latest()->get();
 
         if ($getfeed->isEmpty()) {
             return response()->json([

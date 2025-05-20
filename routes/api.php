@@ -51,7 +51,9 @@ Route::get('/selecttalk/{categories}', [PromoTalk::class, 'selectingTalk']);
 
 // view public promotalk
 Route::get('/promotalks', [PromoTalk::class, 'promotalk']);
+
 Route::get('/promotalks/{id}/{topic}', [PromoTalk::class, 'promotalksingle']);
+
 Route::get('/promotalksside', [PromoTalk::class, 'promotalksidebar']);
 Route::get('/promotalksside/{id}', [PromoTalk::class, 'promotalksidebarsingle']);
 
