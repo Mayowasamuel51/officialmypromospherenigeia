@@ -263,6 +263,7 @@ class HomePageController extends Controller
         // ];
         $categories = [
             "Shortlets & Rentals", // updated for clarity
+            "Residential and Commercial, CNG",
             "Laptops & Accessories",
             "Real Estate",
             "Phones & Tablets",
