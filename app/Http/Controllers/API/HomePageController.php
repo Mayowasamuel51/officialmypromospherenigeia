@@ -267,6 +267,7 @@ class HomePageController extends Controller
             "Laptops & Accessories",
             "Real Estate",
             "Phones & Tablets",
+            "MUMAG CNG Storage System",
             "Fragrances & Perfumes",
             "Skincare & Beauty",
             "Groceries & Essentials",
