@@ -73,7 +73,7 @@ class UserController extends Controller
                 $user_infomation = User::findOrFail($iduser);
                 if ($user_infomation) {
 
-                    $user_infomation->name = $request->UserName;
+                    $user_infomation->user_name = $request->UserName;
 
                     $user_infomation->websiteName = $request->websiteName;
 
@@ -88,6 +88,7 @@ class UserController extends Controller
                     $user_infomation->user_social = $request->user_social;
                     $image_one = $request->profileImage;
                     if ($image_one || $image_one = null ) {
+
                         $manager = new ImageManager(new Driver());
                         $image_one_name = hexdec(uniqid()) . '.' . strtolower($image_one->getClientOriginalExtension());
                         

@@ -125,10 +125,10 @@ class PromoTalk extends Controller
             'message' => 'No orders found matching the query.'
         ], 404);
     }
-    public function promotalksingle($id, $topic)
+    public function promotalksingle($id, $description)
     {
         // display the commnet made one this post 
-        $fetch_details  = Promotalkdata::where('id', $id)->where('description', $topic)->first();
+        $fetch_details  = Promotalkdata::where('id', $id)->where('description', $description)->first();
         // Promotalkdata::find($id);
         // / $fetch_details->talkimages->where('promotalkdata_id', $id)->get();
         $fetch_comment = Promotalkdata::find($id)->comment()->where('promotalkdata_id', $id)->inRandomOrder()->get();;
