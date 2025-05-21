@@ -144,6 +144,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 
+
+
+
+    
+
     // PersonalUploads for a user
     Route::get('/posts/{id}', [UserController::class, 'personalUploads']);
     Route::get('/postsvideos/{id}', [UserController::class, 'personalVideos']);

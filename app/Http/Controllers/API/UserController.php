@@ -68,9 +68,9 @@ class UserController extends Controller
                 'errors' => $validator->messages(),
             ]);
         } else {
-            $all_data = $request->all();
+          
             if (auth('sanctum')->check()) {
-                $user_infomation = User::findOrFail($iduser);
+                $user_infomation = User::find($iduser);
                 if ($user_infomation) {
 
                     $user_infomation->user_name = $request->UserName;
@@ -83,9 +83,11 @@ class UserController extends Controller
                     $user_infomation->brandName = $request->brandName;
 
                     $user_infomation->whatapp = $request->whatapp;
+
                     $user_infomation->user_phone = $request->user_phone;
 
                     $user_infomation->user_social = $request->user_social;
+
                     $image_one = $request->profileImage;
                     if ($image_one) {
 
