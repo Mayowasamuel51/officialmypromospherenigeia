@@ -190,28 +190,57 @@ class PromoTalk extends Controller
 
     // }
 
-    public function promotalksidebarsingle($id)
+    public function promotalksidebarsingle($id, $description)
     {
-        $fetch_details  = Promotalkdata::find($id);
-        // / $fetch_details->talkimages->where('promotalkdata_id', $id)->get();
-        $fetch_comment = Promotalkdata::find($id)->comment()->where('promotalkdata_id', $id)
-            // ->inRandomOrder()
-            ->get();;
-        // just to add other images to it . that's all 
+          $fetch_details = Promotalkdata::find($id);
 
-        if ($fetch_details) {
+        // If post not found
+        if (!$fetch_details) {
             return response()->json([
-                'status' => 200,
-                'data' => $fetch_details,
-                'commnet' => $fetch_comment
-                // 'other_data' => $fetch_details_others
+                'status' => 404,
+                'message' => 'Post not found.'
+            ], 404);
+        }
+
+        // Check if slug matches (optional but good practice)
+        $expectedSlug = Str::slug($fetch_details->description);
+        if ($description !== $expectedSlug) {
+            return response()->json([
+                'status' => 301,
+                'redirect' => "/mypromotalk/$id/$expectedSlug"
             ]);
         }
-        // if ($fetch_details->isEmpty()   || $fetch_details_others->isEmpty()  ) {
+
+        // Fetch related comments
+        // $fetch_comment = $fetch_details->comment()->inRandomOrder()->get();
+         $fetch_comment = Promotalkdata::find($id)->comment()->where('promotalkdata_id', $id)->inRandomOrder()->get();
+
         return response()->json([
-            'status' => 404,
-            'message' => 'No orders found matching the query.'
-        ], 404);
+            'status' => 200,
+            'data' => $fetch_details,
+            'show_message' => 'Post fetched successfully',
+            'comment' => $fetch_comment
+        ]);
+        // $fetch_details  = Promotalkdata::find($id);
+        // // / $fetch_details->talkimages->where('promotalkdata_id', $id)->get();
+        // $fetch_comment = Promotalkdata::find($id)->comment()->where('promotalkdata_id', $id)
+        //     // ->inRandomOrder()
+        //     ->get();;
+        // // just to add other images to it . that's all 
+
+        // if ($fetch_details) {
+        //     return response()->json([
+        //         'status' => 200,
+        //         'data' => $fetch_details,
+        //         'commnet' => $fetch_comment
+        //         // 'other_data' => $fetch_details_others
+        //     ]);
+        // }
+        // // if ($fetch_details->isEmpty()   || $fetch_details_others->isEmpty()  ) {
+        // return response()->json([
+        //     'status' => 404,
+        //     'message' => 'No orders found matching the query.'
+        // ], 404);
     }
     public function imagestalk(Request $request, $id)
     {

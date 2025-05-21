@@ -55,7 +55,7 @@ Route::get('/promotalks', [PromoTalk::class, 'promotalk']);
 Route::get('/promotalks/{id}/{description}', [PromoTalk::class, 'promotalksingle']);
 
 Route::get('/promotalksside', [PromoTalk::class, 'promotalksidebar']);
-Route::get('/promotalksside/{id}', [PromoTalk::class, 'promotalksidebarsingle']);
+Route::get('/promotalksside/{id}/{description}', [PromoTalk::class, 'promotalksidebarsingle']);
 
 
 //feedback api  for promotalk
@@ -147,7 +147,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 
-    
+
 
     // PersonalUploads for a user
     Route::get('/posts/{id}', [UserController::class, 'personalUploads']);
