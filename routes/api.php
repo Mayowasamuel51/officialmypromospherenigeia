@@ -16,9 +16,6 @@ use App\Http\Controllers\VerfieldController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('test', function () {
-    return 'hello ';
-});
 
 /// seller stories 
 Route::get('/sellerstories', [ SellerVideoController::class, 'sellerstories']);
