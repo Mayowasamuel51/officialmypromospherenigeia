@@ -18,8 +18,8 @@ use Illuminate\Support\Facades\Route;
 
 
 /// seller stories 
-Route::get('/sellerstories', [ SellerVideoController::class, 'sellerstories']);
-Route::get('/sellerstories/{id}', [ SellerVideoController::class, 'sellerstoriessingle']);
+Route::get('/sellerstories', [SellerVideoController::class, 'sellerstories']);
+Route::get('/sellerstories/{id}', [SellerVideoController::class, 'sellerstoriessingle']);
 
 // testing fcm token 
 Route::post('/store-token', [PromoTalkLikeController::class, 'storeToken']);
@@ -28,9 +28,9 @@ Route::post('/store-token', [PromoTalkLikeController::class, 'storeToken']);
 // Route::post('/dislike', [PromoTalkLikeController::class, 'dislike']);
 
 // ...........................    showing top sellers on the home page      NEW  ADS AND TALK ADS       ....................................
-Route::get('/top-sellers',[HomeTalkTweetUser::class , 'topseller']);
-Route::get('/top/{seller_name}',[HomeTalkTweetUser::class , 'personalSeller']);
-Route::get('/laptops',[HomeTalkTweetUser::class , 'showcaselaptop']);
+Route::get('/top-sellers', [HomeTalkTweetUser::class, 'topseller']);
+Route::get('/top/{seller_name}', [HomeTalkTweetUser::class, 'personalSeller']);
+Route::get('/laptops', [HomeTalkTweetUser::class, 'showcaselaptop']);
 
 
 // verfieid 
@@ -101,16 +101,17 @@ Route::post('/logout', [AuthController::class, 'logout']);
 // Route::post('/freeads/{id}/{type}', [ItemfreeAdsController::class, 'addimages']);
 
 Route::middleware('auth:sanctum')->group(function () {
+    /// the new upload vidoe api 
     Route::post('/videotest', [SellerVideoController::class, 'videoupload']);
 
 
-    Route::post('/send-notification/{user_id}',[PromoTalkLikeController::class,'sendNotification']);
-    Route::post('/send-notification',[PromoTalkLikeController::class,'sendNot']);    
+    Route::post('/send-notification/{user_id}', [PromoTalkLikeController::class, 'sendNotification']);
+    Route::post('/send-notification', [PromoTalkLikeController::class, 'sendNot']);
 
     // like talks 
     Route::delete('/dislike/{itemid}', [PromoTalkLikeController::class, 'dislike']);
     Route::post('/like/{itemid}', [PromoTalkLikeController::class, 'like']);
-   
+
 
 
     // post for mypromotweet 
@@ -166,7 +167,7 @@ Route::get('/search/{query}', [HomePageController::class, 'searchapi']);
 
 //  Trending Ads Api 
 Route::get('/trendingads', [HomePageController::class, 'generalTrending']);
-Route::get('/trendingads/{id}', [HomePageController::class, 'generalTrendingPage']);
+Route::get('/trendingads/{id}/{productName}', [HomePageController::class, 'generalTrendingPage']);
 
 
 // Top level  Product and Service MVP ...............................
@@ -296,7 +297,7 @@ Route::get('/test', [ItemfreeAdsController::class, 'showoneimage']);
 
 
 
-$aaa=1;
+$aaa = 1;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });  
