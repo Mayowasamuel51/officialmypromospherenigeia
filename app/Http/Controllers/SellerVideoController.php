@@ -11,9 +11,10 @@ use Illuminate\Support\Facades\Storage;
 class SellerVideoController extends Controller
 {
     //
-    public function  sellerstoriessingle($id){
+    public function  sellerstoriessingle($id)
+    {
         $sellers = SellerVideos::where('id', $id)
-        ->get();
+            ->get();
         if ($sellers->isEmpty()) {
             return response()->json([
                 'status' => 500,
@@ -25,17 +26,16 @@ class SellerVideoController extends Controller
             'status' => 200,
             'normalads'  =>  $sellers,
         ]);
-
     }
     public function sellerstories()
     {
         // Shortlets & Rentals
         $sellers = SellerVideos::where('categories', 'Shortlets & Rentals')
-          ->orWhere('categories', 'Apartments for Rent')
-        // ->Where("Skincare & Beauty")
-        ->limit(19)
-        // ->inRandomOrder()
-        ->latest()->get();
+            ->orWhere('categories', 'Apartments for Rent')
+            // ->Where("Skincare & Beauty")
+            ->limit(19)
+            // ->inRandomOrder()
+            ->latest()->get();
         if ($sellers->isEmpty()) {
             return response()->json([
                 'status' => 500,
@@ -53,57 +53,41 @@ class SellerVideoController extends Controller
         $request->validate([
             // 'categories' => 'required',
             // 'description' => 'required',
-            // 'price_range' => 'required|integer',
             // 'state' => 'required',
             // 'local_gov' => 'required',
-            // 'titleImageurl' => 'required',
-            // 'titlevideourl' => 'required'
+            // 'titlevideourl' => 'required',
+            // 'user_name' => 'required',
         ]);
 
         if (auth('sanctum')->check()) {
-            $value = 1;
-            // $filetitleimage = $request->file('thumbnails');
-            // $folderPath = "public/";
-            // $fileName =  uniqid() . '.png';
-            // $file = $folderPath;
-            // $mainfile =    Storage::put($file, $filetitleimage);
-            SellerVideos::create([
-                "user_id" => auth()->user()->id,
-                'categories' => $request->categories,
-                'description' => $request->description,
-                'state' => $request->state,
-                'local_gov' => $request->local_gov,
-                // 'itemadsid' => rand(999297, 45543),
-                // 'thumbnails' => $mainfile,
-                'titlevideourl' => $request->titlevideourl,
-                'user_name' => $request->user_name,
-                // 'aboutMe'=>$request->aboutMe
-                // 'freetimes'=>$value
-            ]);
-            // $user_update_free_times = new User;
-            // $user_update_free_times->freetimes = $value;
-            // $user_update_free_times->update();
-            // if ($items) {
-            //     if (auth()) {
-            //         $affected = DB::table('users')->increment('freetimes');
-            //         //  DB::table('users')
-            //         //     ->where('id', auth()->user()->id)
-            //         //     ->update(['freetimes' => $value]);
-            //         return response()->json([
-            //             'status' => 201,
-            //             'check' =>  $affected,
-            //             'message' => 'items ads created'
-            //         ]);
-            //     }
-            // }
+            $user = auth()->user();
+            if ($user) {
+                $video = SellerVideos::create([
+                    "user_id" => $user->id,
+                    'categories' => $request->categories,
+                    'description' => $request->description,
+                    'state' => $request->state,
+                    'local_gov' => $request->local_gov,
+                    'titlevideourl' => $request->titlevideourl,
+                    'user_name' => $request->user_name,
+                ]);
+
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Video uploaded successfully',
+                    'data' => $video
+                ]);
+            }
+
             return response()->json([
                 'status' => 500,
-                'message' => 'something happend while trying to create a ad  '
+                'message' => 'Something went wrong while trying to create an ad'
             ]);
         }
+
         return response()->json([
-            'status' => 500,
-            'message' => 'Sorry you have finshed your free ads   '
+            'status' => 401,
+            'message' => 'Unauthorized'
         ]);
     }
 }
