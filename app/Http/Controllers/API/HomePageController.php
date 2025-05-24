@@ -374,7 +374,7 @@ class HomePageController extends Controller
         }
 
         // Generate expected slug from product name
-        $expectedSlug = Str::slug(substr($fetch_details->productName, 0, 200));
+        $expectedSlug = Str::slug(substr($fetch_details->productName, 0, 2000));
 
         // If slug does not match, redirect or return error
         if ($productName !== $expectedSlug) {
