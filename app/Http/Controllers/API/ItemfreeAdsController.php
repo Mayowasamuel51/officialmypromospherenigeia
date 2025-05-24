@@ -415,8 +415,7 @@ class ItemfreeAdsController extends Controller
                 $items->user_name = $request->user_name;
 
                 // // Handle file upload
-             
-
+        
                 $image_one = $request->titleImageurl;
                 if ($image_one) {
                     $manager = new ImageManager(new Driver());

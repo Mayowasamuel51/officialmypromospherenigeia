@@ -16,7 +16,7 @@ use Illuminate\Support\Str;
 class PromoTalk extends Controller
 {
 
-       public function promotalksingle($id, $description)
+    public function promotalksingle($id, $description)
     {
         // Fetch post by ID
         $fetch_details = Promotalkdata::find($id);
@@ -30,7 +30,7 @@ class PromoTalk extends Controller
         }
 
         // Check if slug matches (optional but good practice)
-        $expectedSlug = Str::slug($fetch_details->description);
+        $expectedSlug = Str::slug(substr($fetch_details->description,0,60));
         if ($description !== $expectedSlug) {
             return response()->json([
                 'status' => 301,
@@ -40,7 +40,7 @@ class PromoTalk extends Controller
 
         // Fetch related comments
         // $fetch_comment = $fetch_details->comment()->inRandomOrder()->get();
-         $fetch_comment = Promotalkdata::find($id)->comment()->where('promotalkdata_id', $id)->inRandomOrder()->get();
+        $fetch_comment = Promotalkdata::find($id)->comment()->where('promotalkdata_id', $id)->inRandomOrder()->get();
 
         return response()->json([
             'status' => 200,
@@ -192,7 +192,7 @@ class PromoTalk extends Controller
 
     public function promotalksidebarsingle($id, $description)
     {
-          $fetch_details = Promotalkdata::find($id);
+        $fetch_details = Promotalkdata::find($id);
 
         // If post not found
         if (!$fetch_details) {
@@ -213,7 +213,7 @@ class PromoTalk extends Controller
 
         // Fetch related comments
         // $fetch_comment = $fetch_details->comment()->inRandomOrder()->get();
-         $fetch_comment = Promotalkdata::find($id)->comment()->where('promotalkdata_id', $id)->inRandomOrder()->get();
+        $fetch_comment = Promotalkdata::find($id)->comment()->where('promotalkdata_id', $id)->inRandomOrder()->get();
 
         return response()->json([
             'status' => 200,

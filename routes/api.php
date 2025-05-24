@@ -122,8 +122,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/promotalks', [PromoTalk::class, 'makepost']);
     Route::post('/promotalks/{id}', [PromoTalk::class, 'imagestalk']);
 
-
-
     // get User info route 
     Route::get('/getuser', [AuthController::class, 'getInfo']);
     //get user profile details 
@@ -140,22 +138,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/user/settings/background/{iduser}', [UserController::class, 'updatebackgroundimage']);
     Route::get('/user/info/{iduser}', [UserController::class, 'profileEdit']);
 
-
-
-
-
-
-
-
     // PersonalUploads for a user
     Route::get('/posts/{id}', [UserController::class, 'personalUploads']);
     Route::get('/postsvideos/{id}', [UserController::class, 'personalVideos']);
 
-
     // Paid Ads 
     Route::post('/normalads', [ItemsAdsController::class, 'ItemsAdsStore']);
-
-
     /// tesinng the uploading part 
     Route::post('/freeads', [ItemfreeAdsController::class, 'freeLimitedAds']);
     Route::post('/freeads/{id}/{type}', [ItemfreeAdsController::class, 'addimages']);
@@ -215,12 +203,6 @@ Route::get('/feedback/{itemid}', [FeedBackController::class, 'getfeedback']);
 
 
 
-
-
-
-
-
-
 //   Home-page Public  api and other  public   apis for other pages 
 // 1)  Seaarch engine powerfull api ( auto generatpenved word )
 
@@ -231,31 +213,6 @@ Route::get(
     [HomePageController::class, 'categoriesapiSinglePages']
 );
 // 3) Personlized Ads Api 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // 6) Top  Services Api 
@@ -271,33 +228,11 @@ Route::get('/phones/{state}', [HomePageController::class, 'headlinephones']);
 
 /// 5 ) headlines for Cars
 Route::get('/cars/{state}', [HomePageController::class, 'headlinecars']);
-
 /// 6 ) headlines for Grocerys 
-
 // 7 ) headlines for Health and Beauty 
-
 ///test endpoint
 Route::get('/test', [ItemfreeAdsController::class, 'showoneimage']);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-$aaa = 1;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });  
