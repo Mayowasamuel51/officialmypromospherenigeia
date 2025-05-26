@@ -64,9 +64,10 @@ class SellerVideoController extends Controller
 
         // Shortlets & Rentals
         $sellers = SellerVideos::where( $categories)
-            ->limit(19)
-            ->inRandomOrder()
-            ->latest()->get();
+            // ->limit(19)
+            // ->inRandomOrder()
+            // ->latest()
+            ->get();
         if ($sellers->isEmpty()) {
             return response()->json([
                 'status' => 500,
