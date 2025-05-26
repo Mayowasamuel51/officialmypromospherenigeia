@@ -15,6 +15,239 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+
+    // public function checkinguser($id)
+    // {
+
+    //     // if ($user->isEmpty()) {
+    //     //         return response()->json([
+    //     //             'status' => 404,
+    //     //             'message' => 'Please login or register '
+    //     //         ], 404);
+    //     //     }
+    //     // findOrFail($id);
+    //  if (!auth('sanctum')->check()) {
+    //     return response()->json(['status' => 401, 'message' => 'Unauthorized']);
+    // }
+
+    // $user = User::find($id);
+    // return response()->json(['status' => 200, 'data' => $user]);
+
+    //     if (auth('sanctum')->check()) {
+    //         $user  = User::find($id);
+    //         if ($user) {
+    //             return response()->json([
+    //                 'status' => 200,
+    //                 'data' => $user
+    //             ]);
+    //         }
+    //         return response()->json([
+    //             'status' => 404,
+    //             'message' => 'Please login or register '
+    //         ], 404);
+    //     }
+    // }
+    // public function mainupdate(Request $request, $id)
+    // {
+    //     if (auth('sanctum')->check()) {
+    //         $user = User::find($id);
+    //         if (!$user) {
+    //             return response()->json(['status' => 404, 'message' => 'User not found']);
+    //         }
+
+    //         // Update only fields that are present
+    //         if ($request->UserName) {
+    //             $user->name = $request->UserName;
+    //         }
+    //         if ($request->websiteName) {
+    //             $user->websiteName = $request->websiteName;
+    //         }
+    //         if ($request->messageCompany) {
+    //             $user->messageCompany = $request->messageCompany;
+    //         }
+    //         if ($request->aboutMe) {
+    //             $user->aboutMe = $request->aboutMe;
+    //         }
+    //         if ($request->brandName) {
+    //             $user->brandName = $request->brandName;
+    //         }
+    //         if ($request->whatapp) {
+    //             $user->whatapp = $request->whatapp;
+    //         }
+    //         if ($request->user_phone) {
+    //             $user->user_phone = $request->user_phone;
+    //         }
+    //         if ($request->user_social) {
+    //             $user->user_social = $request->user_social;
+    //         }
+
+    //         $manager = new ImageManager(new Driver());
+
+    //         // Save profile image
+    //         // if ($request->hasFile('profileImage')) {
+    //         //     $profileImage = $request->file('profileImage');
+    //         //     $imageName = hexdec(uniqid()) . '.' . strtolower($profileImage->getClientOriginalExtension());
+    //         //     $image = $manager->read($profileImage);
+    //         //     $finalImagePath = 'profile/images/' . $imageName;
+    //         //     $image->save($finalImagePath);
+    //         //     $user->profileImage = $finalImagePath;
+    //         // }
+
+    //         // // Save background image
+    //         // if ($request->hasFile('backgroundimage')) {
+    //         //     $backgroundImage = $request->file('backgroundimage');
+    //         //     $imageName = hexdec(uniqid()) . '.' . strtolower($backgroundImage->getClientOriginalExtension());
+    //         //     $image = $manager->read($backgroundImage);
+    //         //     $finalImagePath = 'profile/images/' . $imageName;
+    //         //     $image->save($finalImagePath);
+    //         //     $user->backgroundimage = $finalImagePath;
+    //         // }
+
+    //         $user->update();
+
+    //         return response()->json([
+    //             'status' => 200,
+    //             'updated' => $user
+    //         ]);
+    //     }
+
+    //     return response()->json([
+    //         'status' => 401,
+    //         'message' => 'Unauthorized'
+    //     ]);
+    // }
+
+
+    public function checkinguser($id){
+        // Check if the user is authenticated via Sanctum
+        if (!auth('sanctum')->check()) {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Unauthorized',
+            ], 401);
+        }
+        // Find the user by ID
+        $user = User::find($id);
+        if ($user) {
+            return response()->json([
+                'status' => 200,
+                'data' => $user,
+            ]);
+        }
+        // If user is not found
+        return response()->json([
+            'status' => 404,
+            'message' => 'User not found',
+        ], 404);
+    }
+
+    public function mainupdate(Request $request, $id)
+    {
+        if (auth('sanctum')->check()) {
+            $user = User::find($id);
+            if (!$user) {
+                return response()->json(['status' => 404, 'message' => 'User not found']);
+            }
+
+            // Only update fields that are present in the request
+            if ($request->filled('UserName')) {
+                $user->name = $request->UserName;
+            }
+            if ($request->filled('websiteName')) {
+                $user->websiteName = $request->websiteName;
+            }
+            if ($request->filled('messageCompany')) {
+                $user->messageCompany = $request->messageCompany;
+            }
+            if ($request->filled('aboutMe')) {
+                $user->aboutMe = $request->aboutMe;
+            }
+            if ($request->filled('brandName')) {
+                $user->brandName = $request->brandName;
+            }
+            if ($request->filled('whatapp')) {
+                $user->whatapp = $request->whatapp;
+            }
+            if ($request->filled('user_phone')) {
+                $user->user_phone = $request->user_phone;
+            }
+            if ($request->filled('user_social')) {
+                $user->user_social = $request->user_social;
+            }
+
+            if ($request->hasFile('backgroundimage')) {
+                $backgroundImage = $request->file('backgroundimage');
+                $manager = new ImageManager(new Driver());
+                $filename = hexdec(uniqid()) . '.' . strtolower($backgroundImage->getClientOriginalExtension());
+                $image = $manager->read($backgroundImage);
+                $finalPath = 'profile/images/' . $filename;
+                $image->save($finalPath);
+                $user->backgroundimage = $finalPath; // ✅ Save to backgroundimage column
+            }
+
+            // ✅ Save profile image
+            if ($request->hasFile('profileImage')) {
+                $profileImage = $request->file('profileImage');
+                $manager = new ImageManager(new Driver());
+                $filename = hexdec(uniqid()) . '.' . strtolower($profileImage->getClientOriginalExtension());
+                $image = $manager->read($profileImage);
+                $finalPath = 'profile/images/' . $filename;
+                $image->save($finalPath);
+                $user->profileImage = $finalPath; // ✅ Save to profileImage column
+            }
+            //    $user_infomation->backgroundimage = $request->backgroundimage;
+            // $image_backimage = $request->backgroundimage;
+            // $image_backimage = $request->backgroundimage;
+            // if ($image_backimage) {     
+            //     if ($image_backimage) {
+            //         $manager = new ImageManager(new Driver());
+            //         $image_backimage_name = hexdec(uniqid()) . '.' . strtolower($image_backimage->getClientOriginalExtension());
+            //         $image = $manager->read($image_backimage);
+            //         $final_image = 'profile/images/' . $image_backimage_name;
+            //         $image->save($final_image);
+            //         $photoSave1 = $final_image;
+            //         $user->profileImage =  $photoSave1;
+            //     }
+            // }
+            // $image_one = $request->profileImage;
+            // If you later want to allow profileImage again:
+            // $image_one = $request->profileImage;
+            // if ($image_one) {
+
+            //     if ($image_one) {
+            //         $manager = new ImageManager(new Driver());
+            //         $image_one_name = hexdec(uniqid()) . '.' . strtolower($image_one->getClientOriginalExtension());
+            //         $image = $manager->read($image_one);
+            //         $final_image = 'profile/images/' . $image_one_name;
+            //         $image->save($final_image);
+            //         $photoSave1 = $final_image;
+            //         $user->profileImage =  $photoSave1;
+            //     }
+            // }
+
+            $user->update();
+
+            return response()->json([
+                'status' => 200,
+                'updated' => $user
+            ]);
+        }
+
+        return response()->json([
+            'status' => 401,
+            'message' => 'Unauthorized'
+        ]);
+    }
+
+
+
+
+
+
+
+
+
+
     public function personalUploads($id)
     {
         // if ($userUploads->isEmpty()||$userUploadsVideo->isEmpty()||$userUploads->count(  )=== 0|| $userUploadsVideo->count(  )=== 0 ) {
@@ -68,7 +301,7 @@ class UserController extends Controller
                 'errors' => $validator->messages(),
             ]);
         } else {
-          
+
             if (auth('sanctum')->check()) {
                 $user_infomation = User::find($iduser);
                 if ($user_infomation) {
@@ -145,23 +378,7 @@ class UserController extends Controller
             }
         }
     }
-    public function settings($id)
-    {
-        $user  = User::where('id', $id)->get();
-        // findOrFail($id);
-        if (auth('sanctum')->check()) {
-            if ($user->isEmpty()) {
-                return response()->json([
-                    'status' => 404,
-                    'message' => 'Please login or register '
-                ], 404);
-            }
-            return response()->json([
-                'status' => 200,
-                'data' => $user
-            ]);
-        }
-    }
+
 
     public function profileUserPost($id)
     {

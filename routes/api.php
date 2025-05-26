@@ -124,8 +124,18 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // get User info route 
     Route::get('/getuser', [AuthController::class, 'getInfo']);
-    //get user profile details 
-    Route::get('/getuser/{id}', [UserController::class, 'settings']);
+   
+    //get user profile details  // update users infomation this api endpoint 
+    Route::put('/getuser/{id}', [UserController::class, 'mainupdate']);
+    Route::get('/getuser/{id}', [UserController::class, 'checkinguser']);
+ 
+    
+
+
+
+
+
+
 
     // free  Ads Routes  
     // Route::post('/freeads', [ItemfreeAdsController::class, 'freeLimitedAds']);
