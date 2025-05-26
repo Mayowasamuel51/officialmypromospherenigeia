@@ -63,7 +63,7 @@ class SellerVideoController extends Controller
         ];
 
         // Shortlets & Rentals
-        $sellers = SellerVideos::where( $categories)
+        $sellers = SellerVideos::where('categories', $categories)
             // ->limit(19)
             // ->inRandomOrder()
             // ->latest()
