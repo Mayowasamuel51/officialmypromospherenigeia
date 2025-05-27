@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 
 class PromoTalk extends Controller
 {
-use Illuminate\Support\Str;
+
 
 public function promotalksingle($id, $description)
 {
