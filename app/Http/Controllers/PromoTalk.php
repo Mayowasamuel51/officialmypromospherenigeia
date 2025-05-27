@@ -31,7 +31,8 @@ public function promotalksingle($id, $description)
     }
 
     // Generate the expected slug from the description (limit for very long content)
-    $expectedSlug = Str::slug(Str::limit($fetch_details->description, 6990));
+    // $expectedSlug = Str::slug(Str::limit($fetch_details->description, 6990));
+        $expectedSlug = Str::slug(Str::limit($fetch_details->description, 0 , 6990));
 
     // Redirect if slug doesn't match the description in URL
     if ($description !== $expectedSlug) {
