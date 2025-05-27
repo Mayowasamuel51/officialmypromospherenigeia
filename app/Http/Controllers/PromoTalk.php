@@ -72,7 +72,7 @@ class PromoTalk extends Controller
 
         // Check if slug matches (optional but good practice)
         // $expectedSlug = Str::slug(substr($fetch_details->description,0,6990));
-         $rawSlug = Str::slug(Str::limit($fetch_details->description, 75));
+         $rawSlug = Str::slug(Str::limit($fetch_details->description, 40000));
 
         // Remove leading dashes
         $expectedSlug = ltrim($rawSlug, '-');
