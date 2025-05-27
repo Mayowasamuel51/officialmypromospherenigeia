@@ -63,7 +63,7 @@ class SellerVideoController extends Controller
     ];
 
     // Assuming the column is named 'category' (singular)
-    $sellers = SellerVideos::whereIn('category', $categories)
+    $sellers = SellerVideos::whereIn('categories', $categories)
         ->latest()
         ->get();
 
