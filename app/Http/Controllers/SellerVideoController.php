@@ -28,26 +28,79 @@ class SellerVideoController extends Controller
         ]);
     }
     public function sellerstories()
-    {
-        // Shortlets & Rentals
-        $sellers = SellerVideos::where('categories', 'Shortlets & Rentals')
-            ->orWhere('categories', 'Apartments for Rent')
-            ->Where('categories',"Skincare & Beauty")
-            // ->limit(19)
-            // ->inRandomOrder()
-            ->latest()->get();
-        if ($sellers->isEmpty()) {
-            return response()->json([
-                'status' => 500,
-                'messages' => 'something went worng',
-                // 'local_gov' => $homepagerender_local_gov
-            ]);
-        }
+{
+    $categories = [
+        "Shortlets & Rentals",
+        "Residential and Commercial, CNG",
+        "Laptops & Accessories",
+        "Real Estate",
+        "Phones & Tablets",
+        "MUMAG CNG Storage System",
+        "Fragrances & Perfumes",
+        "Skincare & Beauty",
+        "Groceries & Essentials",
+        "Home Décor",
+        "Furniture & Home Items",
+        "Women's Swimwear",
+        "Kids & Baby Clothing",
+        "Women's Lingerie",
+        "Women's Dresses",
+        "Women's Shoes",
+        "Pet Supplies",
+        "Men's Shirts",
+        "Men's Shoes",
+        "Men's Watches",
+        "Women's Watches",
+        "Women's Bags",
+        "Jewelry & Accessories",
+        "Vehicle Upgrades",
+        "Automotive & Vehicles",
+        "Motorcycles",
+        "Apartments for Rent",
+        "Fashion & Apparel",
+        "Sportswear",
+        "Luxury Apartments"
+    ];
+
+    // Assuming the column is named 'category' (singular)
+    $sellers = SellerVideos::whereIn('category', $categories)
+        ->latest()
+        ->get();
+
+    if ($sellers->isEmpty()) {
         return response()->json([
-            'status' => 200,
-            'normalads'  =>  $sellers,
+            'status' => 500,
+            'message' => 'Something went wrong.',
         ]);
     }
+
+    return response()->json([
+        'status' => 200,
+        'normalads' => $sellers,
+    ]);
+}
+
+    // public function sellerstories()
+    // {
+    //     // Shortlets & Rentals
+    //     $sellers = SellerVideos::where('categories', 'Shortlets & Rentals')
+    //         ->orWhere('categories', 'Apartments for Rent')
+    //         ->Where('categories',"Skincare & Beauty")
+    //         // ->limit(19)
+    //         // ->inRandomOrder()
+    //         ->latest()->get();
+    //     if ($sellers->isEmpty()) {
+    //         return response()->json([
+    //             'status' => 500,
+    //             'messages' => 'something went worng',
+    //             // 'local_gov' => $homepagerender_local_gov
+    //         ]);
+    //     }
+    //     return response()->json([
+    //         'status' => 200,
+    //         'normalads'  =>  $sellers,
+    //     ]);
+    // }
     public function videoupload(Request $request)
     {
         $request->validate([
