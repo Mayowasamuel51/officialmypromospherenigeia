@@ -29,11 +29,43 @@ class SellerVideoController extends Controller
     }
     public function sellerstories()
     {
+         $categories = [
+            "Shortlets & Rentals", // updated for clarity
+            "Residential and Commercial, CNG",
+            "Laptops & Accessories",
+            "Real Estate",
+            "Phones & Tablets",
+            "MUMAG CNG Storage System",
+            "Fragrances & Perfumes",
+            "Skincare & Beauty",
+            "Groceries & Essentials",
+            "Home Décor",
+            "Furniture & Home Items",
+            "Women's Swimwear",
+            "Kids & Baby Clothing",
+            "Women's Lingerie",
+            "Women's Dresses",
+            "Women's Shoes",
+            "Pet Supplies",
+            "Men's Shirts",
+            "Men's Shoes",
+            "Men's Watches",
+            "Women's Watches",
+            "Women's Bags",
+            "Jewelry & Accessories",
+            "Vehicle Upgrades",
+            "Automotive & Vehicles",
+            "Motorcycles",
+            "Apartments for Rent",
+            "Fashion & Apparel",
+            "Sportswear",
+            "Luxury Apartments"
+        ];
         // Shortlets & Rentals
-        $sellers = SellerVideos::where('categories', 'Shortlets & Rentals')
-          ->orWhere('categories', 'Apartments for Rent')
+        $sellers = SellerVideos::whereIn('categories', $categories)
+        //   ->orWhere('categories', 'Apartments for Rent')->orWhere('categories','Phones & Tablets')
         // ->Where("Skincare & Beauty")
-        ->limit(19)
+        // ->limit(19)
         // ->inRandomOrder()
         ->latest()->get();
         if ($sellers->isEmpty()) {
