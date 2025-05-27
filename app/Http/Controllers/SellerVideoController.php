@@ -64,9 +64,14 @@ class SellerVideoController extends Controller
         ];
 
         // Assuming the column is named 'category' (singular)
+        // $sellers = SellerVideos::whereIn('categories', $categories)
+        //     ->latest()
+        //     ->get();
         $sellers = SellerVideos::whereIn('categories', $categories)
-            // ->latest()
-            ->get();
+            ->latest()
+            ->get()
+            ->shuffle(); // collection method
+
 
         if ($sellers->isEmpty()) {
             return response()->json([
