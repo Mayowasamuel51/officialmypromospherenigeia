@@ -28,57 +28,58 @@ class SellerVideoController extends Controller
         ]);
     }
     public function sellerstories()
-{
-    $categories = [
-        "Shortlets & Rentals",
-        "Residential and Commercial, CNG",
-        "Laptops & Accessories",
-        "Real Estate",
-        "Phones & Tablets",
-        "MUMAG CNG Storage System",
-        "Fragrances & Perfumes",
-        "Skincare & Beauty",
-        "Groceries & Essentials",
-        "Home Décor",
-        "Furniture & Home Items",
-        "Women's Swimwear",
-        "Kids & Baby Clothing",
-        "Women's Lingerie",
-        "Women's Dresses",
-        "Women's Shoes",
-        "Pet Supplies",
-        "Men's Shirts",
-        "Men's Shoes",
-        "Men's Watches",
-        "Women's Watches",
-        "Women's Bags",
-        "Jewelry & Accessories",
-        "Vehicle Upgrades",
-        "Automotive & Vehicles",
-        "Motorcycles",
-        "Apartments for Rent",
-        "Fashion & Apparel",
-        "Sportswear",
-        "Luxury Apartments"
-    ];
+    {
+        $categories = [
+            "Entertainment",
+            "Shortlets & Rentals",
+            "Residential and Commercial, CNG",
+            "Laptops & Accessories",
+            "Real Estate",
+            "Phones & Tablets",
+            "MUMAG CNG Storage System",
+            "Fragrances & Perfumes",
+            "Skincare & Beauty",
+            "Groceries & Essentials",
+            "Home Décor",
+            "Furniture & Home Items",
+            "Women's Swimwear",
+            "Kids & Baby Clothing",
+            "Women's Lingerie",
+            "Women's Dresses",
+            "Women's Shoes",
+            "Pet Supplies",
+            "Men's Shirts",
+            "Men's Shoes",
+            "Men's Watches",
+            "Women's Watches",
+            "Women's Bags",
+            "Jewelry & Accessories",
+            "Vehicle Upgrades",
+            "Automotive & Vehicles",
+            "Motorcycles",
+            "Apartments for Rent",
+            "Fashion & Apparel",
+            "Sportswear",
+            "Luxury Apartments"
+        ];
 
-    // Assuming the column is named 'category' (singular)
-    $sellers = SellerVideos::whereIn('categories', $categories)
-        ->latest()
-        ->get();
+        // Assuming the column is named 'category' (singular)
+        $sellers = SellerVideos::whereIn('categories', $categories)
+            ->latest()
+            ->get();
 
-    if ($sellers->isEmpty()) {
+        if ($sellers->isEmpty()) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Something went wrong.',
+            ]);
+        }
+
         return response()->json([
-            'status' => 500,
-            'message' => 'Something went wrong.',
+            'status' => 200,
+            'normalads' => $sellers,
         ]);
     }
-
-    return response()->json([
-        'status' => 200,
-        'normalads' => $sellers,
-    ]);
-}
 
     // public function sellerstories()
     // {
