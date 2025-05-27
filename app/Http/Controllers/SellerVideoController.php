@@ -65,7 +65,7 @@ class SellerVideoController extends Controller
 
         // Assuming the column is named 'category' (singular)
         $sellers = SellerVideos::whereIn('categories', $categories)
-            ->latest()
+            // ->latest()
             ->get();
 
         if ($sellers->isEmpty()) {
