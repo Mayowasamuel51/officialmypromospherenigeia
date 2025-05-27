@@ -15,40 +15,76 @@ use Illuminate\Support\Str;
 
 class PromoTalk extends Controller
 {
+use Illuminate\Support\Str;
 
-    public function promotalksingle($id, $description)
-    {
-        // Fetch post by ID
-        $fetch_details = Promotalkdata::find($id);
+public function promotalksingle($id, $description)
+{
+    // Fetch post by ID
+    $fetch_details = Promotalkdata::with('comment')->find($id);
 
-        // If post not found
-        if (!$fetch_details) {
-            return response()->json([
-                'status' => 404,
-                'message' => 'Post not found.'
-            ], 404);
-        }
-
-        // Check if slug matches (optional but good practice)
-        $expectedSlug = Str::slug(substr($fetch_details->description,0,6990));
-        if ($description !== $expectedSlug) {
-            return response()->json([
-                'status' => 301,
-                'redirect' => "/mypromotalk/$id/$expectedSlug"
-            ]);
-        }
-
-        // Fetch related comments
-        // $fetch_comment = $fetch_details->comment()->inRandomOrder()->get();
-        $fetch_comment = Promotalkdata::find($id)->comment()->where('promotalkdata_id', $id)->inRandomOrder()->get();
-
+    // If post not found
+    if (!$fetch_details) {
         return response()->json([
-            'status' => 200,
-            'data' => $fetch_details,
-            'show_message' => 'Post fetched successfully',
-            'comment' => $fetch_comment
+            'status' => 404,
+            'message' => 'Post not found.'
+        ], 404);
+    }
+
+    // Generate the expected slug from the description (limit for very long content)
+    $expectedSlug = Str::slug(Str::limit($fetch_details->description, 6990));
+
+    // Redirect if slug doesn't match the description in URL
+    if ($description !== $expectedSlug) {
+        return response()->json([
+            'status' => 301,
+            'redirect' => "/mypromotalk/{$id}/{$expectedSlug}"
         ]);
     }
+
+    // Randomize comments if needed
+    $fetch_comment = $fetch_details->comment->shuffle();
+
+    return response()->json([
+        'status' => 200,
+        'data' => $fetch_details,
+        'show_message' => 'Post fetched successfully',
+        'comment' => $fetch_comment
+    ]);
+}
+
+    // public function promotalksingle($id, $description)
+    // {
+    //     // Fetch post by ID
+    //     $fetch_details = Promotalkdata::find($id);
+
+    //     // If post not found
+    //     if (!$fetch_details) {
+    //         return response()->json([
+    //             'status' => 404,
+    //             'message' => 'Post not found.'
+    //         ], 404);
+    //     }
+
+    //     // Check if slug matches (optional but good practice)
+    //     $expectedSlug = Str::slug(substr($fetch_details->description,0,6990));
+    //     if ($description !== $expectedSlug) {
+    //         return response()->json([
+    //             'status' => 301,
+    //             'redirect' => "/mypromotalk/$id/$expectedSlug"
+    //         ]);
+    //     }
+
+    //     // Fetch related comments
+    //     // $fetch_comment = $fetch_details->comment()->inRandomOrder()->get();
+    //     $fetch_comment = Promotalkdata::find($id)->comment()->where('promotalkdata_id', $id)->inRandomOrder()->get();
+
+    //     return response()->json([
+    //         'status' => 200,
+    //         'data' => $fetch_details,
+    //         'show_message' => 'Post fetched successfully',
+    //         'comment' => $fetch_comment
+    //     ]);
+    // }
 
     public function selectingTalk($categories)
     {
