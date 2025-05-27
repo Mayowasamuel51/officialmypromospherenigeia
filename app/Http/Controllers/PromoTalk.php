@@ -30,7 +30,7 @@ class PromoTalk extends Controller
         }
 
         // Check if slug matches (optional but good practice)
-        $expectedSlug = Str::slug(substr($fetch_details->description,0,60));
+        $expectedSlug = Str::slug(substr($fetch_details->description,0,6990));
         if ($description !== $expectedSlug) {
             return response()->json([
                 'status' => 301,
