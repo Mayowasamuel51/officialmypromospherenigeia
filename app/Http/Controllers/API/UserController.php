@@ -12,6 +12,7 @@ use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
 {
@@ -118,7 +119,8 @@ class UserController extends Controller
     // }
 
 
-    public function checkinguser($id){
+    public function checkinguser($id)
+    {
         // Check if the user is authenticated via Sanctum
         if (!auth('sanctum')->check()) {
             return response()->json([
@@ -175,25 +177,35 @@ class UserController extends Controller
                 $user->user_social = $request->user_social;
             }
 
+
             if ($request->hasFile('backgroundimage')) {
+                // 🧹 Delete old background image if it exists
+                if ($user->backgroundimage && File::exists(public_path($user->backgroundimage))) {
+                    File::delete(public_path($user->backgroundimage));
+                }
+
                 $backgroundImage = $request->file('backgroundimage');
                 $manager = new ImageManager(new Driver());
                 $filename = hexdec(uniqid()) . '.' . strtolower($backgroundImage->getClientOriginalExtension());
                 $image = $manager->read($backgroundImage);
                 $finalPath = 'profile/images/' . $filename;
-                $image->save($finalPath);
-                $user->backgroundimage = $finalPath; // ✅ Save to backgroundimage column
+                $image->save(public_path($finalPath));
+                $user->backgroundimage = $finalPath; // ✅ Save new path
             }
 
-            // ✅ Save profile image
             if ($request->hasFile('profileImage')) {
+                // 🧹 Delete old profile image if it exists
+                if ($user->profileImage && File::exists(public_path($user->profileImage))) {
+                    File::delete(public_path($user->profileImage));
+                }
+
                 $profileImage = $request->file('profileImage');
                 $manager = new ImageManager(new Driver());
                 $filename = hexdec(uniqid()) . '.' . strtolower($profileImage->getClientOriginalExtension());
                 $image = $manager->read($profileImage);
                 $finalPath = 'profileImages/images/' . $filename;
-                $image->save($finalPath);
-                $user->profileImage = $finalPath; // ✅ Save to profileImage column
+                $image->save(public_path($finalPath));
+                $user->profileImage = $finalPath; // ✅ Save new path
             }
             //    $user_infomation->backgroundimage = $request->backgroundimage;
             // $image_backimage = $request->backgroundimage;
