@@ -129,7 +129,7 @@ class UserController extends Controller
             ], 401);
         }
         // Find the user by ID
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         if ($user) {
             return response()->json([
                 'status' => 200,
