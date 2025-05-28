@@ -150,28 +150,28 @@ class UserController extends Controller
             }
 
             // Only update fields that are present in the request
-            if ($request->filled('UserName')) {
+            if ($request->has('UserName')) {
                 $user->name = $request->UserName;
             }
-            if ($request->filled('websiteName')) {
+            if ($request->has('websiteName')) {
                 $user->websiteName = $request->websiteName;
             }
-            if ($request->filled('messageCompany')) {
+            if ($request->has('messageCompany')) {
                 $user->messageCompany = $request->messageCompany;
             }
-            if ($request->filled('aboutMe')) {
+            if ($request->has('aboutMe')) {
                 $user->aboutMe = $request->aboutMe;
             }
-            if ($request->filled('brandName')) {
+            if ($request->has('brandName')) {
                 $user->brandName = $request->brandName;
             }
-            if ($request->filled('whatapp')) {
+            if ($request->has('whatapp')) {
                 $user->whatapp = $request->whatapp;
             }
-            if ($request->filled('user_phone')) {
+            if ($request->has('user_phone')) {
                 $user->user_phone = $request->user_phone;
             }
-            if ($request->filled('user_social')) {
+            if ($request->has('user_social')) {
                 $user->user_social = $request->user_social;
             }
 
