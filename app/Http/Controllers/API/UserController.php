@@ -203,7 +203,7 @@ class UserController extends Controller
                 $manager = new ImageManager(new Driver());
                 $filename = hexdec(uniqid()) . '.' . strtolower($profileImage->getClientOriginalExtension());
                 $image = $manager->read($profileImage);
-                $finalPath = 'profileImages/images/' . $filename;
+                $finalPath = 'profile/images/' . $filename;
                 $image->save(public_path($finalPath));
                 $user->profileImage = $finalPath; // ✅ Save new path
             }
