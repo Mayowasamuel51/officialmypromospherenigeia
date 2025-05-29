@@ -152,28 +152,28 @@ class UserController extends Controller
             }
 
             // Only update fields that are present in the request
-            if ($request->has('UserName')) {
+            if ($request->filled('UserName')) {
                 $user->name = $request->UserName;
             }
-            if ($request->has('websiteName')) {
+            if ($request->filled('websiteName')) {
                 $user->websiteName = $request->websiteName;
             }
-            if ($request->has('messageCompany')) {
+            if ($request->filled('messageCompany')) {
                 $user->messageCompany = $request->messageCompany;
             }
-            if ($request->has('aboutMe')) {
+            if ($request->filled('aboutMe')) {
                 $user->aboutMe = $request->aboutMe;
             }
-            if ($request->has('brandName')) {
+            if ($request->filled('brandName')) {
                 $user->brandName = $request->brandName;
             }
-            if ($request->has('whatapp')) {
+            if ($request->filled('whatapp')) {
                 $user->whatapp = $request->whatapp;
             }
-            if ($request->has('user_phone')) {
+            if ($request->filled('user_phone')) {
                 $user->user_phone = $request->user_phone;
             }
-            if ($request->has('user_social')) {
+            if ($request->filled('user_social')) {
                 $user->user_social = $request->user_social;
             }
 
@@ -209,7 +209,7 @@ class UserController extends Controller
             // }
             //    $user_infomation->backgroundimage = $request->backgroundimage;
             $image_backimage = $request->backgroundimage;
-            $image_backimage = $request->backgroundimage;
+            // $image_backimage = $request->backgroundimage;
             if ($image_backimage) {     
                 if ($image_backimage) {
                     $manager = new ImageManager(new Driver());
