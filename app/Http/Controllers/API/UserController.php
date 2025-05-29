@@ -118,7 +118,29 @@ class UserController extends Controller
     //     ]);
     // }
 
-
+  public function gettinguserprofile($user_name)
+    {
+        // Check if the user is authenticated via Sanctum
+        // if (!auth('sanctum')->check()) {
+        //     return response()->json([
+        //         'status' => 401,
+        //         'message' => 'Unauthorized',
+        //     ], 401);
+        // }
+        // Find the user by ID
+        $user = User::where('name',$user_name)->first();
+        if ($user) {
+            return response()->json([
+                'status' => 200,
+                'data' => $user,
+            ]);
+        }
+        // If user is not found
+        return response()->json([
+            'status' => 404,
+            'message' => 'User not found',
+        ], 404);
+    }
     public function checkinguser($id)
     {
         // Check if the user is authenticated via Sanctum
