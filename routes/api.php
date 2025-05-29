@@ -129,7 +129,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/getuser/{id}', [UserController::class, 'mainupdate']);
     Route::get('/getuser/{id}', [UserController::class, 'checkinguser']);
     // fetching profile users 
-     Route::put('/getprofileuser/{id}', [UserController::class, 'gettinguserprofile']);
+     Route::get('/getprofileuser/{user_name}', [UserController::class, 'gettinguserprofile']);
 
 
  
