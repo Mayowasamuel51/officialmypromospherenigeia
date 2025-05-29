@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\ItemfreeVideosAds;
+use Illuminate\Support\Str;
+
 use App\Models\SellerVideos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,42 +16,48 @@ class SellerVideoController extends Controller
     public function  sellerstoriessingle($id, $description)
     {
 
-        // $fetch_details = Promotalkdata::find($id);
+        $seller_video_one  =  SellerVideos::find($id);
 
         // // If post not found
-        // if (!$fetch_details) {
-        //     return response()->json([
-        //         'status' => 404,
-        //         'message' => 'Post not found.'
-        //     ], 404);
-        // }
-        //  $rawSlug = Str::slug(Str::limit($fetch_details->description, 40000));
-        // // Remove leading dashes
-        // $expectedSlug = ltrim($rawSlug, '-');
-        // if ($description !== $expectedSlug) {
-        //     return response()->json([
-        //         'status' => 301,
-        //         'redirect' => "/mypromotalk/$id/$expectedSlug"
-        //     ]);
-        // }
-
-
-
-
-
-        $sellers = SellerVideos::where('id', $id)->where('description',$description)
-            ->get();
-        if ($sellers->isEmpty()) {
+        if (! $seller_video_one) {
             return response()->json([
-                'status' => 500,
-                'messages' => 'something went worng cant find video',
-                // 'local_gov' => $homepagerender_local_gov
+                'status' => 404,
+                'message' => 'Post not found.'
+            ], 404);
+        }
+        $rawSlug = Str::slug(Str::limit($seller_video_one->description, 40000));
+        // // Remove leading dashes
+        $expectedSlug = ltrim($rawSlug, '-');
+        if ($description !== $expectedSlug) {
+            return response()->json([
+                'status' => 301,
+                'redirect' => "/sellerstories/$id/$expectedSlug"
             ]);
         }
         return response()->json([
             'status' => 200,
-            'normalads'  =>  $sellers,
+            'normalads' => $seller_video_one,
+            'show_message' => 'video  fetched successfully',
+            // 'comment' => $fetch_comment
         ]);
+
+
+
+
+
+        // $sellers = SellerVideos::where('id', $id)->where('description', $description)
+        //     ->get();
+        // if ($sellers->isEmpty()) {
+        //     return response()->json([
+        //         'status' => 500,
+        //         'messages' => 'something went worng cant find video',
+        //         // 'local_gov' => $homepagerender_local_gov
+        //     ]);
+        // }
+        // return response()->json([
+        //     'status' => 200,
+        //     'normalads'  =>  $sellers,
+        // ]);
     }
     public function sellerstories()
     {
