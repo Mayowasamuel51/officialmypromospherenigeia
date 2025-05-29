@@ -180,9 +180,9 @@ class UserController extends Controller
 
             if ($request->hasFile('backgroundimage')) {
                 // 🧹 Delete old background image if it exists
-                // if ($user->backgroundimage && File::exists(public_path($user->backgroundimage))) {
-                //     File::delete(public_path( 'profile/images/' .$user->backgroundimage));
-                // }
+                if ($user->backgroundimage && File::exists(public_path($user->backgroundimage))) {
+                    File::delete(public_path( 'profile/images/' .$user->backgroundimage));
+                }
 
                 $backgroundImage = $request->file('backgroundimage');
                 $manager = new ImageManager(new Driver());
@@ -195,9 +195,9 @@ class UserController extends Controller
 
             if ($request->hasFile('profileImage')) {
                 // 🧹 Delete old profile image if it exists
-                // if ($user->profileImage && File::exists(public_path($user->profileImage))) {
-                //     File::delete(public_path( 'profile/images/' .$user->profileImage));
-                // }
+                if ($user->profileImage && File::exists(public_path($user->profileImage))) {
+                    File::delete(public_path( 'profile/images/' .$user->profileImage));
+                }
 
                 $profileImage = $request->file('profileImage');
                 $manager = new ImageManager(new Driver());
