@@ -15,9 +15,7 @@ class SellerVideoController extends Controller
     //
     public function  sellerstoriessingle($id, $description)
     {
-
         $seller_video_one  =  SellerVideos::find($id);
-
         // // If post not found
         if (! $seller_video_one) {
             return response()->json([
@@ -25,7 +23,7 @@ class SellerVideoController extends Controller
                 'message' => 'Post not found.'
             ], 404);
         }
-        $rawSlug = Str::slug(Str::limit($seller_video_one->description, 40000));
+        $rawSlug = Str::slug(Str::limit($seller_video_one->description, 100));
         // // Remove leading dashes
         $expectedSlug = ltrim($rawSlug, '-');
         if ($description !== $expectedSlug) {
