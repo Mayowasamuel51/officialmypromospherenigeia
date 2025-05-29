@@ -120,14 +120,6 @@ class UserController extends Controller
 
   public function gettinguserprofile($user_name)
     {
-        // Check if the user is authenticated via Sanctum
-        // if (!auth('sanctum')->check()) {
-        //     return response()->json([
-        //         'status' => 401,
-        //         'message' => 'Unauthorized',
-        //     ], 401);
-        // }
-        // Find the user by ID
         $user = User::where('name',$user_name)->first();
         if ($user) {
             return response()->json([
@@ -136,7 +128,7 @@ class UserController extends Controller
             ]);
         }
         // If user is not found
-        return response()->json([
+        return response()->json(data: [
             'status' => 404,
             'message' => 'User not found',
         ], 404);
@@ -417,7 +409,7 @@ class UserController extends Controller
     public function profileUserPost($id)
     {
         // $user = User::where('id',$id)->get();  .i chnage the user_id to user_name 
-        $user_infomation = HomePageControllerResource::collection(ItemfreeAds::where('user_name', $id)->get());
+        $user_infomation = HomePageControllerResource::collection(ItemfreeAds::where('user_id', $id)->get());
         if ($user_infomation->isEmpty()) {
             return response()->json([
                 'status' => 404,
