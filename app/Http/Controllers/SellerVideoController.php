@@ -11,9 +11,33 @@ use Illuminate\Support\Facades\Storage;
 class SellerVideoController extends Controller
 {
     //
-    public function  sellerstoriessingle($id)
+    public function  sellerstoriessingle($id, $description)
     {
-        $sellers = SellerVideos::where('id', $id)
+
+        // $fetch_details = Promotalkdata::find($id);
+
+        // // If post not found
+        // if (!$fetch_details) {
+        //     return response()->json([
+        //         'status' => 404,
+        //         'message' => 'Post not found.'
+        //     ], 404);
+        // }
+        //  $rawSlug = Str::slug(Str::limit($fetch_details->description, 40000));
+        // // Remove leading dashes
+        // $expectedSlug = ltrim($rawSlug, '-');
+        // if ($description !== $expectedSlug) {
+        //     return response()->json([
+        //         'status' => 301,
+        //         'redirect' => "/mypromotalk/$id/$expectedSlug"
+        //     ]);
+        // }
+
+
+
+
+
+        $sellers = SellerVideos::where('id', $id)->where('description',$description)
             ->get();
         if ($sellers->isEmpty()) {
             return response()->json([
