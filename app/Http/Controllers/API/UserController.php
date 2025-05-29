@@ -118,8 +118,7 @@ class UserController extends Controller
     //     ]);
     // }
 
-  public function gettinguserprofile($user_name)
-    {
+  public function gettinguserprofile($user_name)  {
         $user = User::where('name',$user_name)->first();
         if ($user) {
             return response()->json([
@@ -128,11 +127,13 @@ class UserController extends Controller
             ]);
         }
         // If user is not found
-        return response()->json(data: [
-            'status' => 404,
-            'message' => 'User not found',
-        ], 404);
+    
+         return response()->json([
+                'status' => 404,
+                'message' => 'User not found',
+            ], 404);
     }
+
     public function checkinguser($id)
     {
         // Check if the user is authenticated via Sanctum
