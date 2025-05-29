@@ -178,64 +178,64 @@ class UserController extends Controller
             }
 
 
-            if ($request->hasFile('backgroundimage')) {
-                // 🧹 Delete old background image if it exists
-                if ($user->backgroundimage && File::exists(public_path($user->backgroundimage))) {
-                    File::delete(public_path( 'profile/images/' .$user->backgroundimage));
-                }
-
-                $backgroundImage = $request->file('backgroundimage');
-                $manager = new ImageManager(new Driver());
-                $filename = hexdec(uniqid()) . '.' . strtolower($backgroundImage->getClientOriginalExtension());
-                $image = $manager->read($backgroundImage);
-                $finalPath = 'profile/images/' . $filename;
-                $image->save(public_path($finalPath));
-                $user->backgroundimage = $finalPath; // ✅ Save new path
-            }
-
-            if ($request->hasFile('profileImage')) {
-                // 🧹 Delete old profile image if it exists
-                if ($user->profileImage && File::exists(public_path($user->profileImage))) {
-                    File::delete(public_path( 'profile/images/' .$user->profileImage));
-                }
-
-                $profileImage = $request->file('profileImage');
-                $manager = new ImageManager(new Driver());
-                $filename = hexdec(uniqid()) . '.' . strtolower($profileImage->getClientOriginalExtension());
-                $image = $manager->read($profileImage);
-                $finalPath = 'profile/images/' . $filename;
-                $image->save(public_path($finalPath));
-                $user->profileImage = $finalPath; // ✅ Save new path
-            }
-            //    $user_infomation->backgroundimage = $request->backgroundimage;
-            // $image_backimage = $request->backgroundimage;
-            // $image_backimage = $request->backgroundimage;
-            // if ($image_backimage) {     
-            //     if ($image_backimage) {
-            //         $manager = new ImageManager(new Driver());
-            //         $image_backimage_name = hexdec(uniqid()) . '.' . strtolower($image_backimage->getClientOriginalExtension());
-            //         $image = $manager->read($image_backimage);
-            //         $final_image = 'profile/images/' . $image_backimage_name;
-            //         $image->save($final_image);
-            //         $photoSave1 = $final_image;
-            //         $user->profileImage =  $photoSave1;
+            // if ($request->hasFile('backgroundimage')) {
+            //     // 🧹 Delete old background image if it exists
+            //     if ($user->backgroundimage && File::exists(public_path($user->backgroundimage))) {
+            //         File::delete(public_path( 'profile/images/' .$user->backgroundimage));
             //     }
+
+            //     $backgroundImage = $request->file('backgroundimage');
+            //     $manager = new ImageManager(new Driver());
+            //     $filename = hexdec(uniqid()) . '.' . strtolower($backgroundImage->getClientOriginalExtension());
+            //     $image = $manager->read($backgroundImage);
+            //     $finalPath = 'profile/images/' . $filename;
+            //     $image->save(public_path($finalPath));
+            //     $user->backgroundimage = $finalPath; // ✅ Save new path
             // }
-            // $image_one = $request->profileImage;
+
+            // if ($request->hasFile('profileImage')) {
+            //     // 🧹 Delete old profile image if it exists
+            //     if ($user->profileImage && File::exists(public_path($user->profileImage))) {
+            //         File::delete(public_path( 'profile/images/' .$user->profileImage));
+            //     }
+
+            //     $profileImage = $request->file('profileImage');
+            //     $manager = new ImageManager(new Driver());
+            //     $filename = hexdec(uniqid()) . '.' . strtolower($profileImage->getClientOriginalExtension());
+            //     $image = $manager->read($profileImage);
+            //     $finalPath = 'profile/images/' . $filename;
+            //     $image->save(public_path($finalPath));
+            //     $user->profileImage = $finalPath; // ✅ Save new path
+            // }
+            //    $user_infomation->backgroundimage = $request->backgroundimage;
+            $image_backimage = $request->backgroundimage;
+            $image_backimage = $request->backgroundimage;
+            if ($image_backimage) {     
+                if ($image_backimage) {
+                    $manager = new ImageManager(new Driver());
+                    $image_backimage_name = hexdec(uniqid()) . '.' . strtolower($image_backimage->getClientOriginalExtension());
+                    $image = $manager->read($image_backimage);
+                    $final_image = 'profile/images/' . $image_backimage_name;
+                    $image->save($final_image);
+                    $photoSave1 = $final_image;
+                    $user->backgroundimage =  $photoSave1;
+                }
+            }
+            $image_one = $request->profileImage;
             // If you later want to allow profileImage again:
             // $image_one = $request->profileImage;
-            // if ($image_one) {
+            if ($image_one) {
 
-            //     if ($image_one) {
-            //         $manager = new ImageManager(new Driver());
-            //         $image_one_name = hexdec(uniqid()) . '.' . strtolower($image_one->getClientOriginalExtension());
-            //         $image = $manager->read($image_one);
-            //         $final_image = 'profile/images/' . $image_one_name;
-            //         $image->save($final_image);
-            //         $photoSave1 = $final_image;
-            //         $user->profileImage =  $photoSave1;
-            //     }
-            // }
+                if ($image_one) {
+                    $manager = new ImageManager(new Driver());
+                    $image_one_name = hexdec(uniqid()) . '.' . strtolower($image_one->getClientOriginalExtension());
+                    $image = $manager->read($image_one);
+                    $final_image = 'profile/images/' . $image_one_name;
+                    $image->save($final_image);
+                    $photoSave1 = $final_image;
+                    $user->profileImage =  $photoSave1;
+                }
+            }
 
             $user->update();
 
