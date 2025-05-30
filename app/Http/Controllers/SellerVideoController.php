@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 class SellerVideoController extends Controller
 {
     //
-    public function  sellerstoriessingle($id, $description)
+    public function  sellerstoriessingle($user_id, $description)
     {
         $seller_video_one  =  SellerVideos::find($user_id);
         // // If post not found
@@ -29,7 +29,7 @@ class SellerVideoController extends Controller
         if ($description !== $expectedSlug) {
             return response()->json([
                 'status' => 301,
-                'redirect' => "/sellerstories/$id/$expectedSlug"
+                'redirect' => "/sellerstories/$user_id/$expectedSlug"
             ]);
         }
         return response()->json([

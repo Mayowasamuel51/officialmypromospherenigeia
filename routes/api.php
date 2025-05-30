@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 /// seller stories 
 Route::get('/sellerstories', [SellerVideoController::class, 'sellerstories']);
-Route::get('/sellerstories/{id}/{description}', [SellerVideoController::class, 'sellerstoriessingle']);
+Route::get('/sellerstories/{user_id}/{description}', [SellerVideoController::class, 'sellerstoriessingle']);
 
 // testing fcm token 
 Route::post('/store-token', [PromoTalkLikeController::class, 'storeToken']);
