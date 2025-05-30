@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\Storage;
 class SellerVideoController extends Controller
 {
     //
-    public function  sellerstoriessingle($user_id, $description)
+    public function  sellerstoriessingle($id, $description)
     {
-        $seller_video_one  =  SellerVideos::find($user_id);
+        $seller_video_one  =  SellerVideos::find($id);
         // // If post not found
         if (! $seller_video_one) {
             return response()->json([
@@ -23,13 +23,13 @@ class SellerVideoController extends Controller
                 'message' => 'Post not found.'
             ], 404);
         }
-        $rawSlug = Str::slug(Str::limit($seller_video_one->description, 100));
+        $rawSlug = Str::slug(Str::limit($description, 100));
         // // Remove leading dashes
         $expectedSlug = ltrim($rawSlug, '-');
         if ($description !== $expectedSlug) {
             return response()->json([
                 'status' => 301,
-                'redirect' => "/sellerstories/$user_id/$expectedSlug"
+                'redirect' => "/sellerstories/$id/$expectedSlug"
             ]);
         }
         return response()->json([
@@ -151,12 +151,11 @@ class SellerVideoController extends Controller
         if (auth('sanctum')->check()) {
             $user = auth()->user();
             if ($user) {
-                $video = SellerVideos::create([
+                $video = SellerVideos::create(attributes: [
                     "user_id" => $user->id,
                     'categories' => $request->categories,
-                    'description' => trim($request->description),
-
-                    // 'description' => $request->description.tirm(),
+                    
+                    'description' => $request->description,
                     'state' => $request->state,
                     'local_gov' => $request->local_gov,
                     'titlevideourl' => $request->titlevideourl,
