@@ -13,74 +13,37 @@ use Illuminate\Support\Facades\Storage;
 class SellerVideoController extends Controller
 {
     //
-    // public function sellerstoriessingle($id, $description)
-    // {
-    //     $seller_video_one = SellerVideos::find($id);
+    public function sellerstoriessingle($id, $description)
+    {
+        $seller_video_one = SellerVideos::find($id);
 
-    //     if (! $seller_video_one) {
-    //         return response()->json([
-    //             'status' => 404,
-    //             'message' => 'Post not found.'
-    //         ], 404);
-    //     }
+        if (! $seller_video_one) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Post not found.'
+            ], 404);
+        }
 
-    //     $description = urldecode($description); // still good to decode
+        $description = urldecode($description); // still good to decode
 
-    //     // ✅ Generate slug from the DB description (not the incoming slug)
-    //     $rawSlug = Str::slug(Str::limit($seller_video_one->description, 100));
+        // ✅ Generate slug from the DB description (not the incoming slug)
+        $rawSlug = Str::slug(Str::limit($seller_video_one->description, 100));
 
-    //     $expectedSlug = ltrim($rawSlug, '-');
+        $expectedSlug = ltrim($rawSlug, '-');
 
-    //     if ($description !== $expectedSlug) {
-    //         return response()->json([
-    //             'status' => 301,
-    //             'redirect' => "/sellerstories/$id/$expectedSlug"
-    //         ]);
-    //     }
-
-    //     return response()->json([
-    //         'status' => 200,
-    //         'normalads' => $seller_video_one,
-    //         'show_message' => 'video fetched successfully'
-    //     ]);
-    // }
-   
-
-public function sellerstoriessingle($id, $description = null)
-{
-    $seller_video_one = SellerVideos::find($id);
-
-    if (! $seller_video_one) {
-        return response()->json([
-            'status' => 404,
-            'message' => 'Video not found.'
-        ], 404);
-    }
-
-    // Slugify the actual description from DB
-    $expectedSlug = Str::slug(Str::limit($seller_video_one->description, 100));
-
-    // Fallback in case slug becomes empty (emoji only, etc.)
-    $expectedSlug = $expectedSlug ?: 'video';
-
-    // Decode and compare with incoming slug (if it exists)
-    if ($description !== null) {
-        $incomingSlug = Str::slug(urldecode($description));
-        if ($incomingSlug !== $expectedSlug) {
+        if ($description !== $expectedSlug) {
             return response()->json([
                 'status' => 301,
-                'redirect' => "/sellerstories/{$id}/{$expectedSlug}"
+                'redirect' => "/sellerstories/$id/$expectedSlug"
             ]);
         }
+
+        return response()->json([
+            'status' => 200,
+            'normalads' => $seller_video_one,
+            'show_message' => 'video fetched successfully'
+        ]);
     }
-
-    return response()->json([
-        'status' => 200,
-        'normalads' => $seller_video_one,
-        'show_message' => 'Video fetched successfully'
-    ]);
-}
-
 
     public function sellerstories()
     {
