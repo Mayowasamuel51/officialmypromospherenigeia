@@ -13,50 +13,38 @@ use Illuminate\Support\Facades\Storage;
 class SellerVideoController extends Controller
 {
     //
-    public function  sellerstoriessingle($id, $description)
-    {
-        $seller_video_one  =  SellerVideos::find($id);
-        // // If post not found
-        if (! $seller_video_one) {
-            return response()->json([
-                'status' => 404,
-                'message' => 'Post not found.'
-            ], 404);
-        }
-        $rawSlug = Str::slug(Str::limit($description, 100));
-        // // Remove leading dashes
-        $expectedSlug = ltrim($rawSlug, '-');
-        if ($description !== $expectedSlug) {
-            return response()->json([
-                'status' => 301,
-                'redirect' => "/sellerstories/$id/$expectedSlug"
-            ]);
-        }
+  public function sellerstoriessingle($id, $description)
+{
+    $seller_video_one = SellerVideos::find($id);
+
+    if (! $seller_video_one) {
         return response()->json([
-            'status' => 200,
-            'normalads' => $seller_video_one,
-            'show_message' => 'video  fetched successfully',
-            // 'comment' => $fetch_comment
-        ]);
-
-
-
-
-
-        // $sellers = SellerVideos::where('id', $id)->where('description', $description)
-        //     ->get();
-        // if ($sellers->isEmpty()) {
-        //     return response()->json([
-        //         'status' => 500,
-        //         'messages' => 'something went worng cant find video',
-        //         // 'local_gov' => $homepagerender_local_gov
-        //     ]);
-        // }
-        // return response()->json([
-        //     'status' => 200,
-        //     'normalads'  =>  $sellers,
-        // ]);
+            'status' => 404,
+            'message' => 'Post not found.'
+        ], 404);
     }
+
+    $description = urldecode($description); // still good to decode
+
+    // ✅ Generate slug from the DB description (not the incoming slug)
+    $rawSlug = Str::slug(Str::limit($seller_video_one->description, 100));
+
+    $expectedSlug = ltrim($rawSlug, '-');
+
+    if ($description !== $expectedSlug) {
+        return response()->json([
+            'status' => 301,
+            'redirect' => "/sellerstories/$id/$expectedSlug"
+        ]);
+    }
+
+    return response()->json([
+        'status' => 200,
+        'normalads' => $seller_video_one,
+        'show_message' => 'video fetched successfully'
+    ]);
+}
+
     public function sellerstories()
     {
         $categories = [
