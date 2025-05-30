@@ -15,7 +15,7 @@ class SellerVideoController extends Controller
     //
     public function  sellerstoriessingle($id, $description)
     {
-        $seller_video_one  =  SellerVideos::find($id);
+        $seller_video_one  =  SellerVideos::find($user_id);
         // // If post not found
         if (! $seller_video_one) {
             return response()->json([
@@ -154,7 +154,9 @@ class SellerVideoController extends Controller
                 $video = SellerVideos::create([
                     "user_id" => $user->id,
                     'categories' => $request->categories,
-                    'description' => $request->description,
+                    'description' => trim($request->description),
+
+                    // 'description' => $request->description.tirm(),
                     'state' => $request->state,
                     'local_gov' => $request->local_gov,
                     'titlevideourl' => $request->titlevideourl,
