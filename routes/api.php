@@ -19,7 +19,8 @@ use Illuminate\Support\Facades\Route;
 
  // fetching profile users 
 Route::get('/getprofileuser/{user_name}', [UserController::class, 'gettinguserprofile']);
-
+/// gettign user vdeos 
+Route::get('/uservideosuploads/{user_name}', [UserController::class, 'profileUserVideo']);
 
 /// seller stories 
 Route::get('/sellerstories', [SellerVideoController::class, 'sellerstories']);
@@ -210,7 +211,7 @@ Route::get('/trendingadsvideos/{id}', [HomePageController::class, 'generalTopVid
 
 // User click  profile Api   ..see other this be the users
 Route::get('/userpostsuploads/{user_name}', [UserController::class, 'profileUserPost']);
-Route::get('/uservideosuploads/{user_name}', [UserController::class, 'profileUserVideo']);
+// Route::get('/uservideosuploads/{user_name}', [UserController::class, 'profileUserVideo']);
 Route::get('/profile/{user_name}', [UserController::class, 'Userprofile']);
 
 
