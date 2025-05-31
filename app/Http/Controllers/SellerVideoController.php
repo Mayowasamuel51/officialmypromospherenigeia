@@ -27,7 +27,7 @@ class SellerVideoController extends Controller
         $description = urldecode($description); // still good to decode
 
         // ✅ Generate slug from the DB description (not the incoming slug)
-        $rawSlug = Str::slug(Str::limit($seller_video_one->description, 100));
+        $rawSlug = Str::slug(Str::limit($seller_video_one->description, 1000));
 
         $expectedSlug = ltrim($rawSlug, '-');
 
