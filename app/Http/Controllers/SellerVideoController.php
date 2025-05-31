@@ -9,10 +9,24 @@ use App\Models\SellerVideos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-
+use App\Http\Resources\HomeVideoResource;
 class SellerVideoController extends Controller
 {
     //
+
+    public function publicsellervideos($user_name){
+              $user_videos =  HomeVideoResource::collection(SellerVideos::where('user_name', $user_name)->get());
+        if ($user_videos->isEmpty()) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No orders found matching the query.'
+            ], 404);
+        }
+        return response()->json([
+            'status' => 200,
+            'videos' => $user_videos
+        ], 200);
+    }
     public function sellerstoriessingle($id, $description)
     {
         $seller_video_one = SellerVideos::find($id);

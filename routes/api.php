@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
  // fetching profile users 
 Route::get('/getprofileuser/{user_name}', [UserController::class, 'gettinguserprofile']);
 /// gettign user vdeos 
-Route::get('/uservideosuploads/{user_name}', [UserController::class, 'profileUserVideo']);
+Route::get('/uservideosuploads/{user_name}', [UserController::class, 'publicsellervideos']);
 
 /// seller stories 
 Route::get('/sellerstories', [SellerVideoController::class, 'sellerstories']);
