@@ -17,6 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 
 
+ // fetching profile users 
+Route::get('/getprofileuser/{user_name}', [UserController::class, 'gettinguserprofile']);
+
+
 /// seller stories 
 Route::get('/sellerstories', [SellerVideoController::class, 'sellerstories']);
 Route::get('/sellerstories/{id}/{description}', [SellerVideoController::class, 'sellerstoriessingle']);
@@ -124,16 +128,15 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // get User info route 
     Route::get('/getuser', [AuthController::class, 'getInfo']);
-   
+
     //get user profile details  // update users infomation this api endpoint 
     Route::put('/getuser/{id}', [UserController::class, 'mainupdate']);
     Route::get('/getuser/{id}', [UserController::class, 'checkinguser']);
-    // fetching profile users 
-     Route::get('/getprofileuser/{user_name}', [UserController::class, 'gettinguserprofile']);
+   
 
 
- 
-    
+
+
 
 
 
