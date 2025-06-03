@@ -13,6 +13,7 @@ use Intervention\Image\Drivers\Gd\Driver;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -443,14 +444,34 @@ class UserController extends Controller
 
     public function Userprofile($user_name)
     {
-        // $user = User::where('id',$user_name)->get();
-        $user_information = User::where('name', $user_name)->get();  /// change the id to name
-        if ($user_information->isEmpty()) {
+         $user_information = User::where('name', $user_name)->get(); 
+        
+        if (! $user_information) {
             return response()->json([
                 'status' => 404,
-                'message' => 'Sorry User does not exist '
+                'message' => 'Post not found.'
             ], 404);
         }
+         $getting_user_name = urldecode($user_name); // still good to decode
+        // ✅ Generate slug from the DB description (not the incoming slug)
+        $rawSlug = Str::slug(Str::limit( $user_information->name, 1000));
+        $expectedSlug = ltrim($rawSlug, '-');
+        if ($getting_user_name !== $expectedSlug) {
+            return response()->json([
+                'status' => 301,
+                'redirect' => "/profile/$user_name/"
+            ]);
+        }
+
+
+        // $user = User::where('id',$user_name)->get();
+        // $user_information = User::where('name', $user_name)->get();  /// change the id to name
+        // if ($user_information->isEmpty()) {
+        //     return response()->json([
+        //         'status' => 404,
+        //         'message' => 'Sorry User does not exist '
+        //     ], 404);
+        // }
         return response()->json([
             'status' => 200,
             'data' => $user_information
