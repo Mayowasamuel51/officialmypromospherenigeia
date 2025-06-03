@@ -487,7 +487,7 @@ class UserController extends Controller
     }
 
     // Generate the expected slug from the user's name
-    $expectedSlug = ltrim(Str::slug(Str::limit($user->name, 1000)), '-');
+    $expectedSlug = ltrim(Str::slug(Str::limit($user->name, 1000)));
 
     // If the slug doesn't match the URL, redirect
     if ($decodedUserName !== $expectedSlug) {
