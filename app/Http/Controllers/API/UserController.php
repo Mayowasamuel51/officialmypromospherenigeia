@@ -442,68 +442,22 @@ class UserController extends Controller
         ], 200);
     }
 
-    // public function Userprofile($user_name)
-    // {
-    //      $user_information = User::where('name', $user_name)->get(); 
-        
-    //     if (! $user_information) {
-    //         return response()->json([
-    //             'status' => 404,
-    //             'message' => 'Post not found.'
-    //         ], 404);
-    //     }
-    //      $getting_user_name = urldecode($user_name); // still good to decode
-    //     // ✅ Generate slug from the DB description (not the incoming slug)
-    //     $rawSlug = Str::slug(Str::limit( $user_information->name, 1000));
-    //     $expectedSlug = ltrim($rawSlug, '-');
-    //     if ($getting_user_name !== $expectedSlug) {
-    //         return response()->json([
-    //             'status' => 301,
-    //             'redirect' => "/profile/$user_name/"
-    //         ]);
-    //     }
-
-
-     
-    //     return response()->json([
-    //         'status' => 200,
-    //         'data' => $user_information
-    //     ], 200);
-    // }
-
-
-    public function userProfile($user_name)
-{
-    $decodedUserName = urldecode($user_name);
-
-    // Fetch the user by name
-    $user = User::where('name', $decodedUserName)->first();
-
-    if (! $user) {
+    public function Userprofile($user_name)
+    {
+        //  $user_information = User::where('name', $user_name)->get(); 
+        // $user = User::where('id',$user_name)->get();
+        $user_information = User::where('name', $user_name)->get();  /// change the id to name
+        if ($user_information->isEmpty()) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Sorry User does not exist '
+            ], 404);
+        }
         return response()->json([
-            'status' => 404,
-            'message' => 'User not found.'
-        ], 404);
+            'status' => 200,
+            'data' => $user_information
+        ], 200);
     }
-
-    // Generate the expected slug from the user's name
-    $expectedSlug = ltrim(Str::slug(Str::limit($user->name, 1000)));
-
-    // If the slug doesn't match the URL, redirect
-    if ($decodedUserName !== $expectedSlug) {
-        return response()->json([
-            'status' => 301,
-            'redirect' => "/profile/{$expectedSlug}/"
-        ]);
-    }
-
-    // Return the user data
-    return response()->json([
-        'status' => 200,
-        'data' => $user
-    ], 200);
-}
-
 
 
 
