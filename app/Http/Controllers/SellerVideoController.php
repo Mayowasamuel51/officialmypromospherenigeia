@@ -13,6 +13,22 @@ use App\Http\Resources\HomeVideoResource;
 class SellerVideoController extends Controller
 {
     //
+    // creating human video showing on each categories
+    public function categoriesName($categories){
+        $get_video_info = SellerVideos::where('categories', $categories)->get();
+        if($get_video_info->isEmpty()){
+              return response()->json([
+                'status' => 404,
+                'message' => 'No orders found matching the query.'
+            ], 404);
+        }
+           return response()->json([
+            'status' => 200,
+            'videos' => $get_video_info
+        ], 200);
+
+    }
+
 
     public function publicsellervideos($user_name){
               $user_videos =  HomeVideoResource::collection(SellerVideos::where('user_name', $user_name)->get());
