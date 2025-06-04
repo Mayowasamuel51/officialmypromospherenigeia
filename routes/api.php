@@ -16,6 +16,9 @@ use App\Http\Controllers\VerfieldController;
 use Illuminate\Support\Facades\Route;
 
 
+// fetching certain videos 
+
+Route::get('/fetchvideo/{categories}', [SellerVideoController::class, 'categoriesName']);
 
  // fetching profile users 
 Route::get('/getprofileuser/{user_name}', [UserController::class, 'gettinguserprofile']);
