@@ -265,6 +265,7 @@ class HomePageController extends Controller
         //     "Luxury-apartment"
         // ];
         $categories = [
+            "Men's Wear",
             "Shortlets & Rentals", // updated for clarity
             "Residential and Commercial, CNG",
             "Laptops & Accessories",

@@ -70,4 +70,7 @@ class User extends Authenticatable
 
 
 
+    public function externalinfo(){
+         return $this->hasMany(Externalinfo::class);
+    }
 }

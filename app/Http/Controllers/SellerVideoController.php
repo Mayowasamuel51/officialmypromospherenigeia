@@ -118,7 +118,7 @@ class SellerVideoController extends Controller
         $sellers = SellerVideos::whereIn('categories', $categories)
             ->latest()
             ->get()
-            ->shuffle(); // collection method
+            ->shuffle();; // collection method
 
 
         if ($sellers->isEmpty()) {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\Externalinfo;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\HomePageControllerResource;
@@ -16,7 +17,44 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
+
 {
+
+    public function downloadPdfSlide(Request $request, $id, $pdfinfo){
+           if (!auth('sanctum')->check()) {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Unauthorized User!!!',
+            ], 401);
+        }
+        // Find the user by ID extra proctecton 
+        $user = User::findOrFail($id);
+        if ($user) {
+            // now you send the pdf to the server 
+              $items = new  Externalinfo;
+             $image_one = $request->titleImageurl;
+                if ($image_one) {
+                    $manager = new ImageManager(new Driver());
+                    $image_one_name = hexdec(uniqid()) . '.' . strtolower($image_one->getClientOriginalExtension());
+                    $image = $manager->read($image_one);
+                    $final_image = 'pdf/files/' . $image_one_name;
+                    $image->save($final_image);
+                    $photoSave1 = $final_image;
+                    $rro = 1;
+                }
+                // $items->titleImageurl =  $photoSave1;
+            // return response()->json([
+            //     'status' => 200,
+            //     'data' => $user,
+            // ]);
+        }
+        // If user is not found
+        return response()->json([
+            'status' => 404,
+            'message' => 'User not found',
+        ], 404);
+
+    }
 
     // public function checkinguser($id)
     // {
@@ -119,8 +157,9 @@ class UserController extends Controller
     //     ]);
     // }
 
-  public function gettinguserprofile($user_name)  {
-        $user = User::where('name',$user_name)->first();
+    public function gettinguserprofile($user_name)
+    {
+        $user = User::where('name', $user_name)->first();
         if ($user) {
             return response()->json([
                 'status' => 200,
@@ -128,11 +167,11 @@ class UserController extends Controller
             ]);
         }
         // If user is not found
-    
-         return response()->json([
-                'status' => 404,
-                'message' => 'User not found',
-            ], 404);
+
+        return response()->json([
+            'status' => 404,
+            'message' => 'User not found',
+        ], 404);
     }
 
     public function checkinguser($id)
@@ -226,7 +265,7 @@ class UserController extends Controller
             //    $user_infomation->backgroundimage = $request->backgroundimage;
             $image_backimage = $request->backgroundimage;
             // $image_backimage = $request->backgroundimage;
-            if ($image_backimage) {     
+            if ($image_backimage) {
                 if ($image_backimage) {
                     $manager = new ImageManager(new Driver());
                     $image_backimage_name = hexdec(uniqid()) . '.' . strtolower($image_backimage->getClientOriginalExtension());
