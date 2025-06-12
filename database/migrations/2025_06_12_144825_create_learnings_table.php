@@ -18,7 +18,7 @@ return new class extends Migration
             // $table->foreignIdFor(User::class)->nullable();
             $table->string('name')->nullable();
                $table->string('email')->nullable();
-               $table->sting('id_number')->nullable();
+               $table->string('id_number')->nullable();
                   $table->string('phone')->nullable();
                    $table->string('payment_status')->nullable();
             $table->timestamps();
