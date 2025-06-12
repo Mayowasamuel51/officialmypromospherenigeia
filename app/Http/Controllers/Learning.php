@@ -13,7 +13,7 @@ class Learning extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'coursetype','required',
+    
             'email' => 'required',
             'phone' => 'required',
         ]);
