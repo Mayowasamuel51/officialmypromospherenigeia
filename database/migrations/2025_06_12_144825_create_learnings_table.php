@@ -20,6 +20,7 @@ return new class extends Migration
                $table->string('email')->nullable();
                $table->string('id_number')->nullable();
                   $table->string('phone')->nullable();
+                              $table->string('coursetype')->nullable();
                    $table->string('payment_status')->nullable();
             $table->timestamps();
         });

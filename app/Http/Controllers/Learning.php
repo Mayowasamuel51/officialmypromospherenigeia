@@ -13,6 +13,7 @@ class Learning extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'coursetype','required',
             'email' => 'required',
             'phone' => 'required',
         ]);
@@ -20,6 +21,7 @@ class Learning extends Controller
         $student_info = new ModelsLearning;
         $student_info->id_number= rand(1222, 45543);
         $student_info->name = $request->name;
+        $student_info->coursetype = $request->coursetype;
         $student_info->email = $request->email;
         $student_info->phone = $request->phone;
 
