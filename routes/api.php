@@ -9,11 +9,17 @@ use App\Http\Controllers\API\ItemsAdsController;
 use App\Http\Controllers\API\PromoTalkLikeController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\FeedBackController;
+use App\Http\Controllers\Learning;
 use App\Http\Controllers\PromoTalk;
 use App\Http\Controllers\PromoTweet;
 use App\Http\Controllers\SellerVideoController;
 use App\Http\Controllers\VerfieldController;
 use Illuminate\Support\Facades\Route;
+
+// BOOTCAMP 
+
+
+Route::post('/learning', [Learning::class, 'post']);
 
 
 // fetching certain videos 
