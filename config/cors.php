@@ -25,8 +25,10 @@ return [
 
     'allowed_origins_patterns' => [],
     // 
-    'allowed_headers' => ['POST', 'GET', 'DELETE', 'PUT', '*'],
+    // 'allowed_headers' => ['POST', 'GET', 'DELETE', 'PUT', '*'],
 
+    'allowed_headers' => ['Content-Type', 'X-Requested-With', 'Authorization', 'Accept', 'Origin', 'X-CSRF-TOKEN', '*'],
+    
     'exposed_headers' => [],
 
     'max_age' => 0,
