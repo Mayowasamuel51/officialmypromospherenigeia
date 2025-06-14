@@ -9,6 +9,14 @@ class Learning extends Controller
 {
     //
 
+    public function getinfo(){
+        $student_info =  ModelsLearning::get();
+        return response()->json([
+            "status"=>200 ,
+            "data"=>$student_info,
+        ]);
+    }
+
     public function  post(Request $request)
     {
         $request->validate([

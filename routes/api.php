@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 // BOOTCAMP 
 
-
+Route::get('/learning', [Learning::class, 'getinfo']);
 Route::post('/learning', [Learning::class, 'post']);
 
 
