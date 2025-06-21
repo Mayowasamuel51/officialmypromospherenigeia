@@ -20,8 +20,9 @@ class UserController extends Controller
 
 {
 
-    public function downloadPdfSlide(Request $request, $id, $pdfinfo){
-           if (!auth('sanctum')->check()) {
+    public function downloadPdfSlide(Request $request, $id, $pdfinfo)
+    {
+        if (!auth('sanctum')->check()) {
             return response()->json([
                 'status' => 401,
                 'message' => 'Unauthorized User!!!',
@@ -31,18 +32,18 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         if ($user) {
             // now you send the pdf to the server 
-              $items = new  Externalinfo;
-             $image_one = $request->titleImageurl;
-                if ($image_one) {
-                    $manager = new ImageManager(new Driver());
-                    $image_one_name = hexdec(uniqid()) . '.' . strtolower($image_one->getClientOriginalExtension());
-                    $image = $manager->read($image_one);
-                    $final_image = 'pdf/files/' . $image_one_name;
-                    $image->save($final_image);
-                    $photoSave1 = $final_image;
-                    $rro = 1;
-                }
-                // $items->titleImageurl =  $photoSave1;
+            $items = new  Externalinfo;
+            $image_one = $request->titleImageurl;
+            if ($image_one) {
+                $manager = new ImageManager(new Driver());
+                $image_one_name = hexdec(uniqid()) . '.' . strtolower($image_one->getClientOriginalExtension());
+                $image = $manager->read($image_one);
+                $final_image = 'pdf/files/' . $image_one_name;
+                $image->save($final_image);
+                $photoSave1 = $final_image;
+                $rro = 1;
+            }
+            // $items->titleImageurl =  $photoSave1;
             // return response()->json([
             //     'status' => 200,
             //     'data' => $user,
@@ -53,7 +54,6 @@ class UserController extends Controller
             'status' => 404,
             'message' => 'User not found',
         ], 404);
-
     }
 
     // public function checkinguser($id)
@@ -157,22 +157,58 @@ class UserController extends Controller
     //     ]);
     // }
 
+    // public function gettinguserprofile($user_name)
+    // {
+    //     $user = User::where('name', $user_name)->get();
+    //     if ($user) {
+    //         return response()->json([
+    //             'status' => 200,
+    //             'data' => $user,
+    //         ]);
+    //     }
+    //     // If user is not found
+
+    //     return response()->json([
+    //         'status' => 404,
+    //         'message' => 'User not found',
+    //     ], 404);
+    // }
+
     public function gettinguserprofile($user_name)
     {
-        $user = User::where('name', $user_name)->get();
-        if ($user) {
+        $authUser = auth('sanctum')->user();
+
+        if (!$authUser) {
             return response()->json([
-                'status' => 200,
-                'data' => $user,
-            ]);
+                'status' => 401,
+                'message' => 'Unauthorized',
+            ], 401);
         }
-        // If user is not found
+
+        // Check if the username being requested matches the logged-in user's name
+        if ($authUser->name !== $user_name) {
+            return response()->json([
+                'status' => 403,
+                'message' => 'Forbidden - You can only view your own profile.',
+            ], 403);
+        }
+
+        // Get the user (should be only one)
+        $user = User::where('name', $user_name)->first();
+
+        if (!$user) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'User not found',
+            ], 404);
+        }
 
         return response()->json([
-            'status' => 404,
-            'message' => 'User not found',
-        ], 404);
+            'status' => 200,
+            'data' => $user,
+        ]);
     }
+
 
     public function checkinguser($id)
     {
