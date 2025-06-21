@@ -159,7 +159,7 @@ class UserController extends Controller
 
     public function gettinguserprofile($user_name)
     {
-        $user = User::where('name', $user_name)->first();
+        $user = User::where('name', $user_name)->get();
         if ($user) {
             return response()->json([
                 'status' => 200,
@@ -174,59 +174,29 @@ class UserController extends Controller
         ], 404);
     }
 
-    // public function checkinguser($id)
-    // {
-    //     // Check if the user is authenticated via Sanctum
-    //     if (!auth('sanctum')->check()) {
-    //         return response()->json([
-    //             'status' => 401,
-    //             'message' => 'Unauthorized',
-    //         ], 401);
-    //     }
-    //     // Find the user by ID
-    //     $user = User::findOrFail($id);
-    //     if ($user) {
-    //         return response()->json([
-    //             'status' => 200,
-    //             'data' => $user,
-    //         ]);
-    //     }
-    //     // If user is not found
-    //     return response()->json([
-    //         'status' => 404,
-    //         'message' => 'User not found',
-    //     ], 404);
-    // }
-
     public function checkinguser($id)
-{
-    // Must be authenticated
-    $user = auth('sanctum')->user();
-
-    if (!$user) {
+    {
+        // Check if the user is authenticated via Sanctum
+        if (!auth('sanctum')->check()) {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Unauthorized',
+            ], 401);
+        }
+        // Find the user by ID
+        $user = User::findOrFail($id);
+        if ($user) {
+            return response()->json([
+                'status' => 200,
+                'data' => $user,
+            ]);
+        }
+        // If user is not found
         return response()->json([
-            'status' => 401,
-            'message' => 'Unauthorized',
-        ], 401);
+            'status' => 404,
+            'message' => 'User not found',
+        ], 404);
     }
-
-    // Prevent accessing other users
-    if ($user->id != $id) {
-        return response()->json([
-            'status' => 403,
-            'message' => 'Forbidden - You cannot view this user\'s data.',
-        ], 403);
-    }
-
-    // Safe: user is accessing their own data
-    return response()->json([
-        'status' => 200,
-        'data' => $user,
-    ]);
-}
-
-
-
 
     public function mainupdate(Request $request, $id)
     {
