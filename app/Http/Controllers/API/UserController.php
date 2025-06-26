@@ -56,37 +56,39 @@ class UserController extends Controller
         ], 404);
     }
 
-    // public function checkinguser($id)
-    // {
+    public function checkinguser($id)
+    {
 
-    //     // if ($user->isEmpty()) {
-    //     //         return response()->json([
-    //     //             'status' => 404,
-    //     //             'message' => 'Please login or register '
-    //     //         ], 404);
-    //     //     }
-    //     // findOrFail($id);
-    //  if (!auth('sanctum')->check()) {
-    //     return response()->json(['status' => 401, 'message' => 'Unauthorized']);
-    // }
+        // if ($user->isEmpty()) {
+        //         return response()->json([
+        //             'status' => 404,
+        //             'message' => 'Please login or register '
+        //         ], 404);
+        //     }
+        // findOrFail($id);
+     if (!auth('sanctum')->check()) {
+        return response()->json(['status' => 401, 'message' => 'Unauthorized']);
+    }
 
-    // $user = User::find($id);
-    // return response()->json(['status' => 200, 'data' => $user]);
+    $user = User::find($id);
+    return response()->json(['status' => 200, 'data' => $user]);
 
-    //     if (auth('sanctum')->check()) {
-    //         $user  = User::find($id);
-    //         if ($user) {
-    //             return response()->json([
-    //                 'status' => 200,
-    //                 'data' => $user
-    //             ]);
-    //         }
-    //         return response()->json([
-    //             'status' => 404,
-    //             'message' => 'Please login or register '
-    //         ], 404);
-    //     }
-    // }
+        if (auth('sanctum')->check()) {
+            $user  = User::find($id);
+            if ($user) {
+                return response()->json([
+                    'status' => 200,
+                    'data' => $user
+                ]);
+            }
+            // return response()->json([
+            //     'status' => 404,
+            //     'message' => 'Please login or register '
+            // ], 404);
+        }
+    }
+
+
     // public function mainupdate(Request $request, $id)
     // {
     //     if (auth('sanctum')->check()) {
@@ -210,29 +212,31 @@ class UserController extends Controller
     // }
 
 
-    public function checkinguser($id)
-    {
-        // Check if the user is authenticated via Sanctum
-        if (!auth('sanctum')->check()) {
-            return response()->json([
-                'status' => 401,
-                'message' => 'Unauthorized',
-            ], 401);
-        }
-        // Find the user by ID
-        $user = User::findOrFail($id);
-        if ($user) {
-            return response()->json([
-                'status' => 200,
-                'data' => $user,
-            ]);
-        }
-        // If user is not found
-        return response()->json([
-            'status' => 404,
-            'message' => 'User not found',
-        ], 404);
-    }
+    // public function checkinguser($id)
+    // {
+    //     // Check if the user is authenticated via Sanctum
+    //     if (!auth('sanctum')->check()) {    // if the attacker is authenticated , which he is  everyone that has account..
+    //         return response()->json([
+    //             'status' => 401,
+    //             'message' => 'Unauthorized',
+    //         ], 401);  /// passed 
+
+    //         // 3  34
+    //     }
+    //     // Find the user by ID
+    //     $user = User::findOrFail($id);  // this code is bad , becos the attacker can switch from his id to another authenticed user if 
+    //     if ($user) {
+    //         return response()->json([
+    //             'status' => 200,
+    //             'data' => $user,
+    //         ]);
+    //     }
+    //     // If user is not found
+    //     return response()->json([
+    //         'status' => 404,
+    //         'message' => 'User not found',
+    //     ], 404);
+    // }
 
     public function mainupdate(Request $request, $id)
     {
