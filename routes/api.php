@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminContoller;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\HomePageController;
 use App\Http\Controllers\API\HomeTalkTweetUser;
@@ -15,6 +16,11 @@ use App\Http\Controllers\PromoTweet;
 use App\Http\Controllers\SellerVideoController;
 use App\Http\Controllers\VerfieldController;
 use Illuminate\Support\Facades\Route;
+
+
+// admin for loing  
+Route::post('/admin/login', [AdminContoller::class, 'login']);
+
 
 // BOOTCAMP 
 
