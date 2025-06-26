@@ -147,7 +147,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //get user profile details  // update users infomation this api endpoint 
     Route::put('/getuser/{id}', [UserController::class, 'mainupdate']);
-    Route::get('/getuser/{id}', [UserController::class, 'checkinguser']);
+    Route::get('/getuser/{id}', [UserController::class, 'gettinguserprofile']);  /// i chaneg this to checkinguser
    
 
 

@@ -159,57 +159,57 @@ class UserController extends Controller
     //     ]);
     // }
 
-    public function gettinguserprofile($user_name)
-    {
-        $user = User::where('name', $user_name)->get();
-        if ($user) {
-            return response()->json([
-                'status' => 200,
-                'data' => $user,
-            ]);
-        }
-        // If user is not found
-
-        return response()->json([
-            'status' => 404,
-            'message' => 'User not found',
-        ], 404);
-    }
-
     // public function gettinguserprofile($user_name)
     // {
-    //     $authUser = auth('sanctum')->user();
-
-    //     if (!$authUser) {
+    //     $user = User::where('name', $user_name)->get();
+    //     if ($user) {
     //         return response()->json([
-    //             'status' => 401,
-    //             'message' => 'Unauthorized',
-    //         ], 401);
+    //             'status' => 200,
+    //             'data' => $user,
+    //         ]);
     //     }
-
-    //     // Check if the username being requested matches the logged-in user's name
-    //     if ($authUser->name !== $user_name) {
-    //         return response()->json([
-    //             'status' => 403,
-    //             'message' => 'Forbidden - You can only view your own profile.',
-    //         ], 403);
-    //     }
-
-    //     // Get the user (should be only one)
-    //     $user = User::where('name', $user_name)->first();
-
-    //     if (!$user) {
-    //         return response()->json([
-    //             'status' => 404,
-    //             'message' => 'User not found',
-    //         ], 404);
-    //     }
+    //     // If user is not found
 
     //     return response()->json([
-    //         'status' => 200,
-    //         'data' => $user,
-    //     ]);
+    //         'status' => 404,
+    //         'message' => 'User not found',
+    //     ], 404);
     // }
+
+    public function gettinguserprofile($user_name)
+    {
+        $authUser = auth('sanctum')->user();
+
+        if (!$authUser) {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Unauthorized',
+            ], 401);
+        }
+
+        // Check if the username being requested matches the logged-in user's name
+        if ($authUser->name !== $user_name) {
+            return response()->json([
+                'status' => 403,
+                'message' => 'Forbidden - You can only view your own profile.',
+            ], 403);
+        }
+
+        // Get the user (should be only one)
+        $user = User::where('name', $user_name)->first();
+
+        if (!$user) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'User not found',
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => 200,
+            'data' => $user,
+        ]);
+    }
 
 
     // public function checkinguser($id)
