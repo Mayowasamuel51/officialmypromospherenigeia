@@ -20,7 +20,8 @@ class UserController extends Controller
 
 {
 
-    public function downloadPdfSlide(Request $request, $id, $pdfinfo) {
+    public function downloadPdfSlide(Request $request, $id, $pdfinfo)
+    {
         if (!auth('sanctum')->check()) {
             return response()->json([
                 'status' => 401,
@@ -55,100 +56,47 @@ class UserController extends Controller
         ], 404);
     }
 
+    // public function checkinguser($id)
+    // {
+    //     if (!auth('sanctum')->check()) {
+    //         return response()->json(['status' => 401, 'message' => 'Unauthorized']);
+    //     }
+
+    //     $user = User::find($id);
+    //     return response()->json(['status' => 200, 'data' => $user]);
+
+    //     if (auth('sanctum')->check()) {
+    //         $user  = User::find($id);
+    //         if ($user) {
+    //             return response()->json([
+    //                 'status' => 200,
+    //                 'data' => $user
+    //             ]);
+    //         }
+    //     }
+    //     // return response()->json([
+    //     //     'status' => 404,
+    //     //     'message' => 'Please login or register '
+    //     // ], 404);
+    // }
+
+
     public function checkinguser($id)
     {
         if (!auth('sanctum')->check()) {
-            return response()->json(['status' => 401, 'message' => 'Unauthorized']);
+            return response()->json(['status' => 401, 'message' => 'Unauthorized'], 401);
         }
 
-        $user = User::find($id);
-        return response()->json(['status' => 200, 'data' => $user]);
+        $authUser = auth('sanctum')->user();
 
-        if (auth('sanctum')->check()) {
-            $user  = User::find($id);
-            if ($user) {
-                return response()->json([
-                    'status' => 200,
-                    'data' => $user
-                ]);
-            }
+        // Prevent IDOR: Only allow users to access their own data
+        if ($authUser->id != $id) {
+            return response()->json(['status' => 403, 'message' => 'Forbidden you cant view this '], 403);
         }
-        // return response()->json([
-        //     'status' => 404,
-        //     'message' => 'Please login or register '
-        // ], 404);
+
+        return response()->json(['status' => 200, 'data' => $authUser]);
     }
 
-
-    // public function mainupdate(Request $request, $id)
-    // {
-    //     if (auth('sanctum')->check()) {
-    //         $user = User::find($id);
-    //         if (!$user) {
-    //             return response()->json(['status' => 404, 'message' => 'User not found']);
-    //         }
-
-    //         // Update only fields that are present
-    //         if ($request->UserName) {
-    //             $user->name = $request->UserName;
-    //         }
-    //         if ($request->websiteName) {
-    //             $user->websiteName = $request->websiteName;
-    //         }
-    //         if ($request->messageCompany) {
-    //             $user->messageCompany = $request->messageCompany;
-    //         }
-    //         if ($request->aboutMe) {
-    //             $user->aboutMe = $request->aboutMe;
-    //         }
-    //         if ($request->brandName) {
-    //             $user->brandName = $request->brandName;
-    //         }
-    //         if ($request->whatapp) {
-    //             $user->whatapp = $request->whatapp;
-    //         }
-    //         if ($request->user_phone) {
-    //             $user->user_phone = $request->user_phone;
-    //         }
-    //         if ($request->user_social) {
-    //             $user->user_social = $request->user_social;
-    //         }
-
-    //         $manager = new ImageManager(new Driver());
-
-    //         // Save profile image
-    //         // if ($request->hasFile('profileImage')) {
-    //         //     $profileImage = $request->file('profileImage');
-    //         //     $imageName = hexdec(uniqid()) . '.' . strtolower($profileImage->getClientOriginalExtension());
-    //         //     $image = $manager->read($profileImage);
-    //         //     $finalImagePath = 'profile/images/' . $imageName;
-    //         //     $image->save($finalImagePath);
-    //         //     $user->profileImage = $finalImagePath;
-    //         // }
-
-    //         // // Save background image
-    //         // if ($request->hasFile('backgroundimage')) {
-    //         //     $backgroundImage = $request->file('backgroundimage');
-    //         //     $imageName = hexdec(uniqid()) . '.' . strtolower($backgroundImage->getClientOriginalExtension());
-    //         //     $image = $manager->read($backgroundImage);
-    //         //     $finalImagePath = 'profile/images/' . $imageName;
-    //         //     $image->save($finalImagePath);
-    //         //     $user->backgroundimage = $finalImagePath;
-    //         // }
-
-    //         $user->update();
-
-    //         return response()->json([
-    //             'status' => 200,
-    //             'updated' => $user
-    //         ]);
-    //     }
-
-    //     return response()->json([
-    //         'status' => 401,
-    //         'message' => 'Unauthorized'
-    //     ]);
-    // }
 
     public function gettinguserprofile($user_name)
     {
@@ -167,67 +115,6 @@ class UserController extends Controller
         ], 404);
     }
 
-    // public function gettinguserprofile($user_name)
-    // {
-    //     $authUser = auth('sanctum')->user();
-
-    //     if (!$authUser) {
-    //         return response()->json([
-    //             'status' => 401,
-    //             'message' => 'Unauthorized',
-    //         ], 401);
-    //     }
-
-    //     // Check if the username being requested matches the logged-in user's name
-    //     if ($authUser->name !== $user_name) {
-    //         return response()->json([
-    //             'status' => 403,
-    //             'message' => 'Forbidden - You can only view your own profile.',
-    //         ], 403);
-    //     }
-
-    //     // Get the user (should be only one)
-    //     $user = User::where('name', $user_name)->first();
-
-    //     if (!$user) {
-    //         return response()->json([
-    //             'status' => 404,
-    //             'message' => 'User not found',
-    //         ], 404);
-    //     }
-
-    //     return response()->json([
-    //         'status' => 200,
-    //         'data' => $user,
-    //     ]);
-    // }
-
-
-    // public function checkinguser($id)
-    // {
-    //     // Check if the user is authenticated via Sanctum
-    //     if (!auth('sanctum')->check()) {    // if the attacker is authenticated , which he is  everyone that has account..
-    //         return response()->json([
-    //             'status' => 401,
-    //             'message' => 'Unauthorized',
-    //         ], 401);  /// passed 
-
-    //         // 3  34
-    //     }
-    //     // Find the user by ID
-    //     $user = User::findOrFail($id);  // this code is bad , becos the attacker can switch from his id to another authenticed user if 
-    //     if ($user) {
-    //         return response()->json([
-    //             'status' => 200,
-    //             'data' => $user,
-    //         ]);
-    //     }
-    //     // If user is not found
-    //     return response()->json([
-    //         'status' => 404,
-    //         'message' => 'User not found',
-    //     ], 404);
-    // }
 
     public function mainupdate(Request $request, $id)
     {
@@ -336,16 +223,6 @@ class UserController extends Controller
             'message' => 'Unauthorized'
         ]);
     }
-
-
-
-
-
-
-
-
-
-
     public function personalUploads($id)
     {
         // if ($userUploads->isEmpty()||$userUploadsVideo->isEmpty()||$userUploads->count(  )=== 0|| $userUploadsVideo->count(  )=== 0 ) {
@@ -547,7 +424,138 @@ class UserController extends Controller
 }
 
 
+// / public function gettinguserprofile($user_name)
+    // {
+    //     $authUser = auth('sanctum')->user();
 
+    //     if (!$authUser) {
+    //         return response()->json([
+    //             'status' => 401,
+    //             'message' => 'Unauthorized',
+    //         ], 401);
+    //     }
+
+    //     // Check if the username being requested matches the logged-in user's name
+    //     if ($authUser->name !== $user_name) {
+    //         return response()->json([
+    //             'status' => 403,
+    //             'message' => 'Forbidden - You can only view your own profile.',
+    //         ], 403);
+    //     }
+
+    //     // Get the user (should be only one)
+    //     $user = User::where('name', $user_name)->first();
+
+    //     if (!$user) {
+    //         return response()->json([
+    //             'status' => 404,
+    //             'message' => 'User not found',
+    //         ], 404);
+    //     }
+
+    //     return response()->json([
+    //         'status' => 200,
+    //         'data' => $user,
+    //     ]);
+    // }
+
+
+    // public function checkinguser($id)
+    // {
+    //     // Check if the user is authenticated via Sanctum
+    //     if (!auth('sanctum')->check()) {    // if the attacker is authenticated , which he is  everyone that has account..
+    //         return response()->json([
+    //             'status' => 401,
+    //             'message' => 'Unauthorized',
+    //         ], 401);  /// passed 
+
+    //         // 3  34
+    //     }
+    //     // Find the user by ID
+    //     $user = User::findOrFail($id);  // this code is bad , becos the attacker can switch from his id to another authenticed user if 
+    //     if ($user) {
+    //         return response()->json([
+    //             'status' => 200,
+    //             'data' => $user,
+    //         ]);
+    //     }
+    //     // If user is not found
+    //     return response()->json([
+    //         'status' => 404,
+    //         'message' => 'User not found',
+    //     ], 404);
+    // }
+
+
+// public function mainupdate(Request $request, $id)
+    // {
+    //     if (auth('sanctum')->check()) {
+    //         $user = User::find($id);
+    //         if (!$user) {
+    //             return response()->json(['status' => 404, 'message' => 'User not found']);
+    //         }
+
+    //         // Update only fields that are present
+    //         if ($request->UserName) {
+    //             $user->name = $request->UserName;
+    //         }
+    //         if ($request->websiteName) {
+    //             $user->websiteName = $request->websiteName;
+    //         }
+    //         if ($request->messageCompany) {
+    //             $user->messageCompany = $request->messageCompany;
+    //         }
+    //         if ($request->aboutMe) {
+    //             $user->aboutMe = $request->aboutMe;
+    //         }
+    //         if ($request->brandName) {
+    //             $user->brandName = $request->brandName;
+    //         }
+    //         if ($request->whatapp) {
+    //             $user->whatapp = $request->whatapp;
+    //         }
+    //         if ($request->user_phone) {
+    //             $user->user_phone = $request->user_phone;
+    //         }
+    //         if ($request->user_social) {
+    //             $user->user_social = $request->user_social;
+    //         }
+
+    //         $manager = new ImageManager(new Driver());
+
+    //         // Save profile image
+    //         // if ($request->hasFile('profileImage')) {
+    //         //     $profileImage = $request->file('profileImage');
+    //         //     $imageName = hexdec(uniqid()) . '.' . strtolower($profileImage->getClientOriginalExtension());
+    //         //     $image = $manager->read($profileImage);
+    //         //     $finalImagePath = 'profile/images/' . $imageName;
+    //         //     $image->save($finalImagePath);
+    //         //     $user->profileImage = $finalImagePath;
+    //         // }
+
+    //         // // Save background image
+    //         // if ($request->hasFile('backgroundimage')) {
+    //         //     $backgroundImage = $request->file('backgroundimage');
+    //         //     $imageName = hexdec(uniqid()) . '.' . strtolower($backgroundImage->getClientOriginalExtension());
+    //         //     $image = $manager->read($backgroundImage);
+    //         //     $finalImagePath = 'profile/images/' . $imageName;
+    //         //     $image->save($finalImagePath);
+    //         //     $user->backgroundimage = $finalImagePath;
+    //         // }
+
+    //         $user->update();
+
+    //         return response()->json([
+    //             'status' => 200,
+    //             'updated' => $user
+    //         ]);
+    //     }
+
+    //     return response()->json([
+    //         'status' => 401,
+    //         'message' => 'Unauthorized'
+    //     ]);
+    // }
 
 
 // 488|WLrteLs24Bwm3BkHNvbQSguXSz8Xr1MwzLAPDdpef75d6994
