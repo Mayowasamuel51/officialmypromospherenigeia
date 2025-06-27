@@ -58,14 +58,6 @@ class UserController extends Controller
 
     public function checkinguser($id)
     {
-
-        // if ($user->isEmpty()) {
-        //         return response()->json([
-        //             'status' => 404,
-        //             'message' => 'Please login or register '
-        //         ], 404);
-        //     }
-        // findOrFail($id);
      if (!auth('sanctum')->check()) {
         return response()->json(['status' => 401, 'message' => 'Unauthorized']);
     }
