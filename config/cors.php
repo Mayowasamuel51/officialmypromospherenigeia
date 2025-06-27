@@ -20,7 +20,7 @@ return [
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [
-        'http://localhost:3000',
+        'http://localhost:4000',
         'https://www.mypromosphere.com',
         'https://mypromopshere-nigeria.vercel.app',
         'https://www.mypromosphere.com/learning'
