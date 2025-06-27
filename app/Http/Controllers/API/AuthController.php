@@ -238,7 +238,7 @@ class AuthController extends Controller
         } else {
             $createuser  =  User::create([
                 'name' => $request->name,
-                // 'b_name'=>$request->b_name,
+                'b_name'=>$request->b_name,
                 'email' => $request->email,
                 'current_plan' => "free_plan",
                 'id_number' => rand(1222, 45543),
