@@ -56,46 +56,42 @@ class UserController extends Controller
         ], 404);
     }
 
-    // public function checkinguser($id)
-    // {
-    //     if (!auth('sanctum')->check()) {
-    //         return response()->json(['status' => 401, 'message' => 'Unauthorized']);
-    //     }
-
-    //     $user = User::find($id);
-    //     return response()->json(['status' => 200, 'data' => $user]);
-
-    //     if (auth('sanctum')->check()) {
-    //         $user  = User::find($id);
-    //         if ($user) {
-    //             return response()->json([
-    //                 'status' => 200,
-    //                 'data' => $user
-    //             ]);
-    //         }
-    //     }
-    //     // return response()->json([
-    //     //     'status' => 404,
-    //     //     'message' => 'Please login or register '
-    //     // ], 404);
-    // }
-
-
     public function checkinguser($id)
     {
         if (!auth('sanctum')->check()) {
-            return response()->json(['status' => 401, 'message' => 'Unauthorized'], 401);
+            return response()->json(['status' => 401, 'message' => 'Unauthorized']);
         }
 
-        $authUser = auth('sanctum')->user();
+        $user = User::find($id);
+        return response()->json(['status' => 200, 'data' => $user]);
 
-        // Prevent IDOR: Only allow users to access their own data
-        if ($authUser->id != $id) {
-            return response()->json(['status' => 403, 'message' => 'Forbidden you cant view this '], 403);
+        if (auth('sanctum')->check()) {
+            $user  = User::find($id);
+            if ($user) {
+                return response()->json([
+                    'status' => 200,
+                    'data' => $user
+                ]);
+            }
         }
-
-        return response()->json(['status' => 200, 'data' => $authUser]);
     }
+
+
+    // public function checkinguser($id)
+    // {
+    //     if (!auth('sanctum')->check()) {
+    //         return response()->json(['status' => 401, 'message' => 'Unauthorized'], 401);
+    //     }
+
+    //     $authUser = auth('sanctum')->user();
+
+    //     // Prevent IDOR: Only allow users to access their own data
+    //     if ($authUser->id != $id) {
+    //         return response()->json(['status' => 403, 'message' => 'Forbidden you cant view this '], 403);
+    //     }
+
+    //     return response()->json(['status' => 200, 'data' => $authUser]);
+    // }
 
 
     public function gettinguserprofile($user_name)
