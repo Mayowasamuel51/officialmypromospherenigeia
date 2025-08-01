@@ -13,6 +13,7 @@ use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
@@ -77,32 +78,24 @@ class UserController extends Controller
     }
 
 
-    // public function checkinguser($id)
-    // {
-    //     if (!auth('sanctum')->check()) {
-    //         return response()->json(['status' => 401, 'message' => 'Unauthorized'], 401);
-    //     }
-
-    //     $authUser = auth('sanctum')->user();
-
-    //     // Prevent IDOR: Only allow users to access their own data
-    //     if ($authUser->id != $id) {
-    //         return response()->json(['status' => 403, 'message' => 'Forbidden you cant view this '], 403);
-    //     }
-
-    //     return response()->json(['status' => 200, 'data' => $authUser]);
-    // }
-
-
+    
     public function gettinguserprofile($user_name)
     {
-        $user = User::where('name', $user_name)->get();
-        if ($user) {
+        // $user = User::where('name', $user_name)->get();  //you cant posions this one 
+        $user = DB::select("SELECT * FROM users WHERE  name = '$user_name'");   /// this line of code is bad 
+        if ($user) { 
             return response()->json([
                 'status' => 200,
                 'data' => $user,
             ]);
         }
+        // computer hack/pentesting   , server hack/pentesting  , network hack/pentesting , software (desktop) hack , mobile hack , socal hack ()
+
+        //  SQL  inputig posoin statement to look for huge waekness in code and grab huge unacess data 
+        // XSS 
+        // IDOR
+        // SRF 
+        // 
         // If user is not found
 
         return response()->json([

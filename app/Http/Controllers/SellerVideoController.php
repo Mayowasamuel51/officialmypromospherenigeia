@@ -199,3 +199,21 @@ class SellerVideoController extends Controller
         ]);
     }
 }
+
+
+// / public function checkinguser($id)
+    // {
+    //     if (!auth('sanctum')->check()) {
+    //         return response()->json(['status' => 401, 'message' => 'Unauthorized'], 401);
+    //     }
+
+    //     $authUser = auth('sanctum')->user();
+
+    //     // Prevent IDOR: Only allow users to access their own data
+    //     if ($authUser->id != $id) {
+    //         return response()->json(['status' => 403, 'message' => 'Forbidden you cant view this '], 403);
+    //     }
+
+    //     return response()->json(['status' => 200, 'data' => $authUser]);
+    // }
+

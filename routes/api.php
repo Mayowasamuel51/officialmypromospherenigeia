@@ -13,9 +13,90 @@ use App\Http\Controllers\FeedBackController;
 use App\Http\Controllers\Learning;
 use App\Http\Controllers\PromoTalk;
 use App\Http\Controllers\PromoTweet;
+use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SellerVideoController;
 use App\Http\Controllers\VerfieldController;
 use Illuminate\Support\Facades\Route;
+// routes/api.php
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+
+
+
+Route::post('/store', [RegisterController::class, 'store']);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Route::post('/update-profile', function (Request $request) {
+    $id = $request->id;
+    $UserName = $request->UserName;
+    $name = $request->name;
+
+    DB::update("UPDATE users SET name = '$name' WHERE id = '$id'  AND UserName ='$UserName' ");
+
+    return response()->json(['message' => 'Profile Updated']);
+});
+ 
+Route::get('/profiletest/{id}', function (Request $request) {
+    $id = $request->id;
+    // DELIBERATELY VULNERABLE SQL - FOR LEARNING ONLY
+    $profile = DB::select("SELECT * FROM users WHERE id = '$id'");
+    return response()->json(['data' => $profile]);
+});
+
+
+Route::post('/test-sqli', function (Request $request) {
+    $email = $request->email;
+    $password = $request->password;
+
+    // DELIBERATELY VULNERABLE SQL - FOR LEARNING ONLY
+    $users = DB::select("SELECT * FROM users WHERE email = '$email' AND password = '$password'"  );
+
+    if ($users) {
+        return response()->json(['message' => 'Login Success', 'data' => $users]);
+    } else {
+        return response()->json(['message' => 'Login Failed'], 401);
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // admin for loing  
