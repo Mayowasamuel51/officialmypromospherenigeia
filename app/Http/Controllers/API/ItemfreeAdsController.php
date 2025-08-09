@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
-
+use Illuminate\Support\Str;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use App\Http\Controllers\Controller;
@@ -396,7 +396,15 @@ class ItemfreeAdsController extends Controller
         if (auth('sanctum')->check()) {
             $user = auth()->user();
             if ($user) {
+             $slug = Str::slug($request->description);
+
+            // Check if slug already exists
+            $count = ItemfreeAds::where('slug', $slug)->count();
+            if ($count > 0) {
+                $slug .= '-' . date('ymdis') . '-' . rand(0, 999);
+            }
                 $items = new ItemfreeAds;
+                $items->slug = $slug ;
                 $items->user_id = auth()->user()->id;
                 $items->categories = $request->categories;
                 $items->productName = $request->productName;

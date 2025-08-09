@@ -319,8 +319,15 @@ class PromoTalk extends Controller
         $nince = 1;
         if (auth('sanctum')->check()) {
             $items  = new  Promotalkdata;
-            $items->user_id = auth()->user()->id;;
+             $slug = Str::slug($request->description);
 
+            // Check if slug already exists
+            $count =  Promotalkdata::where('slug', $slug)->count();
+            if ($count > 0) {
+                $slug .= '-' . date('ymdis') . '-' . rand(0, 999);
+            }
+            $items->user_id = auth()->user()->id;;
+            $items->slug = $slug;
             $items->description = $request->description;
             $items->talkid =  rand(1222, 45543);
             $items->user_name = $request->user_name;

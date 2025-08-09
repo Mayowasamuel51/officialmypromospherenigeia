@@ -45,37 +45,40 @@ class SellerVideoController extends Controller
             'videos' => $user_videos
         ], 200);
     }
-    public function sellerstoriessingle($id, $description)
-    {
-        $seller_video_one = SellerVideos::find($id);
 
-        if (! $seller_video_one) {
-            return response()->json([
-                'status' => 404,
-                'message' => 'Post not found.'
-            ], 404);
-        }
 
-        $description = urldecode($description); // still good to decode
 
-        // ✅ Generate slug from the DB description (not the incoming slug)
-        $rawSlug = Str::slug(Str::limit($seller_video_one->description, 1000));
+    public function sellerstoriessingle($id,  $description)
+{
+    $seller_video_one = SellerVideos::find($id);
 
-        $expectedSlug = ltrim($rawSlug, '-');
-
-        if ($description !== $expectedSlug) {
-            return response()->json([
-                'status' => 301,
-                'redirect' => "/sellerstories/$id/$expectedSlug"
-            ]);
-        }
-
+    if (! $seller_video_one) {
         return response()->json([
-            'status' => 200,
-            'normalads' => $seller_video_one,
-            'show_message' => 'video fetched successfully'
+            'status' => 404,
+            'message' => 'Post not found.'
+        ], 404);
+    }
+
+     $description = urldecode( $description); // decode URL slug
+    $expectedSlug = $seller_video_one->slug; // use stored slug directly
+
+    // If slug from URL doesn't match the DB slug, tell client to redirect
+    if ( $description !== $expectedSlug) {
+        return response()->json([
+            'status' => 301,
+            'redirect' => "/sellerstories/{$id}/{$expectedSlug}"
         ]);
     }
+
+    return response()->json([
+        'status' => 200,
+        'normalads' => $seller_video_one,
+        'show_message' => 'Video fetched successfully'
+    ]);
+}
+
+
+    
 
     public function sellerstories()
     {
