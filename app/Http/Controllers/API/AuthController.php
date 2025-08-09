@@ -237,6 +237,7 @@ class AuthController extends Controller
                 'email' => ['Email Exist already procced to login']
             ], 401);
         } else {
+            // omoladecrown5@gmail.com
             $createuser  =  User::create([
                 'name' => $request->name,
                 'b_name' => $request->b_name,

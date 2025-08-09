@@ -10,28 +10,30 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\HomeVideoResource;
+
 class SellerVideoController extends Controller
 {
     //
     // creating human video showing on each categories
-    public function categoriesName($categories){
+    public function categoriesName($categories)
+    {
         $get_video_info = SellerVideos::where('categories', $categories)->get();
-        if($get_video_info->isEmpty()){
-              return response()->json([
+        if ($get_video_info->isEmpty()) {
+            return response()->json([
                 'status' => 404,
                 'message' => 'No orders found matching the query.'
             ], 404);
         }
-           return response()->json([
+        return response()->json([
             'status' => 200,
             'videos' => $get_video_info
         ], 200);
-
     }
 
 
-    public function publicsellervideos($user_name){
-              $user_videos =  HomeVideoResource::collection(SellerVideos::where('user_name', $user_name)->get());
+    public function publicsellervideos($user_name)
+    {
+        $user_videos =  HomeVideoResource::collection(SellerVideos::where('user_name', $user_name)->get());
         if ($user_videos->isEmpty()) {
             return response()->json([
                 'status' => 404,
@@ -166,38 +168,48 @@ class SellerVideoController extends Controller
             // 'user_name' => 'required',
         ]);
 
-        if (auth('sanctum')->check()) {
-            $user = auth()->user();
-            if ($user) {
-                $video = SellerVideos::create(attributes: [
-                    "user_id" => $user->id,
-                    'categories' => $request->categories,
+      if (auth('sanctum')->check()) {
+        $user = auth()->user();
+        if ($user) {
+            // Generate slug from description
+            $slug = Str::slug($request->description);
 
-                    'description' => $request->description,
-                    'state' => $request->state,
-                    'local_gov' => $request->local_gov,
-                    'titlevideourl' => $request->titlevideourl,
-                    'user_name' => $request->user_name,
-                ]);
-
-                return response()->json([
-                    'status' => 200,
-                    'message' => 'Video uploaded successfully',
-                    'data' => $video
-                ]);
+            // Check if slug already exists
+            $count = SellerVideos::where('slug', $slug)->count();
+            if ($count > 0) {
+                $slug .= '-' . date('ymdis') . '-' . rand(0, 999);
             }
 
+            // Save video with the generated slug
+            $video = SellerVideos::create([
+                "user_id"      => $user->id,
+                'categories'   => $request->categories,
+                'description'  => $request->description,
+                'slug'         => $slug, // ✅ Save the slug here
+                'state'        => $request->state,
+                'local_gov'    => $request->local_gov,
+                'titlevideourl'=> $request->titlevideourl,
+                'user_name'    => $request->user_name,
+            ]);
+
             return response()->json([
-                'status' => 500,
-                'message' => 'Something went wrong while trying to create an ad'
+                'status'  => 200,
+                'message' => 'Video uploaded successfully',
+                'data'    => $video
             ]);
         }
 
         return response()->json([
-            'status' => 401,
-            'message' => 'Unauthorized'
+            'status'  => 500,
+            'message' => 'Something went wrong while trying to create an ad'
         ]);
     }
+
+    return response()->json([
+        'status'  => 401,
+        'message' => 'Unauthorized'
+    ]);
+}
 }
 
 
@@ -216,4 +228,3 @@ class SellerVideoController extends Controller
 
     //     return response()->json(['status' => 200, 'data' => $authUser]);
     // }
-
