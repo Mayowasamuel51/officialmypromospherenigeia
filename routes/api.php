@@ -25,29 +25,6 @@ use Illuminate\Http\Request;
 
 Route::post('/store', [RegisterController::class, 'store']);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Route::post('/update-profile', function (Request $request) {
     $id = $request->id;
     $UserName = $request->UserName;
@@ -79,24 +56,6 @@ Route::post('/test-sqli', function (Request $request) {
         return response()->json(['message' => 'Login Failed'], 401);
     }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // admin for loing  
