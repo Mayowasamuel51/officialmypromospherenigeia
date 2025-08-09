@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\categories;
 use App\Models\ItemfreeAds;
 use App\Models\ItemfreeVideosAds;
+use Illuminate\Support\Str;
+
 
 class HomePageController extends Controller
 {
@@ -26,7 +28,8 @@ class HomePageController extends Controller
     // }
 
 
-    public function searchapi($query) {
+    public function searchapi($query)
+    {
         $orders = HomePageControllerResource::collection(ItemfreeAds::with('user')
             ->where('categories', 'LIKE', '%' . $query . '%')
             ->orWhere('productName', 'LIKE', '%' . $query . '%')
@@ -262,10 +265,13 @@ class HomePageController extends Controller
         //     "Luxury-apartment"
         // ];
         $categories = [
+            "Men's Wear",
             "Shortlets & Rentals", // updated for clarity
+            "Residential and Commercial, CNG",
             "Laptops & Accessories",
             "Real Estate",
             "Phones & Tablets",
+            "MUMAG CNG Storage System",
             "Fragrances & Perfumes",
             "Skincare & Beauty",
             "Groceries & Essentials",
@@ -291,7 +297,7 @@ class HomePageController extends Controller
             "Sportswear",
             "Luxury Apartments"
         ];
-        
+
 
         // $state = ['Lagos']
         // will be changing the table manuelly for now , and include the paid user table to it soon 
@@ -301,7 +307,7 @@ class HomePageController extends Controller
                 ->latest()
                 // ->inRandomOrder()
                 // ->paginate(20)
-                
+
                 // ->inRandomOrder()
                 // ->paginate(8)
                 // ->limit(50)
@@ -331,28 +337,66 @@ class HomePageController extends Controller
     }
 
 
-    public function generalTrendingPage($id)
-    {
-        // join the itemfreead and adimages , so when user clicks on one post it show remaining information of that post 
-        /// we neeed to cahce this  funciton becos of lot of Load
-        $fetch_details  = ItemfreeAds::find($id);
-        $fetch_details->adsimages()->where('itemfree_ads_id', $id)->get();
-        $fetch_details_others  =  ItemfreeAds::find($id)->adsimages()->where('itemfree_ads_id', $id)->inRandomOrder()->get();
-        if ($fetch_details) {
-            return response()->json([
-                'status' => 200,
-                'data' => $fetch_details,
-                'other_data' => $fetch_details_others
-            ]);
-        }
-        // if ($fetch_details->isEmpty()   || $fetch_details_others->isEmpty()  ) {
-        return response()->json([
-            'status' => 404,
-            'message' => 'No orders found matching the query.'
-        ], 404);
-        // }
+    // public function generalTrendingPage($id,$description)
+    // {
+    //     // join the itemfreead and adimages , so when user clicks on one post it show remaining information of that post 
+    //     /// we neeed to cahce this  funciton becos of lot of Load
+    //     // $fetch_details  = ItemfreeAds::where('id', $id)->where('description', $description)->get();
+    //     $fetch_details = ItemfreeAds::with('adsimages')->where('id', $id)->where('productName', $description)->first();
+    //     $fetch_details->adsimages()->where('itemfree_ads_id', $id)->get();
+    //     $fetch_details_others  =  ItemfreeAds::find($id)->adsimages()->where('itemfree_ads_id', $id)->inRandomOrder()->get();
+    //     if ($fetch_details) {
+    //         return response()->json([
+    //             'status' => 200,
+    //             'data' => $fetch_details,
+    //             'other_data' => $fetch_details_others
+    //         ]);
+    //     }
+    //     // if ($fetch_details->isEmpty()   || $fetch_details_others->isEmpty()  ) {
+    //     return response()->json([
+    //         'status' => 404,
+    //         'message' => 'No orders found matching the query.'
+    //     ], 404);
+    //     // }
 
+    // }
+
+    public function generalTrendingPage($id, $productName)
+    {
+        // Fetch item with images, matching ID
+        $fetch_details = ItemfreeAds::with('adsimages')->find($id);
+
+        // If item is not found, return 404
+        if (!$fetch_details) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Item not found.'
+            ], 404);
+        }
+
+        // Generate expected slug from product name
+        $expectedSlug = Str::slug(substr($fetch_details->productName, 0, 2000));
+
+        // If slug does not match, redirect or return error
+        if ($productName !== $expectedSlug) {
+            return response()->json([
+                'status' => 301,
+                'redirect_url' => "/feed/{$id}/{$expectedSlug}",
+                'message' => 'Redirect to correct slug.'
+            ], 301);
+        }
+
+        // Get random adsimages if needed (optional)
+        $fetch_details_others = $fetch_details->adsimages()->inRandomOrder()->get();
+
+        return response()->json([
+            'status' => 200,
+            'data' => $fetch_details,
+            'other_data' => $fetch_details_others,
+            'slug' => $expectedSlug
+        ]);
     }
+
 
     public function generalTopVideos()
     {
@@ -459,7 +503,7 @@ class HomePageController extends Controller
                 ->where('itemfree_ads.categories', $categories)
                 ->inRandomOrder()
                 // ->paginate(8)
-                ->limit(1000)
+                ->limit(40)
                 ->get()
         );
         $adimages_data = AdsImagesResource::collection(AdsImages::all());

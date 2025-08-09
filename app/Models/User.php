@@ -17,10 +17,24 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    //  protected $guarded= [];
+
+
+
+
+
+
+
+
+
+
+
     protected $fillable = [
         'name',
         'email',
-        'id_number',
+        'role',
+    'amount',
+        // 'id_number',
         'password',
     ];
 
@@ -29,19 +43,19 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    // protected $hidden = [
+    //     'password',
+    //     'remember_token',
+    // ];
 
     /**
      * The attributes that should be cast.
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    // protected $casts = [
+    //     'email_verified_at' => 'datetime',
+    // ];
 
     public function itemuserimages(){
         return $this->hasMany(ItemfreeAds::class);
@@ -70,4 +84,7 @@ class User extends Authenticatable
 
 
 
+    public function externalinfo(){
+         return $this->hasMany(Externalinfo::class);
+    }
 }

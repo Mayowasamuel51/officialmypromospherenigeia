@@ -11,8 +11,90 @@ use App\Models\Promotalkdata;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
-class PromoTalk extends Controller{
+class PromoTalk extends Controller
+{
+
+
+    // public function promotalksingle($id, $description)
+    // {
+    //     // Fetch post by ID
+    //     $fetch_details = Promotalkdata::with('comment')->find($id);
+
+    //     // If post not found
+    //     if (!$fetch_details) {
+    //         return response()->json([
+    //             'status' => 404,
+    //             'message' => 'Post not found.'
+    //         ], 404);
+    //     }
+
+    //     // Generate the expected slug from the description (limit for very long content)
+    //     // $expectedSlug = Str::slug(Str::limit($fetch_details->description, 6990));
+    //     // $expectedSlug = Str::slug(Str::limit($fetch_details->description, 6990));
+    //     $rawSlug = Str::slug(Str::limit($fetch_details->description, 40000));
+
+    //     // Remove leading dashes
+    //     $expectedSlug = ltrim($rawSlug, '-');
+
+    //     // Redirect if slug doesn't match the description in URL
+    //     if ($description !== $expectedSlug) {
+    //         return response()->json([
+    //             'status' => 301,
+    //             'redirect' => "/mypromotalk/{$id}/{$expectedSlug}"
+    //         ]);
+    //     }
+
+    //     // Randomize comments if needed
+    //     $fetch_comment = $fetch_details->comment->shuffle();
+
+    //     return response()->json([
+    //         'status' => 200,
+    //         'data' => $fetch_details,
+    //         'show_message' => 'Post fetched successfully',
+    //         'comment' => $fetch_comment
+    //     ]);
+    // }
+
+    public function promotalksingle($id, $description)
+    {
+        // Fetch post by ID
+        $fetch_details = Promotalkdata::find($id);
+
+        // If post not found
+        if (!$fetch_details) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Post not found.'
+            ], 404);
+        }
+
+        // Check if slug matches (optional but good practice)
+        // $expectedSlug = Str::slug(substr($fetch_details->description,0,6990));
+         $rawSlug = Str::slug(Str::limit($fetch_details->description, 40000));
+
+        // Remove leading dashes
+        $expectedSlug = ltrim($rawSlug, '-');
+        if ($description !== $expectedSlug) {
+            return response()->json([
+                'status' => 301,
+                'redirect' => "/mypromotalk/$id/$expectedSlug"
+            ]);
+        }
+
+        // Fetch related comments
+        // $fetch_comment = $fetch_details->comment()->inRandomOrder()->get();
+        $fetch_comment = Promotalkdata::find($id)->comment()->where('promotalkdata_id', $id)->inRandomOrder()->get();
+
+        return response()->json([
+            'status' => 200,
+            'data' => $fetch_details,
+            'show_message' => 'Post fetched successfully',
+            'comment' => $fetch_comment
+        ]);
+    }
+
     public function selectingTalk($categories)
     {
         /// this will be a select box to switch in between tweets 
@@ -107,7 +189,7 @@ class PromoTalk extends Controller{
                 // ->orWhere('description', 'like', '%football%')
                 // ->inRandomOrder()chrome
                 // ->get()
-                
+
                 ->latest()
                 ->get()
             // ->inRandomOrder()
@@ -124,55 +206,86 @@ class PromoTalk extends Controller{
             'message' => 'No orders found matching the query.'
         ], 404);
     }
-    public function promotalksingle($id)
+    // public function promotalksingle($id, $description)
+    // {
+    //     // display the commnet made one this post 
+
+    //     $fetch_details  = Promotalkdata::where('id', $id)->where('description', $description)->first();
+    //     // Promotalkdata::find($id);
+    //     // / $fetch_details->talkimages->where('promotalkdata_id', $id)->get();
+    //      $expectedSlug = Str::slug($fetch_details->description);
+    //     $fetch_comment = Promotalkdata::find($id)->comment()->where('promotalkdata_id', $id)->inRandomOrder()->get();;
+    //     // just to add other images to it . that's all 
+
+    //     if ($fetch_details) {
+    //         return response()->json([
+    //             'status' => 200,
+    //             'data' => $fetch_details,
+    //             "show message" => "working here",
+    //             'commnet' => $fetch_comment
+    //             // 'other_data' => $fetch_details_others
+    //         ]);
+    //     }
+    //     // if ($fetch_details->isEmpty()   || $fetch_details_others->isEmpty()  ) {
+    //     return response()->json([
+    //         'status' => 404,
+    //         'message' => 'No orders found matching the query.'
+    //     ], 404);
+    //     // }
+
+    // }
+
+    public function promotalksidebarsingle($id, $description)
     {
-        // display the commnet made one this post 
+        $fetch_details = Promotalkdata::find($id);
 
-
-        $fetch_details  = Promotalkdata::find($id);
-        // / $fetch_details->talkimages->where('promotalkdata_id', $id)->get();
-        $fetch_comment = Promotalkdata::find($id)->comment()->where('promotalkdata_id', $id)->inRandomOrder()->get();;
-        // just to add other images to it . that's all 
-
-        if ($fetch_details) {
+        // If post not found
+        if (!$fetch_details) {
             return response()->json([
-                'status' => 200,
-                'data' => $fetch_details,
-                'commnet' => $fetch_comment
-                // 'other_data' => $fetch_details_others
+                'status' => 404,
+                'message' => 'Post not found.'
+            ], 404);
+        }
+
+        // Check if slug matches (optional but good practice)
+        $expectedSlug = Str::slug($fetch_details->description);
+        if ($description !== $expectedSlug) {
+            return response()->json([
+                'status' => 301,
+                'redirect' => "/mypromotalk/$id/$expectedSlug"
             ]);
         }
-        // if ($fetch_details->isEmpty()   || $fetch_details_others->isEmpty()  ) {
+
+        // Fetch related comments
+        // $fetch_comment = $fetch_details->comment()->inRandomOrder()->get();
+        $fetch_comment = Promotalkdata::find($id)->comment()->where('promotalkdata_id', $id)->inRandomOrder()->get();
+
         return response()->json([
-            'status' => 404,
-            'message' => 'No orders found matching the query.'
-        ], 404);
+            'status' => 200,
+            'data' => $fetch_details,
+            'show_message' => 'Post fetched successfully',
+            'comment' => $fetch_comment
+        ]);
+        // $fetch_details  = Promotalkdata::find($id);
+        // // / $fetch_details->talkimages->where('promotalkdata_id', $id)->get();
+        // $fetch_comment = Promotalkdata::find($id)->comment()->where('promotalkdata_id', $id)
+        //     // ->inRandomOrder()
+        //     ->get();;
+        // // just to add other images to it . that's all 
+
+        // if ($fetch_details) {
+        //     return response()->json([
+        //         'status' => 200,
+        //         'data' => $fetch_details,
+        //         'commnet' => $fetch_comment
+        //         // 'other_data' => $fetch_details_others
+        //     ]);
         // }
-
-    }
-
-    public function promotalksidebarsingle($id)
-    {
-        $fetch_details  = Promotalkdata::find($id);
-        // / $fetch_details->talkimages->where('promotalkdata_id', $id)->get();
-        $fetch_comment = Promotalkdata::find($id)->comment()->where('promotalkdata_id', $id)
-            // ->inRandomOrder()
-            ->get();;
-        // just to add other images to it . that's all 
-
-        if ($fetch_details) {
-            return response()->json([
-                'status' => 200,
-                'data' => $fetch_details,
-                'commnet' => $fetch_comment
-                // 'other_data' => $fetch_details_others
-            ]);
-        }
-        // if ($fetch_details->isEmpty()   || $fetch_details_others->isEmpty()  ) {
-        return response()->json([
-            'status' => 404,
-            'message' => 'No orders found matching the query.'
-        ], 404);
+        // // if ($fetch_details->isEmpty()   || $fetch_details_others->isEmpty()  ) {
+        // return response()->json([
+        //     'status' => 404,
+        //     'message' => 'No orders found matching the query.'
+        // ], 404);
     }
     public function imagestalk(Request $request, $id)
     {
@@ -214,13 +327,14 @@ class PromoTalk extends Controller{
             $items->categories = $request->categories;
 
             $image_one = $request->titleImageurl;
-            if($image_one) {
+
+            if ($image_one) {
                 $manager = new ImageManager(new Driver());
                 $image_one_name = hexdec(uniqid()) . '.' . strtolower($image_one->getClientOriginalExtension());
                 $image = $manager->read($image_one);
                 // $image->resize(150, 150);
                 // $image->
-                $final_image = 'promotalkimages/images/'.$image_one_name;
+                $final_image = 'promotalkimages/images/' . $image_one_name;
                 $image->save($final_image);
                 $photoSave1 = $final_image;
                 $rro = 1;
@@ -273,7 +387,7 @@ class PromoTalk extends Controller{
     public function getfeedback($itemid)
     {
         /// get feedback of a post people made to!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        $getfeed = Promotalkcomment::where('promotalkdata_id', $itemid)->latest()   ->get();
+        $getfeed = Promotalkcomment::where('promotalkdata_id', $itemid)->latest()->get();
 
         if ($getfeed->isEmpty()) {
             return response()->json([

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminContoller;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\HomePageController;
 use App\Http\Controllers\API\HomeTalkTweetUser;
@@ -9,20 +10,117 @@ use App\Http\Controllers\API\ItemsAdsController;
 use App\Http\Controllers\API\PromoTalkLikeController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\FeedBackController;
+use App\Http\Controllers\Learning;
 use App\Http\Controllers\PromoTalk;
 use App\Http\Controllers\PromoTweet;
+use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SellerVideoController;
 use App\Http\Controllers\VerfieldController;
 use Illuminate\Support\Facades\Route;
+// routes/api.php
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 
-Route::get('test', function () {
-    return 'hello ';
+
+Route::post('/store', [RegisterController::class, 'store']);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Route::post('/update-profile', function (Request $request) {
+    $id = $request->id;
+    $UserName = $request->UserName;
+    $name = $request->name;
+
+    DB::update("UPDATE users SET name = '$name' WHERE id = '$id'  AND UserName ='$UserName' ");
+
+    return response()->json(['message' => 'Profile Updated']);
+});
+ 
+Route::get('/profiletest/{id}', function (Request $request) {
+    $id = $request->id;
+    // DELIBERATELY VULNERABLE SQL - FOR LEARNING ONLY
+    $profile = DB::select("SELECT * FROM users WHERE id = '$id'");
+    return response()->json(['data' => $profile]);
 });
 
+
+Route::post('/test-sqli', function (Request $request) {
+    $email = $request->email;
+    $password = $request->password;
+
+    // DELIBERATELY VULNERABLE SQL - FOR LEARNING ONLY
+    $users = DB::select("SELECT * FROM users WHERE email = '$email' AND password = '$password'"  );
+
+    if ($users) {
+        return response()->json(['message' => 'Login Success', 'data' => $users]);
+    } else {
+        return response()->json(['message' => 'Login Failed'], 401);
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// admin for loing  
+Route::post('/admin/login', [AdminContoller::class, 'login']);
+
+
+// BOOTCAMP 
+
+Route::get('/learning', [Learning::class, 'getinfo']);
+Route::post('/learning', [Learning::class, 'post']);
+
+
+// fetching certain videos 
+
+Route::get('/fetchvideo/{categories}', [SellerVideoController::class, 'categoriesName']);
+
+ // fetching profile users 
+Route::get('/getprofileuser/{user_name}', [UserController::class, 'gettinguserprofile']);
+/// gettign user vdeos 
+Route::get('/uservideosuploads/{user_name}', [SellerVideoController::class, 'publicsellervideos']);
+
 /// seller stories 
-Route::get('/sellerstories', [ SellerVideoController::class, 'sellerstories']);
-Route::get('/sellerstories/{id}', [ SellerVideoController::class, 'sellerstoriessingle']);
+Route::get('/sellerstories', [SellerVideoController::class, 'sellerstories']);
+Route::get('/sellerstories/{id}/{description}', [SellerVideoController::class, 'sellerstoriessingle']);
 
 // testing fcm token 
 Route::post('/store-token', [PromoTalkLikeController::class, 'storeToken']);
@@ -31,9 +129,9 @@ Route::post('/store-token', [PromoTalkLikeController::class, 'storeToken']);
 // Route::post('/dislike', [PromoTalkLikeController::class, 'dislike']);
 
 // ...........................    showing top sellers on the home page      NEW  ADS AND TALK ADS       ....................................
-Route::get('/top-sellers',[HomeTalkTweetUser::class , 'topseller']);
-Route::get('/top/{seller_name}',[HomeTalkTweetUser::class , 'personalSeller']);
-Route::get('/laptops',[HomeTalkTweetUser::class , 'showcaselaptop']);
+Route::get('/top-sellers', [HomeTalkTweetUser::class, 'topseller']);
+Route::get('/top/{seller_name}', [HomeTalkTweetUser::class, 'personalSeller']);
+Route::get('/laptops', [HomeTalkTweetUser::class, 'showcaselaptop']);
 
 
 // verfieid 
@@ -42,16 +140,20 @@ Route::get('/verfieid', [VerfieldController::class, 'mainPeople']);
 
 Route::get('auth', [AuthController::class, 'redirectToAuth']);
 Route::get('auth/callback', [AuthController::class, 'handleAuthCallback']);
-// -------- PROMOTALK ---------------------------
 
+
+
+// -------- PROMOTALK ---------------------------
 /// select talk
 Route::get('/selecttalk/{categories}', [PromoTalk::class, 'selectingTalk']);
 
 // view public promotalk
 Route::get('/promotalks', [PromoTalk::class, 'promotalk']);
-Route::get('/promotalks/{id}', [PromoTalk::class, 'promotalksingle']);
+
+Route::get('/promotalks/{id}/{description}', [PromoTalk::class, 'promotalksingle']);
+
 Route::get('/promotalksside', [PromoTalk::class, 'promotalksidebar']);
-Route::get('/promotalksside/{id}', [PromoTalk::class, 'promotalksidebarsingle']);
+Route::get('/promotalksside/{id}/{description}', [PromoTalk::class, 'promotalksidebarsingle']);
 
 
 //feedback api  for promotalk
@@ -100,16 +202,17 @@ Route::post('/logout', [AuthController::class, 'logout']);
 // Route::post('/freeads/{id}/{type}', [ItemfreeAdsController::class, 'addimages']);
 
 Route::middleware('auth:sanctum')->group(function () {
+    /// the new upload vidoe api 
     Route::post('/videotest', [SellerVideoController::class, 'videoupload']);
 
 
-    Route::post('/send-notification/{user_id}',[PromoTalkLikeController::class,'sendNotification']);
-    Route::post('/send-notification',[PromoTalkLikeController::class,'sendNot']);    
+    Route::post('/send-notification/{user_id}', [PromoTalkLikeController::class, 'sendNotification']);
+    Route::post('/send-notification', [PromoTalkLikeController::class, 'sendNot']);
 
     // like talks 
     Route::delete('/dislike/{itemid}', [PromoTalkLikeController::class, 'dislike']);
     Route::post('/like/{itemid}', [PromoTalkLikeController::class, 'like']);
-   
+
 
 
     // post for mypromotweet 
@@ -120,12 +223,23 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/promotalks', [PromoTalk::class, 'makepost']);
     Route::post('/promotalks/{id}', [PromoTalk::class, 'imagestalk']);
 
-
-
     // get User info route 
     Route::get('/getuser', [AuthController::class, 'getInfo']);
-    //get user profile details 
-    Route::get('/getuser/{id}', [UserController::class, 'settings']);
+
+    //get user profile details  // update users infomation this api endpoint 
+    Route::put('/getuser/{id}', [UserController::class, 'mainupdate']);
+    Route::get('/getuser/{id}', [UserController::class, 'checkinguser']);  /// i chaneg this to checkinguser
+   
+
+
+
+
+
+
+
+
+
+
 
     // free  Ads Routes  
     // Route::post('/freeads', [ItemfreeAdsController::class, 'freeLimitedAds']);
@@ -138,17 +252,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/user/settings/background/{iduser}', [UserController::class, 'updatebackgroundimage']);
     Route::get('/user/info/{iduser}', [UserController::class, 'profileEdit']);
 
-
-
     // PersonalUploads for a user
     Route::get('/posts/{id}', [UserController::class, 'personalUploads']);
     Route::get('/postsvideos/{id}', [UserController::class, 'personalVideos']);
 
-
     // Paid Ads 
     Route::post('/normalads', [ItemsAdsController::class, 'ItemsAdsStore']);
-
-
     /// tesinng the uploading part 
     Route::post('/freeads', [ItemfreeAdsController::class, 'freeLimitedAds']);
     Route::post('/freeads/{id}/{type}', [ItemfreeAdsController::class, 'addimages']);
@@ -160,7 +269,7 @@ Route::get('/search/{query}', [HomePageController::class, 'searchapi']);
 
 //  Trending Ads Api 
 Route::get('/trendingads', [HomePageController::class, 'generalTrending']);
-Route::get('/trendingads/{id}', [HomePageController::class, 'generalTrendingPage']);
+Route::get('/trendingads/{id}/{productName}', [HomePageController::class, 'generalTrendingPage']);
 
 
 // Top level  Product and Service MVP ...............................
@@ -198,7 +307,7 @@ Route::get('/trendingadsvideos/{id}', [HomePageController::class, 'generalTopVid
 
 // User click  profile Api   ..see other this be the users
 Route::get('/userpostsuploads/{user_name}', [UserController::class, 'profileUserPost']);
-Route::get('/uservideosuploads/{user_name}', [UserController::class, 'profileUserVideo']);
+// Route::get('/uservideosuploads/{user_name}', [UserController::class, 'profileUserVideo']);
 Route::get('/profile/{user_name}', [UserController::class, 'Userprofile']);
 
 
@@ -208,14 +317,8 @@ Route::get('/feedback/{itemid}', [FeedBackController::class, 'getfeedback']);
 
 
 
-
-
-
-
-
-
 //   Home-page Public  api and other  public   apis for other pages 
-// 1)  Seaarch engine powerfull api ( auto generated word )
+// 1)  Seaarch engine powerfull api ( auto generatpenved word )
 
 // 2) Categiories Api  
 Route::get('/categoriesapi', [HomePageController::class, 'categoriesapi']);
@@ -224,31 +327,6 @@ Route::get(
     [HomePageController::class, 'categoriesapiSinglePages']
 );
 // 3) Personlized Ads Api 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // 6) Top  Services Api 
@@ -264,32 +342,10 @@ Route::get('/phones/{state}', [HomePageController::class, 'headlinephones']);
 
 /// 5 ) headlines for Cars
 Route::get('/cars/{state}', [HomePageController::class, 'headlinecars']);
-
 /// 6 ) headlines for Grocerys 
-
 // 7 ) headlines for Health and Beauty 
-
 ///test endpoint
 Route::get('/test', [ItemfreeAdsController::class, 'showoneimage']);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();

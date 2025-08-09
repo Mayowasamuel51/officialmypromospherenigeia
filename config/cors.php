@@ -19,20 +19,20 @@ return [
 
     'allowed_methods' => ['*'],
 
-    // 'allowed_origins' => ['https://www.mypromosphere.com'],
+    'allowed_origins' => [
+        'http://localhost:4000',
+        'https://www.mypromosphere.com',
+        'https://mypromopshere-nigeria.vercel.app',
+        'https://www.mypromosphere.com/learning'
+    ],
 
-    // 'allowed_origins' => ['http://localhost:3000'],
-
-    // 'allowed_origins' => ['https://mypromospherefrontend.vercel.app'],
-
-    // 'allowed_origins' => ['*'],
-    'allowed_origins' => ['http://localhost:3000','https://www.mypromosphere.com', 'https://mypromopshere-nigeria.vercel.app'],
-   
     // 'allowed_headers' => [':authority:', ':method:', ':path:', ':scheme:'],
 
     'allowed_origins_patterns' => [],
-// 
-    'allowed_headers' => ['POST', 'GET', 'DELETE', 'PUT', '*'],
+    // 
+    // 'allowed_headers' => ['POST', 'GET', 'DELETE', 'PUT', '*'],
+
+    'allowed_headers' => ['Content-Type', 'X-Requested-With', 'Authorization', 'Accept', 'Origin', 'X-CSRF-TOKEN', '*'],
 
     'exposed_headers' => [],
 
