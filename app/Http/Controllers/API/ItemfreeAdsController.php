@@ -396,7 +396,7 @@ class ItemfreeAdsController extends Controller
         if (auth('sanctum')->check()) {
             $user = auth()->user();
             if ($user) {
-             $slug = Str::slug($request->description);
+           
 
             // Check if slug already exists
            $slug = Str::slug($request->description);
@@ -406,7 +406,6 @@ class ItemfreeAdsController extends Controller
             if ($count > 0) {
                 $slug .= '-' . date('ymdis') . '-' . rand(0, 999);
             }
-
 
                 $items = new ItemfreeAds;
                 $items->slug = $slug ;
