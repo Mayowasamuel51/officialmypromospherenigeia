@@ -396,8 +396,7 @@ class ItemfreeAdsController extends Controller
         if (auth('sanctum')->check()) {
             $user = auth()->user();
             if ($user) {
-           
-
+        
             // Check if slug already exists
            $slug = Str::slug($request->description);
 
