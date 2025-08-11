@@ -72,7 +72,7 @@ class PromoTalk extends Controller
 
         // Check if slug matches (optional but good practice)
         // $expectedSlug = Str::slug(substr($fetch_details->description,0,6990));
-         $rawSlug = Str::slug(Str::limit($fetch_details->description, 40000));
+         $rawSlug = Str::slug(Str::limit($fetch_details->slug, 40000));
 
         // Remove leading dashes
         $expectedSlug = ltrim($rawSlug, '-');
@@ -320,7 +320,6 @@ class PromoTalk extends Controller
         if (auth('sanctum')->check()) {
             $items  = new  Promotalkdata;
              $slug = Str::slug($request->description);
-
             // Check if slug already exists
             $count =  Promotalkdata::where('slug', $slug)->count();
             if ($count > 0) {

@@ -399,10 +399,15 @@ class ItemfreeAdsController extends Controller
              $slug = Str::slug($request->description);
 
             // Check if slug already exists
+           $slug = Str::slug($request->description);
+
+            // Check if slug already exists
             $count = ItemfreeAds::where('slug', $slug)->count();
             if ($count > 0) {
                 $slug .= '-' . date('ymdis') . '-' . rand(0, 999);
             }
+
+
                 $items = new ItemfreeAds;
                 $items->slug = $slug ;
                 $items->user_id = auth()->user()->id;
