@@ -178,7 +178,7 @@ class PromoTalk extends Controller
             ->get()
     );
 
-    if ($promotalk->isEmpty()) {
+    if ($promotalk->isNotEmpty()) {
         return response()->json([
             'status' => 200,
             'data'   => $promotalk
