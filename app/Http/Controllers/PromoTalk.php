@@ -60,7 +60,7 @@ class PromoTalk extends Controller
     public function promotalksingle($id, $description)
     {
         // Fetch post by ID
-        $fetch_details = Promotalkdata::where('random', $id)->first();
+        $fetch_details = Promotalkdata::find($id);
 
         // If post not found
         if (!$fetch_details) {
