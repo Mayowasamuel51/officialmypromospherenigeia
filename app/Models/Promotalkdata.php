@@ -21,7 +21,7 @@ class Promotalkdata extends Model
     }
 
     public function comment(){
-        return $this->hasMany(Promotalkcomment::class, '	promotalkdata_id', 'id');
+        return $this->hasMany(Promotalkcomment::class, 'promotalkdata_id', 'id');
     }
 
     public function likestalks(){
