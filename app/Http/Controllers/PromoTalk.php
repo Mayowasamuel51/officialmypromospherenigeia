@@ -144,31 +144,24 @@ class PromoTalk extends Controller
 
     public function  promotalksidebar()
     {
-        $promotalk = ResourcesPromoTalk::collection(
-            DB::table('promotalkdatas')
-                ->orWhere('description', 'like', '%product%')
-                ->orWhere('description', 'like', '%land%')->orWhere('description', 'like', '%youtude%')->orWhere('description', 'like', '%developer%')->orWhere('description', 'like', '%knack%')->orWhere('description', 'like', '%knacking%')
-                ->orWhere('description', 'like', '%facebook%')
-                ->orWhere('description', 'like', '%lover%')
-                ->where('description', 'like', '%sex%')
-                ->orWhere('description', 'like', '%help%')->orWhere('description', 'like', '%Pussy%')
-                ->orWhere('description', 'like', '%pussy%')
-                ->orWhere('description', 'like', '%lover%')->orWhere('description', 'like', '%Ladies%')
-                ->orWhere('description', 'like', '%lady%')->orWhere('description', 'like', '%Lady%')
-                ->orWhere('description', 'like', '%fuck%')->orWhere('description', 'like', '%Sex%')
-                ->inRandomOrder()
-                ->get()
-        );
-        if ($promotalk) {
-            return response()->json([
-                'status' => 200,
-                'data'  =>  $promotalk
-            ]);
-        }
+          $promotalk = ResourcesPromoTalk::collection(
+        Promotalkdata::withCount('comment') // Adds comments_count to each post
+            ->latest()
+            ->get()
+    );
+
+    if ($promotalk->isNotEmpty()) {
         return response()->json([
-            'status' => 404,
-            'message' => 'No orders found matching the query.'
-        ], 404);
+            'status' => 200,
+            'data'   => $promotalk
+        ]);
+    }
+
+    return response()->json([
+        'status' => 404,
+        'message' => 'No posts found matching the query.'
+    ], 404);
+      
     }
     public function promotalk()
 {
