@@ -72,7 +72,7 @@ class PromoTalk extends Controller
 
         // Check if slug matches (optional but good practice)
         // $expectedSlug = Str::slug(substr($fetch_details->description,0,6990));
-        $rawSlug = Str::slug(Str::limit($fetch_details->slug, 40000));
+        $rawSlug = Str::slug(Str::limit($fetch_details->slug, 400));
 
         // Remove leading dashes
         $expectedSlug = ltrim($rawSlug, '-');
@@ -144,45 +144,44 @@ class PromoTalk extends Controller
 
     public function  promotalksidebar()
     {
-          $promotalk = ResourcesPromoTalk::collection(
-        Promotalkdata::withCount('comment') // Adds comments_count to each post
-            ->latest()
-            ->get()
-    );
+        $promotalk = ResourcesPromoTalk::collection(
+            Promotalkdata::withCount('comment') // Adds comments_count to each post
+                ->latest()
+                ->get()
+        );
 
-    if ($promotalk->isNotEmpty()) {
+        if ($promotalk->isNotEmpty()) {
+            return response()->json([
+                'status' => 200,
+                'data'   => $promotalk
+            ]);
+        }
+
         return response()->json([
-            'status' => 200,
-            'data'   => $promotalk
-        ]);
-    }
-
-    return response()->json([
-        'status' => 404,
-        'message' => 'No posts found matching the query.'
-    ], 404);
-      
+            'status' => 404,
+            'message' => 'No posts found matching the query.'
+        ], 404);
     }
     public function promotalk()
-{
-    $promotalk = ResourcesPromoTalk::collection(
-        Promotalkdata::withCount('comment') // Adds comments_count to each post
-            ->latest()
-            ->get()
-    );
+    {
+        $promotalk = ResourcesPromoTalk::collection(
+            Promotalkdata::withCount('comment') // Adds comments_count to each post
+                ->latest()
+                ->get()
+        );
 
-    if ($promotalk->isNotEmpty()) {
+        if ($promotalk->isNotEmpty()) {
+            return response()->json([
+                'status' => 200,
+                'data'   => $promotalk
+            ]);
+        }
+
         return response()->json([
-            'status' => 200,
-            'data'   => $promotalk
-        ]);
+            'status' => 404,
+            'message' => 'No posts found matching the query.'
+        ], 404);
     }
-
-    return response()->json([
-        'status' => 404,
-        'message' => 'No posts found matching the query.'
-    ], 404);
-}
 
 
 
