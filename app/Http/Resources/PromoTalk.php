@@ -17,6 +17,7 @@ class PromoTalk extends JsonResource
         // return parent::toArray($request);
         return [
             'id'=>$this->id,
+            'comment_count'=>$this->comment_count,
             'user_id'=>$this->user_id ,
             'user_name'=>$this->user_name,
             'description'=>$this->description,
