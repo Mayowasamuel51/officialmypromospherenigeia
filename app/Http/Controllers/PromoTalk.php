@@ -173,7 +173,7 @@ class PromoTalk extends Controller
     public function promotalk()
 {
     $promotalk = ResourcesPromoTalk::collection(
-        Promotalkdata::withCount('comment') // Adds comments_count to each post
+        Promotalkdata::withCount('comments') // Adds comments_count to each post
             ->latest()
             ->get()
     );
