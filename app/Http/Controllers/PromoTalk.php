@@ -57,43 +57,44 @@ class PromoTalk extends Controller
     //     ]);
     // }
 
-    public function promotalksingle($id, $description)
-    {
-        // Fetch post by ID
-        $fetch_details = Promotalkdata::find($id);
+  public function promotalksingle($id, $description)
+{
+    // Fetch post by ID
+    $fetch_details = Promotalkdata::find($id);
 
-        // If post not found
-        if (!$fetch_details) {
-            return response()->json([
-                'status' => 404,
-                'message' => 'Post not found.'
-            ], 404);
-        }
-
-        // Check if slug matches (optional but good practice)
-        // $expectedSlug = Str::slug(substr($fetch_details->description,0,6990));
-        $rawSlug = Str::slug(Str::limit($fetch_details->slug, 400));
-
-        // Remove leading dashes
-        $expectedSlug = ltrim($rawSlug, '-');
-        if ($description !== $expectedSlug) {
-            return response()->json([
-                'status' => 301,
-                'redirect' => "/mypromotalk/$id/$expectedSlug"
-            ]);
-        }
-
-        // Fetch related comments
-        // $fetch_comment = $fetch_details->comment()->inRandomOrder()->get();
-        $fetch_comment = Promotalkdata::find($id)->comment()->where('promotalkdata_id', $id)->inRandomOrder()->get();
-
+    // If post not found
+    if (!$fetch_details) {
         return response()->json([
-            'status' => 200,
-            'data' => $fetch_details,
-            'show_message' => 'Post fetched successfully',
-            'comment' => $fetch_comment
+            'status' => 404,
+            'message' => 'Post not found.'
+        ], 404);
+    }
+
+    // Generate expected slug (short, SEO-friendly)
+    // Use title or short description instead of full description
+    $rawSlug = Str::slug(Str::limit($fetch_details->slug ?? $fetch_details->title ?? $fetch_details->description, 80, ''));
+    $expectedSlug = ltrim($rawSlug, '-');
+
+    // Redirect if slug doesn't match
+    if ($description !== $expectedSlug) {
+        return response()->json([
+            'status' => 301,
+            'redirect' => "/mypromotalk/$id/$expectedSlug"
         ]);
     }
+
+    // Fetch related comments
+    $fetch_comment = $fetch_details->comment()
+        ->inRandomOrder()
+        ->get();
+
+    return response()->json([
+        'status' => 200,
+        'data' => $fetch_details,
+        'show_message' => 'Post fetched successfully',
+        'comment' => $fetch_comment
+    ]);
+}
 
     public function selectingTalk($categories)
     {
