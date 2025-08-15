@@ -313,6 +313,7 @@ class PromoTalk extends Controller
     public function makepost(Request $request)
     {
         // this , you can add images to this post as a users 
+        $id = $id = random_int(1000000000, 9999999999);
         $request->validate([
             'description' => 'required',
         ]);
@@ -325,6 +326,7 @@ class PromoTalk extends Controller
             if ($count > 0) {
                 $slug .= '-' . date('ymdis') . '-' . rand(0, 999);
             }
+            $items->random = $id ;
             $items->user_id = auth()->user()->id;;
             $items->slug = $slug;
             $items->description = $request->description;
