@@ -334,7 +334,7 @@ class PromoTalk extends Controller
 
             $image_one = $request->titleImageurl;
 
-            if ($image_one) {
+            if ($image_one || null ) {
                 $manager = new ImageManager(new Driver());
                 $image_one_name = hexdec(uniqid()) . '.' . strtolower($image_one->getClientOriginalExtension());
                 $image = $manager->read($image_one);
