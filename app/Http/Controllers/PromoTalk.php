@@ -72,7 +72,7 @@ class PromoTalk extends Controller
 
         // Check if slug matches (optional but good practice)
         // $expectedSlug = Str::slug(substr($fetch_details->description,0,6990));
-         $rawSlug = Str::slug(Str::limit($fetch_details->slug, 40000));
+        $rawSlug = Str::slug(Str::limit($fetch_details->slug, 40000));
 
         // Remove leading dashes
         $expectedSlug = ltrim($rawSlug, '-');
@@ -145,7 +145,6 @@ class PromoTalk extends Controller
     public function  promotalksidebar()
     {
         $promotalk = ResourcesPromoTalk::collection(
-
             DB::table('promotalkdatas')
                 ->orWhere('description', 'like', '%product%')
                 ->orWhere('description', 'like', '%land%')->orWhere('description', 'like', '%youtude%')->orWhere('description', 'like', '%developer%')->orWhere('description', 'like', '%knack%')->orWhere('description', 'like', '%knacking%')
@@ -171,41 +170,50 @@ class PromoTalk extends Controller
             'message' => 'No orders found matching the query.'
         ], 404);
     }
-    public function  promotalk()
-    {
-        $promotalk = ResourcesPromoTalk::collection(
+    public function promotalk()
+{
+    $promotalk = ResourcesPromoTalk::collection(
+        Promotalkdata::withCount('comments') // Adds comments_count to each post
+            ->latest()
+            ->get()
+    );
 
-            DB::table('promotalkdatas')
-                // ->orWhere('description', 'like', '%product%')
-
-                // ->orWhere('description', 'like', '%land%')->orWhere('description', 'like', '%youtude%')->orWhere('description', 'like', '%developer%')->orWhere('description', 'like', '%knack%')->orWhere('description', 'like', '%knacking%')
-                // ->orWhere('description', 'like', '%facebook%')
-                // ->orWhere('description', 'like', '%lover%')
-                // ->where('description', 'like', '%sex%')
-                // ->orWhere('description', 'like', '%help%')
-                // ->orWhere('description', 'like', '%lover%')
-                // ->orWhere('description', 'like', '%lady%')
-                // ->orWhere('description', 'like', '%fuck%')
-                // ->orWhere('description', 'like', '%football%')
-                // ->inRandomOrder()chrome
-                // ->get()
-
-                ->latest()
-                ->get()
-            // ->inRandomOrder()
-            // ->paginate(30)
-        );
-        if ($promotalk) {
-            return response()->json([
-                'status' => 200,
-                'data'  =>  $promotalk
-            ]);
-        }
+    if ($promotalk->isNotEmpty()) {
         return response()->json([
-            'status' => 404,
-            'message' => 'No orders found matching the query.'
-        ], 404);
+            'status' => 200,
+            'data'   => $promotalk
+        ]);
     }
+
+    return response()->json([
+        'status' => 404,
+        'message' => 'No posts found matching the query.'
+    ], 404);
+}
+
+
+
+    // public function  promotalk()
+    // {
+    //     $promotalk = ResourcesPromoTalk::collection(
+
+    //         DB::table('promotalkdatas')
+    //             ->latest()
+    //             ->get()
+    //         // ->inRandomOrder()
+    //         // ->paginate(30)
+    //     );
+    //     if ($promotalk) {
+    //         return response()->json([
+    //             'status' => 200,
+    //             'data'  =>  $promotalk
+    //         ]);
+    //     }
+    //     return response()->json([
+    //         'status' => 404,
+    //         'message' => 'No orders found matching the query.'
+    //     ], 404);
+    // }
     // public function promotalksingle($id, $description)
     // {
     //     // display the commnet made one this post 
@@ -320,13 +328,13 @@ class PromoTalk extends Controller
         $nince = 1;
         if (auth('sanctum')->check()) {
             $items  = new  Promotalkdata;
-             $slug = Str::slug($request->description);
+            $slug = Str::slug($request->description);
             // Check if slug already exists
             $count =  Promotalkdata::where('slug', $slug)->count();
             if ($count > 0) {
                 $slug .= '-' . date('ymdis') . '-' . rand(0, 999);
             }
-            $items->random = $id ;
+            $items->random = $id;
             $items->user_id = auth()->user()->id;;
             $items->slug = $slug;
             $items->description = $request->description;
@@ -336,7 +344,7 @@ class PromoTalk extends Controller
 
             $image_one = $request->titleImageurl;
 
-            if ($image_one || null ) {
+            if ($image_one || null) {
                 $manager = new ImageManager(new Driver());
                 $image_one_name = hexdec(uniqid()) . '.' . strtolower($image_one->getClientOriginalExtension());
                 $image = $manager->read($image_one);
