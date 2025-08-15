@@ -72,7 +72,7 @@ class PromoTalk extends Controller
 
     // Generate expected slug (short, SEO-friendly)
     // Use title or short description instead of full description
-    $rawSlug = Str::slug(Str::limit($fetch_details->slug ?? $fetch_details->title ?? $fetch_details->description, 80, ''));
+    $rawSlug = Str::slug(Str::limit($fetch_details->slug ?? $fetch_details->title, 80, ''));
     $expectedSlug = ltrim($rawSlug, '-');
 
     // Redirect if slug doesn't match
