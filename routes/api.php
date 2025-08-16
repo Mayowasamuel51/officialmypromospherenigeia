@@ -161,9 +161,7 @@ Route::post('/logout', [AuthController::class, 'logout']);
 // Route::post('/freeads/{id}/{type}', [ItemfreeAdsController::class, 'addimages']);
 
 
- // like talks 
-    Route::delete('/dislike/{itemid}', [PromoTalkLikeController::class, 'dislike']);
-    Route::post('/like/{itemid}', [PromoTalkLikeController::class, 'like']);
+
 
     // post for my promotalk
     Route::post('/promotalks', [PromoTalk::class, 'makepost']);
@@ -179,9 +177,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/send-notification', [PromoTalkLikeController::class, 'sendNot']);
 
     // // like talks 
-    // Route::delete('/dislike/{itemid}', [PromoTalkLikeController::class, 'dislike']);
-    // Route::post('/like/{itemid}', [PromoTalkLikeController::class, 'like']);
-
+    Route::delete('/dislike/{itemid}', [PromoTalkLikeController::class, 'dislike']);
+    Route::post('/like/{itemid}', [PromoTalkLikeController::class, 'like']);
 
 
     // post for mypromotweet 
@@ -196,16 +193,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/getuser/{id}', [UserController::class, 'mainupdate']);
     Route::get('/getuser/{id}', [UserController::class, 'checkinguser']);  /// i chaneg this to checkinguser
    
-
-
-
-
-
-
-
-
-
-
 
     // free  Ads Routes  
     // Route::post('/freeads', [ItemfreeAdsController::class, 'freeLimitedAds']);
