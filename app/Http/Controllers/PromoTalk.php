@@ -310,53 +310,61 @@ class PromoTalk extends Controller
         ]);
     }
 
-    public function makepost(Request $request)
-    {
-        // this , you can add images to this post as a users 
-        $id = $id = random_int(1000000000, 9999999999);
-        $request->validate([
-            'description' => 'required',
-        ]);
-        $nince = 1;
-       
-            $items  = new  Promotalkdata;
-            $slug = Str::slug($request->description);
-            // Check if slug already exists
-            $count =  Promotalkdata::where('slug', $slug)->count();
-            if ($count > 0) {
-                $slug .= '-' . date('ymdis') . '-' . rand(0, 999);
-            }
-            $items->random = $id;
-            $items->user_id = auth()->user()->id;;
-            $items->slug = $slug;
-            $items->description = $request->description;
-            $items->talkid =  rand(1222, 45543);
-            $items->user_name = $request->user_name;
-            $items->categories = $request->categories;
+   public function makepost(Request $request)
+{
+    $id = random_int(1000000000, 9999999999);
 
-            $image_one = $request->titleImageurl;
+    $request->validate([
+        'description' => 'required',
+    ]);
 
-            if ($image_one || null) {
-                $manager = new ImageManager(new Driver());
-                $image_one_name = hexdec(uniqid()) . '.' . strtolower($image_one->getClientOriginalExtension());
-                $image = $manager->read($image_one);
-                // $image->resize(150, 150);
-                // $image->
-                $final_image = 'promotalkimages/images/' . $image_one_name;
-                $image->save($final_image);
-                $photoSave1 = $final_image;
-                $rro = 1;
-            }
-            $items->titleImageurl =  $photoSave1;
-            $items->save();
+    $items = new Promotalkdata;
 
-            return response()->json([
-                'status' => 200,
-                'item' => $items->id,
-                'data' => 'talk created',
-            ]);
-       
+    // Generate slug
+    $slug = Str::slug($request->description);
+    $count = Promotalkdata::where('slug', $slug)->count();
+    if ($count > 0) {
+        $slug .= '-' . date('ymdis') . '-' . rand(0, 999);
     }
+
+    $items->random     = $id;
+    $items->slug       = $slug;
+    $items->description = $request->description;
+    $items->talkid     = rand(1222, 45543);
+    $items->categories = $request->categories;
+
+    if (auth('sanctum')->check()) {
+        // Logged in user
+        $items->user_id   = auth()->id();
+        $items->user_name = auth()->user()->name ?? $request->user_name;
+    } else {
+        // Guest post
+        $items->user_id   = null;
+        $items->user_name = $request->user_name ?? 'Anonymous';
+    }
+
+    // Handle image upload if provided
+    if ($request->hasFile('titleImageurl')) {
+        $manager = new ImageManager(new Driver());
+        $image_one = $request->file('titleImageurl');
+        $image_one_name = hexdec(uniqid()) . '.' . strtolower($image_one->getClientOriginalExtension());
+
+        $image = $manager->read($image_one);
+        $final_image = 'promotalkimages/images/' . $image_one_name;
+        $image->save($final_image);
+
+        $items->titleImageurl = $final_image;
+    }
+
+    $items->save();
+
+    return response()->json([
+        'status' => 200,
+        'item'   => $items->id,
+        'data'   => 'talk created',
+    ]);
+}
+
 
     public function feedback(Request $request, $itemid)
     {
