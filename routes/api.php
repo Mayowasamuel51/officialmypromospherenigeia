@@ -160,6 +160,16 @@ Route::post('/logout', [AuthController::class, 'logout']);
 // Route::post('/freeads', [ItemfreeAdsController::class, 'freeLimitedAds']);
 // Route::post('/freeads/{id}/{type}', [ItemfreeAdsController::class, 'addimages']);
 
+
+ // like talks 
+    Route::delete('/dislike/{itemid}', [PromoTalkLikeController::class, 'dislike']);
+    Route::post('/like/{itemid}', [PromoTalkLikeController::class, 'like']);
+
+    // post for my promotalk
+    Route::post('/promotalks', [PromoTalk::class, 'makepost']);
+    Route::post('/promotalks/{id}', [PromoTalk::class, 'imagestalk']);
+
+
 Route::middleware('auth:sanctum')->group(function () {
     /// the new upload vidoe api 
     Route::post('/videotest', [SellerVideoController::class, 'videoupload']);
@@ -168,9 +178,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/send-notification/{user_id}', [PromoTalkLikeController::class, 'sendNotification']);
     Route::post('/send-notification', [PromoTalkLikeController::class, 'sendNot']);
 
-    // like talks 
-    Route::delete('/dislike/{itemid}', [PromoTalkLikeController::class, 'dislike']);
-    Route::post('/like/{itemid}', [PromoTalkLikeController::class, 'like']);
+    // // like talks 
+    // Route::delete('/dislike/{itemid}', [PromoTalkLikeController::class, 'dislike']);
+    // Route::post('/like/{itemid}', [PromoTalkLikeController::class, 'like']);
 
 
 
@@ -178,9 +188,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/promotweet', [PromoTweet::class, 'makepost']);     //Done
     Route::post('/promotweet/{id}', [PromoTweet::class, 'imagestweet']);
 
-    // post for my promotalk
-    Route::post('/promotalks', [PromoTalk::class, 'makepost']);
-    Route::post('/promotalks/{id}', [PromoTalk::class, 'imagestalk']);
 
     // get User info route 
     Route::get('/getuser', [AuthController::class, 'getInfo']);
