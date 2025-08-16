@@ -318,7 +318,7 @@ class PromoTalk extends Controller
             'description' => 'required',
         ]);
         $nince = 1;
-        if (auth('sanctum')->check()) {
+       
             $items  = new  Promotalkdata;
             $slug = Str::slug($request->description);
             // Check if slug already exists
@@ -355,11 +355,7 @@ class PromoTalk extends Controller
                 'item' => $items->id,
                 'data' => 'talk created',
             ]);
-        }
-        return response()->json([
-            'status' => 500,
-            'data' => 'User not login '
-        ]);
+       
     }
 
     public function feedback(Request $request, $itemid)
