@@ -164,11 +164,13 @@ class PromoTalk extends Controller
     }
     public function promotalk()
     {
-        $promotalk = ResourcesPromoTalk::collection(
-            Promotalkdata::withCount('comment') // Adds comments_count to each post
-                ->latest()
-                ->get()
-        );
+       $promotalk = ResourcesPromoTalk::collection(
+    Promotalkdata::withCount('comment')
+        ->latest()
+        ->take(50) // grab the latest 50
+        ->inRandomOrder() // shuffle them randomly
+        ->get()
+);
 
         if ($promotalk->isNotEmpty()) {
             return response()->json([
@@ -332,7 +334,19 @@ class PromoTalk extends Controller
     $items->description = $request->description;
     $items->talkid     = rand(1222, 45543);
     $items->categories = $request->categories;
-
+    $defaultNames = [
+    'CoolUser',
+    'Guest',
+    'Somebody',
+    'MysteryPerson',
+    'RandomDude',
+    'HiddenGem',
+    'Stranger',
+    'AnonCat',
+    'GhostRider',
+    'SecretUser'
+];
+$randomName = $defaultNames[array_rand($defaultNames)] . rand(10, 999);
     if (auth('sanctum')->check()) {
         // Logged in user
         $items->user_id   = auth()->id();
@@ -340,7 +354,7 @@ class PromoTalk extends Controller
     } else {
         // Guest post
         $items->user_id   = null;
-        $items->user_name = $request->user_name ?? 'Anonymous';
+        $items->user_name = $request->user_name ?? $randomName;
     }
 
     // Handle image upload if provided
