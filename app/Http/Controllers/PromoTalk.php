@@ -166,7 +166,7 @@ class PromoTalk extends Controller
     {
        $promotalk = ResourcesPromoTalk::collection(
     Promotalkdata::withCount('comment')
-        ->latest()
+        
         ->take(50) // grab the latest 50
         ->inRandomOrder() // shuffle them randomly
         ->get()
