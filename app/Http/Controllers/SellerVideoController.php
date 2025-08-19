@@ -59,21 +59,25 @@ class SellerVideoController extends Controller
             ], 404);
         }
 
-        $description = urldecode($description); // decode URL slug
-        $expectedSlug = $seller_video_one->slug; // use stored slug directly
+      $description = urldecode($description); 
+$expectedSlug = $seller_video_one->slug;
 
-        // If slug from URL doesn't match the DB slug, tell client to redirect
-        if ($description ) {
-           return response()->json([
-            'status' => 200,
-            'normalads' => $seller_video_one,
-            'show_message' => 'Video fetched successfully'
-        ]);
-        }
-          return response()->json([
-                'status' => 301,
-                'redirect' => "/sellerstories/{$id}/{$expectedSlug}"
-            ]);
+if ($description === $expectedSlug) {
+    // Slug matches → return normal success
+    return response()->json([
+        'status' => 200,
+        'normalads' => $seller_video_one,
+        'show_message' => 'Video fetched successfully'
+    ]);
+}
+
+// Slug mismatch → return data + redirect info
+return response()->json([
+    'status' => 301,
+    'normalads' => $seller_video_one, // still give the data
+    'redirect' => "/sellerstories/{$id}/{$expectedSlug}",
+    'show_message' => 'Slug mismatch. Please redirect.'
+]);
 
        
     }
