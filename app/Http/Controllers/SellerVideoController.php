@@ -49,36 +49,37 @@ class SellerVideoController extends Controller
 
 
     public function sellerstoriessingle($id,  $description)
-{
-    $seller_video_one = SellerVideos::find($id);
+    {
+        $seller_video_one = SellerVideos::find($id);
 
-    if (! $seller_video_one) {
-        return response()->json([
-            'status' => 404,
-            'message' => 'Post not found.'
-        ], 404);
-    }
+        if (! $seller_video_one) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Post not found.'
+            ], 404);
+        }
 
-     $description = urldecode( $description); // decode URL slug
-    $expectedSlug = $seller_video_one->slug; // use stored slug directly
+        $description = urldecode($description); // decode URL slug
+        $expectedSlug = $seller_video_one->slug; // use stored slug directly
 
-    // If slug from URL doesn't match the DB slug, tell client to redirect
-    if ( $description !== $expectedSlug) {
-        return response()->json([
-            'status' => 301,
-            'redirect' => "/sellerstories/{$id}/{$expectedSlug}"
+        // If slug from URL doesn't match the DB slug, tell client to redirect
+        if ($description ) {
+           return response()->json([
+            'status' => 200,
+            'normalads' => $seller_video_one,
+            'show_message' => 'Video fetched successfully'
         ]);
+        }
+          return response()->json([
+                'status' => 301,
+                'redirect' => "/sellerstories/{$id}/{$expectedSlug}"
+            ]);
+
+       
     }
 
-    return response()->json([
-        'status' => 200,
-        'normalads' => $seller_video_one,
-        'show_message' => 'Video fetched successfully'
-    ]);
-}
 
 
-    
 
     public function sellerstories()
     {
@@ -171,48 +172,48 @@ class SellerVideoController extends Controller
             // 'user_name' => 'required',
         ]);
 
-      if (auth('sanctum')->check()) {
-        $user = auth()->user();
-        if ($user) {
-            // Generate slug from description
-            $slug = Str::slug($request->description);
+        if (auth('sanctum')->check()) {
+            $user = auth()->user();
+            if ($user) {
+                // Generate slug from description
+                $slug = Str::slug($request->description);
 
-            // Check if slug already exists
-            $count = SellerVideos::where('slug', $slug)->count();
-            if ($count > 0) {
-                $slug .= '-' . date('ymdis') . '-' . rand(0, 999);
+                // Check if slug already exists
+                $count = SellerVideos::where('slug', $slug)->count();
+                if ($count > 0) {
+                    $slug .= '-' . date('ymdis') . '-' . rand(0, 999);
+                }
+
+                // Save video with the generated slug
+                $video = SellerVideos::create([
+                    "user_id"      => $user->id,
+                    'categories'   => $request->categories,
+                    'description'  => $request->description,
+                    'slug'         => $slug, // ✅ Save the slug here
+                    'state'        => $request->state,
+                    'local_gov'    => $request->local_gov,
+                    'titlevideourl' => $request->titlevideourl,
+                    'user_name'    => $request->user_name,
+                ]);
+
+                return response()->json([
+                    'status'  => 200,
+                    'message' => 'Video uploaded successfully',
+                    'data'    => $video
+                ]);
             }
 
-            // Save video with the generated slug
-            $video = SellerVideos::create([
-                "user_id"      => $user->id,
-                'categories'   => $request->categories,
-                'description'  => $request->description,
-                'slug'         => $slug, // ✅ Save the slug here
-                'state'        => $request->state,
-                'local_gov'    => $request->local_gov,
-                'titlevideourl'=> $request->titlevideourl,
-                'user_name'    => $request->user_name,
-            ]);
-
             return response()->json([
-                'status'  => 200,
-                'message' => 'Video uploaded successfully',
-                'data'    => $video
+                'status'  => 500,
+                'message' => 'Something went wrong while trying to create an ad'
             ]);
         }
 
         return response()->json([
-            'status'  => 500,
-            'message' => 'Something went wrong while trying to create an ad'
+            'status'  => 401,
+            'message' => 'Unauthorized'
         ]);
     }
-
-    return response()->json([
-        'status'  => 401,
-        'message' => 'Unauthorized'
-    ]);
-}
 }
 
 
