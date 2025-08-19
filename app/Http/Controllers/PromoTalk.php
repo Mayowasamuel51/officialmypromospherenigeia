@@ -166,7 +166,6 @@ class PromoTalk extends Controller
     {
        $promotalk = ResourcesPromoTalk::collection(
     Promotalkdata::withCount('comment')
-        
         ->take(50) // grab the latest 50
         ->inRandomOrder() // shuffle them randomly
         ->get()
@@ -335,14 +334,19 @@ class PromoTalk extends Controller
     $items->talkid     = rand(1222, 45543);
     $items->categories = $request->categories;
     $defaultNames = [
+    'You-are-A-Bad-Guy',
     'CoolUser',
+    'Anonymous child',
+    'Anonymous person on the web',
     'Guest',
     'Somebody',
+    'Person Pikin',
     'MysteryPerson',
     'RandomDude',
     'HiddenGem',
     'Stranger',
     'AnonCat',
+    'Bad Girl on the internet',
     'GhostRider',
     'SecretUser'
 ];
