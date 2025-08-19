@@ -59,27 +59,25 @@ class SellerVideoController extends Controller
             ], 404);
         }
 
-      $description = urldecode($description); 
-$expectedSlug = $seller_video_one->slug;
+        $description = urldecode($description);
+        $expectedSlug = $seller_video_one->slug;
 
-if ($description === $expectedSlug) {
-    // Slug matches → return normal success
-    return response()->json([
-        'status' => 200,
-        'normalads' => $seller_video_one,
-        'show_message' => 'Video fetched successfully'
-    ]);
-}
+        if ($description === $expectedSlug) {
+            // Slug matches → return normal success
+            return response()->json([
+                'status' => 200,
+                'normalads' => $seller_video_one,
+                'show_message' => 'Video fetched successfully'
+            ]);
+        }
 
-// Slug mismatch → return data + redirect info
-return response()->json([
-    'status' => 301,
-    'normalads' => $seller_video_one, // still give the data
-    'redirect' => "/sellerstories/{$id}/{$expectedSlug}",
-    'show_message' => 'Slug mismatch. Please redirect.'
-]);
-
-       
+        // Slug mismatch → return data + redirect info
+        return response()->json([
+            'status' => 301,
+            'normalads' => $seller_video_one, // still give the data
+            'redirect' => "/sellerstories/{$id}/{$expectedSlug}",
+            'show_message' => 'Slug mismatch. Please redirect.'
+        ]);
     }
 
 

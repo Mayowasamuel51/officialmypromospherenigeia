@@ -376,25 +376,23 @@ class HomePageController extends Controller
 
         // Generate expected slug from product name
         $expectedSlug = Str::slug(substr($fetch_details->productName, 0, 2000));
-
-        // If slug does not match, redirect or return error
-        if ($productName !== $expectedSlug) {
-            return response()->json([
-                'status' => 301,
-                'redirect_url' => "/feed/{$id}/{$expectedSlug}",
-                'message' => 'Redirect to correct slug.'
-            ], 301);
-        }
-
         // Get random adsimages if needed (optional)
         $fetch_details_others = $fetch_details->adsimages()->inRandomOrder()->get();
+        // If slug does not match, redirect or return error
+        if ($productName === $expectedSlug) {
 
+            return response()->json([
+                'status' => 200,
+                'data' => $fetch_details,
+                'other_data' => $fetch_details_others,
+                'slug' => $expectedSlug
+            ]);
+        }
         return response()->json([
-            'status' => 200,
-            'data' => $fetch_details,
-            'other_data' => $fetch_details_others,
-            'slug' => $expectedSlug
-        ]);
+            'status' => 301,
+            'redirect_url' => "/feed/{$id}/{$expectedSlug}",
+            'message' => 'Redirect to correct slug.'
+        ], 301);
     }
 
 
