@@ -375,7 +375,8 @@ class HomePageController extends Controller
         }
 
         // Generate expected slug from product name
-        $expectedSlug = Str::slug(substr($fetch_details->productName, 0, 12000));
+        $expectedSlug = urldecode($productName);
+        //  Str::slug(substr($fetch_details->productName, 0, 12000));
         // Get random adsimages if needed (optional)
         $fetch_details_others = $fetch_details->adsimages()->inRandomOrder()->get();
         // If slug does not match, redirect or return error
